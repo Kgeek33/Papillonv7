@@ -35,8 +35,8 @@ const GradeItem: React.FC<GradeItemProps> = ({ subject, grade, navigation, index
       chevron={false}
       animated
       leading={
-        <View style={{ backgroundColor: subjectData.color + "22", padding: 10, borderRadius: 100, height: 40, width: 40, justifyContent: "center", alignItems: "center" }}>
-          <Text style={{textAlign: "center", fontSize: 18, lineHeight: 23, width: 40, fontFamily: "medium", textAlignVertical: "center"}}>
+        <View style={{ backgroundColor: subjectData.color + "22", borderRadius: 100, height: 40, width: 40, justifyContent: "center", alignItems: "center" }}>
+          <Text style={{textAlign: "center", fontSize: 20, lineHeight: 23, width: 40, fontFamily: "medium", textAlignVertical: "center"}}>
             {subjectData.emoji}
           </Text>
         </View>

@@ -76,24 +76,10 @@ const GradeSubjectScreen = ({ route, navigation }) => {
               gap: 8,
             }}
           >
-            <View
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 300,
-                backgroundColor: subjectData.color + "22",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <NativeText
-                style={{
-                  fontSize: 24,
-                  lineHeight: 32,
-                }}
-              >
+            <View style={{ backgroundColor: subjectData.color + "22", borderRadius: 100, height: 40, width: 40, justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ textAlign: "center", fontSize: 20, lineHeight: 23, width: 40, fontFamily: "medium", textAlignVertical: "center" }}>
                 {subjectData.emoji}
-              </NativeText>
+              </Text>
             </View>
 
             <View

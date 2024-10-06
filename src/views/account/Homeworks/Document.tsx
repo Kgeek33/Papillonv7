@@ -44,25 +44,8 @@ const HomeworksDocument = ({ route }) => {
       <PapillonModernHeader outsideNav={true} startLocation={0.6} height={110}>
         <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
           <View style={{backgroundColor: theme.colors.background, borderRadius: 100}}>
-            <View
-              style={{
-                backgroundColor: subjectData.color + "23",
-                borderRadius: 100,
-                width: 42,
-                height: 42,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 25,
-                  lineHeight: 42,
-                  textAlign: "center",
-                  width: "100%",
-                  marginLeft: 2
-                }}
-              >
+            <View style={{ backgroundColor: subjectData.color + "22", borderRadius: 100, height: 40, width: 40, justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ textAlign: "center", fontSize: 20, lineHeight: 23, width: 40, fontFamily: "medium", textAlignVertical: "center" }}>
                 {subjectData.emoji}
               </Text>
             </View>
