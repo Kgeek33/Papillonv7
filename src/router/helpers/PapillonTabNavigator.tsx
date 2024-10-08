@@ -317,11 +317,11 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
             };
 
             const label =
-            options.tabBarLabel !== undefined
-              ? options.tabBarLabel
-              : options.title !== undefined
-                ? options.title
-                : route.name;
+              options.tabBarLabel !== undefined
+                ? options.tabBarLabel
+                : options.title !== undefined
+                  ? options.title
+                  : route.name;
 
             const icon = options.tabBarIcon && options.tabBarIcon;
 
@@ -431,8 +431,11 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   screenOptions,
   ...rest
 }) => {
-  const dims = Dimensions.get("window");
-  const tablet = dims.width > 600;
+  const dims = Dimensions.get("screen");
+  const tabletWidth = dims.width;
+  const tabletHeight = dims.height;
+  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
+  const tablet = tabletDiagl >= 6.9;
 
   const { state, descriptors, navigation, NavigationContent } =
     useNavigationBuilder(TabRouter, {
@@ -456,9 +459,9 @@ const BottomTabNavigator: React.ComponentType<any> = ({
       >
         <BottomTabView
           {...rest}
-          state = { state }
-          navigation = { navigation }
-          descriptors = { descriptors }
+          state={state}
+          navigation={navigation}
+          descriptors={descriptors}
         />
         {!tablet ?
           <BasePapillonBar state={state} descriptors={descriptors} navigation={navigation} />

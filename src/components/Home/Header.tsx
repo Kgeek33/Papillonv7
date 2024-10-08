@@ -7,7 +7,9 @@ import { useTheme } from "@react-navigation/native";
 import { useCurrentAccount } from "@/stores/account";
 import Reanimated, {
   Easing,
-  FadeInRight
+  FadeInRight,
+  ZoomIn,
+  ZoomOut
 } from "react-native-reanimated";
 
 import { get_home_widgets } from "@/addons/addons";
@@ -21,6 +23,8 @@ import Widget from "./Widget";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteParameters } from "@/router/helpers/types";
 import type { Tab } from "@/stores/account/types";
+import { animPapillon } from "@/utils/ui/animations";
+import PapillonSpinner from "../Global/PapillonSpinner";
 
 const Header: React.FC<{
   scrolled: boolean
@@ -38,9 +42,13 @@ const Header: React.FC<{
 
   const [addons] = useState<AddonHomePageInfo[]>([]);
   const [addonsTitle, setAddonsTitle] = useState<string[]>([]);
+  const [click, setClick] = useState<false | true>(false);
 
-  const dims = Dimensions.get("window");
-  const tablet = dims.width > 600;
+  const dims = Dimensions.get("screen");
+  const tabletWidth = dims.width;
+  const tabletHeight = dims.height;
+  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
+  const tablet = tabletDiagl >= 6.9;
 
   useEffect(() => {
     // On récupère le fichier principal de chaque extension.
@@ -165,7 +173,11 @@ const Header: React.FC<{
 
               <PressableScale
                 onPress={() => {
-                  navigation.navigate("SettingsTabs");
+                  setClick(true);
+                  setTimeout(() => {
+                    navigation.navigate("SettingsTabs");
+                    setClick(false);
+                  }, 10);
                 }}
                 style={{
                   height: 38,
@@ -182,10 +194,20 @@ const Header: React.FC<{
                   opacity: 0.5,
                 }}
               >
-                <CopyPlus
-                  size={24}
-                  color="#fff"
-                />
+                {click ? (
+                  <PapillonSpinner
+                    size={18}
+                    color="white"
+                    strokeWidth={2.8}
+                    entering={animPapillon(ZoomIn)}
+                    exiting={animPapillon(ZoomOut)}
+                  />
+                ) : (
+                  <CopyPlus
+                    size={24}
+                    color="#fff"
+                  />
+                )}
 
                 <Text
                   style={{
