@@ -87,7 +87,7 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
 
       {__DEV__ && (
         <View>
-          <NativeListHeader label="Options de développement" />
+          <NativeListHeader label="Application debug" />
 
           <NativeList>
 
@@ -129,6 +129,26 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
 
       <View>
         <NativeListHeader label="Options de développement" />
+
+        <NativeList>
+
+          <NativeItem
+            onPress={() => {
+              navigation.navigate("SettingStack", {
+                view: "SettingsFlags"
+              });
+            }}
+          >
+            <NativeText
+            >
+              Gérer les flags
+            </NativeText>
+          </NativeItem>
+        </NativeList>
+      </View>
+
+      <View>
+        <NativeListHeader label="Actions destructives" />
 
         <NativeList>
 

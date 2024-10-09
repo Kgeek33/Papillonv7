@@ -33,7 +33,11 @@ const SettingsAbout: Screen<"SettingsAbout"> = ({ navigation }) => {
 
   useEffect(() => {
     if (clickedOnVersion >= 7) {
-      navigation.navigate("SettingsFlags");
+      navigation.goBack();
+      navigation.goBack();
+      navigation.goBack();
+      navigation.goBack();
+      navigation.navigate("DevMenu");
       setClickedOnVersion(0);
     }
   }, [clickedOnVersion, navigation]);

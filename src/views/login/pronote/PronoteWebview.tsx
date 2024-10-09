@@ -4,17 +4,13 @@ import {
   View,
   Dimensions,
   KeyboardAvoidingView,
-  ActivityIndicator,
   Platform,
   Text,
 } from "react-native";
 
 import { WebView } from "react-native-webview";
 import type { Screen } from "@/router/helpers/types";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import MaskStars from "@/components/FirstInstallation/MaskStars";
 
@@ -27,7 +23,6 @@ import { Audio } from "expo-av";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { Account, AccountService } from "@/stores/account/types";
 import uuid from "@/utils/uuid-v4";
-import downloadAsBase64 from "@/utils/external/download-as-base64";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
@@ -35,7 +30,6 @@ import { animPapillon } from "@/utils/ui/animations";
 
 const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
 
   const [loading, setLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
@@ -305,7 +299,19 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                     token: message.data.mdp,
                     deviceUUID
                   }
-                );
+                ).catch((error) => {
+                  if (error instanceof pronote.SecurityError && !error.handle.shouldCustomPassword && !error.handle.shouldCustomDoubleAuth) {
+                    navigation.navigate("Pronote2FA_Auth", {
+                      session,
+                      error,
+                      accountID: deviceUUID
+                    });
+                  } else {
+                    throw error;
+                  }
+                });
+          
+                if (!refresh) throw pronote.AuthenticateError;
 
                 const user = session.user.resources[0];
                 const name = user.name;
@@ -375,11 +381,6 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                   webViewRef.current?.injectJavaScript(
                     INJECT_PRONOTE_CURRENT_LOGIN_STATE
                   );
-
-                  /* if (currentLoginStateIntervalRef.current) clearInterval(currentLoginStateIntervalRef.current); */
-                  /*currentLoginStateIntervalRef.current = setInterval(() => {
-                    webViewRef.current?.injectJavaScript(INJECT_PRONOTE_CURRENT_LOGIN_STATE);
-                  }, 250);*/
                 }
 
                 if (url.split("?")[0].includes("mobile.eleve.html") == false) {
