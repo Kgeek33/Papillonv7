@@ -37,6 +37,10 @@ export async function reload <T extends Account> (account: T): Promise<Reconnect
       const res = await reload(account);
       return { instance: res.instance, authentication: res.authentication };
     }
+    case AccountService.UPHF: {
+      const { reloadInstance } = await import("./uphf/reload-uphf");
+      return await reloadInstance(account.authentication) as Reconnected<T>;
+    }
     default: {
       throw new Error("Service not implemented.");
     }

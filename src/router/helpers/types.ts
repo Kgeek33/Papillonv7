@@ -54,6 +54,7 @@ export type RouteParameters = {
   UnivRennes2_Login: undefined;
   UnivLimoges_Login: undefined;
   UnivSorbonneParisNord_login: undefined;
+  UnivUphf_Login: undefined;
 
   // login.skolengo
   SkolengoAuthenticationSelector: undefined;
