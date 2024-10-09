@@ -22,7 +22,13 @@ Voici un aperçu de ce que nous avons accompli jusqu'à présent et de ce qui re
   - 🏫 Interface de choix du service scolaire
     - [x] 🟢 Pronote
     - [ ] 🔵 EcoleDirecte
-    - [ ] 🟡 Skolengo
+    - [x] 🟡 Skolengo
+    - [ ] 🏫 Universités
+      - Limoges
+      - Polytechnique Hauts-de-France (UPHF)
+      - Rennes 1
+      - Rennes 2
+      - Sorbonne Paris Nord
   - 🏠 Interface de sélection de l'établissement
     - **Pour PRONOTE**
       - URL de l'établissement
@@ -53,4 +59,3 @@ Voici un aperçu de ce que nous avons accompli jusqu'à présent et de ce qui re
 ![A propos du projet](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/part_dev_dark.svg#gh-dark-mode-only)
 
 Pour commencer à développer sur Papillon v7, référez vous au [centre de documentation pour développeurs](https://developers.papillon.bzh/getting-started/quick-start).
-
