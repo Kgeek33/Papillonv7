@@ -189,6 +189,7 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
               data={periods.map(period => period.name)}
               selected={userSelectedPeriod ?? selectedPeriod}
               onSelectionChange={setUserSelectedPeriod}
+              direction="right"
             >
               <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
                 <NativeText style={{ color: theme.colors.primary, maxWidth: 100 }} numberOfLines={1}>
