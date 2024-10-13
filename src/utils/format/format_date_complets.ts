@@ -6,17 +6,17 @@ function formatDate (date: string): string {
   const diffMonths = Math.floor(diffDays / 30);
 
   if (diffDays < 1) {
-    return "il y a quelques minutes";
-  } else if (diffDays === 1) {
-    return "il y a 1 jour";
+    return "Aujourd'hui";
   } else if (diffDays < 30) {
-    return `il y a ${diffDays} jours`;
+    return `Il y a ${diffDays} jour${diffDays !== 1 ? "s" : ""}`;
   } else if (diffMonths === 1) {
-    return "il y a 1 mois";
-  } else if (diffMonths < 12) {
-    return `il y a ${diffMonths} mois`;
+    return "Il y a 1 mois";
   } else {
-    return date;
+    return `Le ${messageDate.getDay().toString().padStart(2, "0")}/${(
+      messageDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}/${messageDate.getFullYear()}`;
   }
 }
 
