@@ -20,8 +20,8 @@ const defaultPersonalization = async (instance: pronote.SessionHandle): Promise<
   const user = instance.user.resources[0];
   return {
     color: colors[0],
-    magicEnabled: true,
-
+    MagicHomeworks: true,
+    MagicNews: true,
     profilePictureB64: user.profilePicture
       ? await downloadAsBase64(user.profilePicture.url)
       : void 0,

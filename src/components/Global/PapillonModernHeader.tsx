@@ -26,12 +26,31 @@ import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ArrowLeftToLine, ArrowUp, CalendarCheck, CalendarClock, CalendarPlus, CalendarSearch, History, ListRestart, Loader, Plus, Rewind } from "lucide-react-native";
 
-export const PapillonModernHeader: React.FC<{
+interface ModernHeaderProps {
   children: React.ReactNode,
   outsideNav?: boolean,
   height?: number,
   startLocation?: number,
-}> = ({ children, outsideNav = false, height = 70, startLocation = 0.5 }) => {
+  native? : boolean,
+  tint?: string,
+};
+
+export const PapillonModernHeader: React.FC<ModernHeaderProps> = (props) => {
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
+
+  if (props.native) {
+    return (
+      <NativeModernHeader {...props} />
+    );
+  }
+
+  return (
+    <LinearGradientModernHeader {...props} />
+  );
+};
+
+const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, outsideNav = false, height = 70, startLocation = 0.5 }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
@@ -66,6 +85,61 @@ export const PapillonModernHeader: React.FC<{
         layout={animPapillon(LinearTransition)}
       >
         {children}
+      </Reanimated.View>
+
+      {outsideNav &&
+        <View
+          style={{
+            position: "absolute",
+            top: 10,
+            alignSelf: "center",
+            height: 5,
+            width: 50,
+            backgroundColor: theme.colors.text + "22",
+            borderRadius: 80,
+            zIndex: 10000,
+          }}
+        />
+      }
+    </>
+  );
+};
+
+
+const NativeModernHeader: React.FC<ModernHeaderProps> = ({ children, outsideNav = false, tint = null }) => {
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
+
+  return (
+    <>
+      <Reanimated.View
+        style={[{
+          position: "absolute",
+          left: 0,
+          zIndex: 100,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 8,
+          backgroundColor: tint ? tint : theme.colors.text + "10",
+          borderBottomColor: theme.colors.border,
+          borderBottomWidth: 0.5,
+        }]}
+        layout={animPapillon(LinearTransition)}
+      >
+        <BlurView
+          experimentalBlurMethod="dimezisBlurView"
+          intensity={100}
+          style={{
+            flex: 1,
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+            paddingTop: (outsideNav ? 24 : insets.top) + 12,
+          }}
+          tint={theme.dark ? "dark" : "light"}
+        >
+          {children}
+        </BlurView>
       </Reanimated.View>
 
       {outsideNav &&

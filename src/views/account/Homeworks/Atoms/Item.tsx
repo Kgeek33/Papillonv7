@@ -8,17 +8,28 @@ import Reanimated, { LinearTransition } from "react-native-reanimated";
 import { FadeIn, FadeOut } from "react-native-reanimated";
 import { animPapillon } from "@/utils/ui/animations";
 import RenderHTML from "react-native-render-html";
-import {View} from "react-native";
+import { View } from "react-native";
 import { HomeworkReturnType } from "@/services/shared/Homework";
+import detectCategory from "@/utils/magic/categorizeHomeworks";
+import { LinearGradient } from "expo-linear-gradient";
+import { useCurrentAccount } from "@/stores/account";
 
 const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }) => {
   const theme = useTheme();
   const [subjectData, setSubjectData] = useState(getSubjectData(homework.subject));
+  const [category, setCategory] = useState<string | null>(null);
+  const account = useCurrentAccount((store) => store.account!);
 
   useEffect(() => {
-    const data = getSubjectData(homework.subject);
-    setSubjectData(data);
-  }, [homework.subject]);
+    if (account.personalization?.MagicHomeworks) {
+      const data = getSubjectData(homework.subject);
+      setSubjectData(data);
+      const detectedCategory = detectCategory(homework.content);
+      setCategory(detectedCategory);
+    } else {
+      setCategory(null);
+    }
+  }, [homework.subject, homework.content]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,6 +45,63 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
     setMainLoaded(true);
   }, [homework.done]);
 
+  const renderCategoryOrReturnType = () => {
+    if (category) {
+      return (
+        <LinearGradient
+          colors={[subjectData.color, subjectData.color + "80"]}
+          style={{ borderRadius: 50, zIndex: 10 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 4,
+              paddingVertical: 3,
+              paddingHorizontal: 8,
+              borderRadius: 8,
+            }}
+          >
+            <NativeText style={{
+              color: "#FFF",
+              fontFamily: "medium",
+              fontSize: 15,
+              lineHeight: 18,
+            }}
+            numberOfLines={1}
+            >
+              {category}
+            </NativeText>
+
+          </View>
+        </LinearGradient>
+      );
+    } else if (homework.returnType) {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 4,
+            backgroundColor: theme.colors.text + "11",
+            paddingVertical: 3,
+            paddingHorizontal: 8,
+            borderRadius: 8,
+          }}
+        >
+          <NativeText variant="subtitle" style={{ opacity: 0.8 }} numberOfLines={1}>
+            {homework.returnType === HomeworkReturnType.FileUpload
+              ? "À rendre sur l'ENT"
+              : homework.returnType === HomeworkReturnType.Paper
+                ? "À rendre en classe"
+                : null}
+          </NativeText>
+        </View>
+      );
+    }
+    return null;
+  };
+
   return (
     <NativeItem
       animated
@@ -43,6 +111,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       entering={FadeIn}
       exiting={FadeOut}
       separator={index !== total - 1}
+      style={{ backgroundColor: category ? (subjectData.color + "15") : undefined }}
       leading={
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
@@ -68,30 +137,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
             <NativeText variant="overtitle" style={{ color: subjectData.color, flex: 1 }} numberOfLines={1}>
               {subjectData.pretty}
             </NativeText>
-            {
-              homework.returnType && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 4,
-                    backgroundColor: theme.colors.text + "11",
-                    paddingVertical: 3,
-                    marginVertical: -1,
-                    paddingHorizontal: 8,
-                    borderRadius: 8,
-                  }}
-                >
-                  <NativeText variant="subtitle" style={{ marginLeft: "auto", opacity: 0.8 }} numberOfLines={1}>
-                    {homework.returnType === HomeworkReturnType.FileUpload
-                      ? "À rendre sur l'ENT"
-                      : homework.returnType === HomeworkReturnType.Paper
-                        ? "À rendre en classe"
-                        : null}
-                  </NativeText>
-                </View>
-              )
-            }
+            {renderCategoryOrReturnType()}
           </View>
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
