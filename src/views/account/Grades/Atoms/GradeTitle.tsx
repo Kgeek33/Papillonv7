@@ -1,9 +1,8 @@
-import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeComponents";
-import { getSubjectData } from "@/services/shared/Subject";
+import { NativeList, NativeText } from "@/components/Global/NativeComponents";
 import { getCourseSpeciality } from "@/utils/format/format_cours_name";
 import { useTheme } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import React from "react";
+import { View } from "react-native";
 
 export const GradeTitle = ({ grade, subjectData }) => {
   const theme = useTheme();
@@ -17,7 +16,7 @@ export const GradeTitle = ({ grade, subjectData }) => {
           gap: 14,
           paddingHorizontal: 16,
           paddingVertical: 8,
-          backgroundColor: subjectData.color + "35",
+          backgroundColor: subjectData.color + "75",
         }}
       >
         <NativeText
@@ -58,9 +57,7 @@ export const GradeTitle = ({ grade, subjectData }) => {
           </NativeText>
         )}
 
-        <NativeText
-          variant="subtitle"
-        >
+        <NativeText variant="subtitle">
           {new Date(grade.timestamp).toLocaleDateString("fr-FR", {
             weekday: "short",
             month: "short",
@@ -89,18 +86,23 @@ export const GradeTitle = ({ grade, subjectData }) => {
           <NativeText
             numberOfLines={2}
             variant={!grade.description ? "subtitle" : "default"}
-            style={grade.description && {
-              lineHeight: 20,
-              fontSize: 16,
-              textAlignVertical: "center",
-            }}
+            style={
+              grade.description && {
+                lineHeight: 20,
+                fontSize: 16,
+                textAlignVertical: "center",
+              }
+            }
           >
-            {grade.description || `Note renseignée le ${new Date(grade.timestamp).toLocaleDateString("fr-FR", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              year: "numeric"
-            })}`}
+            {grade.description ||
+							`Note renseignée le ${new Date(
+							  grade.timestamp
+							).toLocaleDateString("fr-FR", {
+							  weekday: "long",
+							  day: "numeric",
+							  month: "long",
+							  year: "numeric",
+							})}`}
           </NativeText>
         </View>
 
@@ -118,7 +120,9 @@ export const GradeTitle = ({ grade, subjectData }) => {
               fontFamily: "semibold",
             }}
           >
-            {!grade.student.disabled && parseFloat(grade.student.value).toFixed(2) || "N. not"}
+            {(!grade.student.disabled &&
+							parseFloat(grade.student.value).toFixed(2)) ||
+							"N. not"}
           </NativeText>
 
           <NativeText

@@ -14,11 +14,8 @@ import { fr } from "date-fns/locale";
 import {
   Clock,
   DoorOpen,
-  FileText,
   Hourglass,
   Info,
-  Link,
-  Paperclip,
   PersonStanding,
 } from "lucide-react-native";
 
@@ -125,8 +122,13 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
 
   return (
     <>
-      <PapillonModernHeader native outsideNav={true} startLocation={0.6} height={110}>
-        <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
+      <PapillonModernHeader
+        native
+        outsideNav={true}
+        startLocation={0.6}
+        height={110}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
           <View style={{ marginRight: 4 }}>
             <Text
               style={{

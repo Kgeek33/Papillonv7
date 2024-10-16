@@ -1,10 +1,6 @@
-
-
 import { NativeListHeader } from "@/components/Global/NativeComponents";
 import { animPapillon } from "@/utils/ui/animations";
-import Reanimated, {
-  LinearTransition
-} from "react-native-reanimated";
+import Reanimated, { LinearTransition } from "react-native-reanimated";
 import GradesLatestItem from "./LatestGradesItem";
 
 const GradesLatestList = (props: GradesLatestListProps) => {
@@ -14,9 +10,7 @@ const GradesLatestList = (props: GradesLatestListProps) => {
       <NativeListHeader animated label="Dernières notes" />
 
       <Reanimated.ScrollView
-        layout={
-          animPapillon(LinearTransition)
-        }
+        layout={animPapillon(LinearTransition)}
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{
@@ -31,7 +25,13 @@ const GradesLatestList = (props: GradesLatestListProps) => {
         }}
       >
         {latestGrades.map((grade, index) => (
-          <GradesLatestItem key={index} grade={grade} i={index} navigation={navigation} allGrades={allGrades} />
+          <GradesLatestItem
+            key={index}
+            grade={grade}
+            i={index}
+            navigation={navigation}
+            allGrades={allGrades}
+          />
         ))}
       </Reanimated.ScrollView>
     </>
