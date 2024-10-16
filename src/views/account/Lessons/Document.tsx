@@ -117,7 +117,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           icon: <Info />,
           text: "Statut",
           value: lesson.statusText,
-          enabled: Boolean(lesson.statusText) || Boolean(lesson.status),
+          enabled: lesson.statusText != null,
         },
       ],
     },
@@ -125,14 +125,9 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
 
   return (
     <>
-      <PapillonModernHeader outsideNav={true} startLocation={0.6} height={110}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <View
-            style={{
-              backgroundColor: theme.colors.background,
-              borderRadius: 100,
-            }}
-          >
+      <PapillonModernHeader native outsideNav={true} startLocation={0.6} height={110}>
+        <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
+          <View style={{ marginRight: 4 }}>
             <Text
               style={{
                 textAlign: "center",

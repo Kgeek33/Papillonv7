@@ -5,7 +5,7 @@ import {
   NativeText,
 } from "@/components/Global/NativeComponents";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity, Alert } from "react-native";
+import {View, ScrollView, Text, TouchableOpacity, Alert, Platform} from "react-native";
 import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
 import { getSubjectData } from "@/services/shared/Subject";
 
@@ -18,17 +18,26 @@ import { useTheme } from "@react-navigation/native";
 import RenderHTML from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
+import { useCurrentAccount } from "@/stores/account";
+import { AccountService } from "@/stores/account/types";
+import getAndOpenFile from "@/utils/files/getAndOpenFile";
 
 const HomeworksDocument = ({ route }) => {
   const theme = useTheme();
 
   const homework: Homework = route.params.homework || {};
+  const account = useCurrentAccount(store => store.account!);
 
   const openUrl = (url) => {
-    WebBrowser.openBrowserAsync(url, {
-      presentationStyle: "formSheet",
-      controlsColor: theme.colors.primary,
-    });
+    if (account.service === AccountService.EcoleDirecte && Platform.OS === "ios") {
+      getAndOpenFile(account, url);
+    } else {
+      WebBrowser.openBrowserAsync(url, {
+        presentationStyle: "formSheet",
+        controlsColor: theme.colors.primary
+      });
+    }
+
   };
 
   const [subjectData, setSubjectData] = useState({
@@ -47,15 +56,10 @@ const HomeworksDocument = ({ route }) => {
   }, [homework.subject]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <PapillonModernHeader outsideNav={true} startLocation={0.6} height={110}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <View
-            style={{
-              backgroundColor: theme.colors.background,
-              borderRadius: 100,
-            }}
-          >
+    <View style={{flex: 1}}>
+      <PapillonModernHeader native outsideNav={true}>
+        <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
+          <View style={{marginRight: 4}}>
             <Text
               style={{
                 textAlign: "center",
@@ -70,7 +74,7 @@ const HomeworksDocument = ({ route }) => {
               {subjectData.emoji}
             </Text>
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={{flex: 1}}>
             <NativeText variant="title" numberOfLines={1}>
               {subjectData.pretty}
             </NativeText>

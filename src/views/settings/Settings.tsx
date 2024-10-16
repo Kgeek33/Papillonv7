@@ -210,13 +210,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#888888",
           label: "À propos de Papillon",
           onPress: () => navigation.navigate("SettingsAbout"),
-        },
-        Platform.OS === "android" && {
-          icon: <HandCoins />,
-          color: "#CBA024",
-          label: "Soutenir Papillon",
-          onPress: () => openUrl("https://papillon.bzh/donate")
-        },
+        }
       ],
     },
     {

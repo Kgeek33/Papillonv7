@@ -23,7 +23,7 @@ Voici un aperçu de ce que nous avons accompli jusqu'à présent et de ce qui re
     - [x] 🟢 Pronote
     - [ ] 🔵 EcoleDirecte
     - [x] 🟡 Skolengo
-    - [ ] 🏫 Universités
+    - [x] 🏫 Universités
       - Limoges
       - Polytechnique Hauts-de-France (UPHF)
       - Rennes 1

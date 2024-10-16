@@ -1,0 +1,108 @@
+{
+  "Évaluations": [
+    "\\b(?:DS|devoir\\s(?:sur\\stable|surveillé))\\b",
+    "\\bdevoir\\s(?:à\\sfaire\\sen\\sclasse|en\\sclasse\\ssurveillé)\\b",
+    "\\bdevoir\\s(?:noté|évalué)\\s(?:en\\sclasse|surveillé)\\b",
+    "\\bcomposition\\s(?:surveillée|notée)\\b",
+    "\\bcontrôle\\s(?:sur\\stable|en\\sclasse|surveillé)\\b",
+    "\\bexamen\\s(?:sur\\stable|surveillé|en\\sclasse)\\b",
+    "\\bépreuve\\s(?:surveillée|sur\\stable|en\\sclasse)\\b",
+    "\\btest\\s(?:surveillé|en\\sclasse|sur\\stable)\\b",
+    "\\bévaluation\\s(?:écrite|surveillée|sur\\stable)\\b",
+    "\\binterrogation\\s(?:écrite|surveillée)\\b",
+    "\\bcontrôle\\s(?:écrit|des\\sconnaissances)\\b",
+    "\\bexamen\\s(?:partiel|final|de\\sfin\\sde\\ssemestre)\\b",
+    "\\bépreuve\\s(?:écrite|orale|pratique)\\b",
+    "\\béval(?:uation)?\\s(?:continue|finale|formative|sommative)\\b",
+    "\\bTP\\s(?:noté|évalué)\\b",
+    "\\bdictée\\s(?:préparée|non\\spréparée|notée)\\b",
+    "\\brédaction\\s(?:notée|évaluée)\\b",
+    "\\bdissertation\\s(?:philosophique|littéraire|historique)\\b",
+    "\\bcommentaire\\s(?:de\\stexte|composé|littéraire)\\b",
+    "\\btest\\s(?:d'anglais|d'espagnol|d'allemand)\\s(?:écrit|oral)\\b",
+    "\\b(?:English|Spanish|German)\\s(?:writing|speaking|listening|reading)\\stest\\b",
+    "\\bprueba\\sde\\sespañol\\s(?:escrita|oral)\\b",
+    "\\bDeutschtest\\s(?:schriftlich|mündlich)\\b"
+  ],
+  "Devoirs Maison": [
+    "\\bDM\\b(?:\\s+\\w+){0,3}",
+    "\\bdevoir\\s?maison\\b(?:\\s+\\w+){0,3}",
+    "\\bdevoir\\s(?:à\\s(?:faire|la)\\s)?maison\\b(?:\\s+\\w+){0,3}",
+    "\\bdevoir\\s(?:à\\sfaire\\sà\\sla\\smaison|à\\srendre)\\b",
+    "\\bdevoir\\s(?:non\\ssurveillé|personnel)\\b",
+    "\\bdevoir\\s(?:noté|évalué)\\s(?:à\\sla\\smaison|à\\srendre)\\b",
+    "\\btravail\\s(?:à\\sla\\smaison|personnel|à\\srendre)\\b",
+    "\\bexercices?\\s(?:à\\sfaire\\schez\\ssoi|à\\srendre)\\b",
+    "\\bprojet\\s(?:à\\sréaliser\\sà\\sla\\smaison|personnel)\\b",
+    "\\brédaction\\s(?:à\\sla\\smaison|personnelle)\\b",
+    "\\bcomposition\\s(?:à\\sla\\smaison|personnelle)\\b",
+    "\\brecherche\\s(?:personnelle|à\\sla\\smaison)\\b",
+    "\\bessai\\s(?:à\\srédiger\\schez\\ssoi|personnel)\\b",
+    "\\bexposé\\s(?:à\\spréparer\\sà\\sla\\smaison|personnel)\\b"
+  ],
+  "Tâche Finale": [
+    "\\b(?:tâche\\sfinale|final\\stask)\\b(?:\\s+\\w+){0,3}",
+    "\\bprojet\\sfinal\\b(?:\\s+\\w+){0,3}",
+    "\\bfinal\\s(?:task|project)\\b(?:\\s+\\w+){0,3}",
+    "\\bultimate\\stask\\b(?:\\s+\\w+){0,3}",
+    "\\bévaluation\\sfinale\\b(?:\\s+\\w+){0,3}",
+    "\\b(?:tâche|projet|évaluation)\\s(?:de\\sfin\\sde)\\s(?:séquence|chapitre|unité|module)\\b"
+  ],
+  "Présentations Orales": [
+    "\\b(?:présentation|presentation)\\b(?:\\s+\\w+){0,3}",
+    "\\boral\\b(?:\\s+\\w+){0,3}",
+    "\\bprésentation\\s?orale\\b(?:\\s+\\w+){0,3}",
+    "\\bexposé\\s?oral\\b(?:\\s+\\w+){0,3}",
+    "\\boral\\s?presentation\\b(?:\\s+\\w+){0,3}",
+    "\\bsoutenance\\s?orale\\b(?:\\s+\\w+){0,3}",
+    "\\boral\\s?defense\\b(?:\\s+\\w+){0,3}",
+    "\\bplaidoirie\\b(?:\\s+\\w+){0,3}",
+    "\\bdébat\\s?oral\\b(?:\\s+\\w+){0,3}",
+    "\\boral\\s?exam\\b(?:\\s+\\w+){0,3}",
+    "\\bexamen\\s?oral\\b(?:\\s+\\w+){0,3}",
+    "\\bspeech\\b(?:\\s+\\w+){0,3}",
+    "\\bdiscours\\b(?:\\s+\\w+){0,3}",
+    "\\bpitch\\s?oral\\b(?:\\s+\\w+){0,3}"
+  ],
+  "Fiches": [
+    "\\bfaire\\s(?:une?|des|la|les)\\sfiche(?:s)?\\b(?:\\s+\\w+){0,3}",
+    "\\bcréer\\s(?:une?|des|la|les)\\sfiche(?:s)?\\b(?:\\s+\\w+){0,3}",
+    "\\brédiger\\s(?:une?|des|la|les)\\sfiche(?:s)?\\b(?:\\s+\\w+){0,3}",
+    "\\bélaborer\\s(?:une?|des|la|les)\\sfiche(?:s)?\\b(?:\\s+\\w+){0,3}",
+    "\\bpréparer\\s(?:une?|des|la|les)\\sfiche(?:s)?\\b(?:\\s+\\w+){0,3}",
+    "\\bfiche\\s(?:de\\s(?:lecture|révision|synthèse|travail))\\b(?:\\s+\\w+){0,3}",
+    "\\bfiche\\s(?:récapitulative|résumé)\\b(?:\\s+\\w+){0,3}"
+  ],
+  "Compte rendu": [
+    "\\bcompte[-\\s]rendu\\s(?:de\\s(?:TP|travaux\\spratiques|lecture|expérience|stage))\\b",
+    "\\brapport\\s(?:de\\s(?:stage|projet|recherche|laboratoire))\\b",
+    "\\banalyse\\sde\\sdocuments?\\s(?:historiques?|scientifiques?|littéraires?)\\b",
+    "\\banalyse\\sd'expérience\\s(?:scientifique|en\\slaboratoire)\\b",
+    "\\brendu\\sfinal\\sde\\s(?:projet|recherche|étude)\\b"
+  ],
+  "Lecture": [
+    "\\blecture\\s(?:analytique|critique|commentée)\\b",
+    "\\banalyse\\sde\\stexte\\s(?:littéraire|historique|philosophique)\\b",
+    "\\bétude\\sde\\stexte\\s(?:dirigée|approfondie)\\b",
+    "\\bétude\\sd'(?:œuvre|ouvrage)\\s(?:intégrale|complète)\\b"
+  ],
+  "Projet": [
+    "\\bprojet\\sde\\sgroupe\\s(?:collaboratif|interdisciplinaire)\\b",
+    "\\bprojet\\spratique\\s(?:en\\s(?:sciences|technologie|arts))\\b",
+    "\\bprojet\\sd'application\\s(?:des\\sconnaissances|pratique)\\b",
+    "\\bprojet\\sde\\srecherche\\s(?:individuel|collectif)\\b"
+  ],
+  "Analyse": [
+    "\\bdissertation\\s(?:argumentative|comparative|critique)\\b",
+    "\\bessai\\s(?:argumentatif|critique|analytique)\\b",
+    "\\bexposé\\s(?:oral|écrit)\\s(?:analytique|critique)\\b",
+    "\\banalyse\\s(?:littéraire|historique|scientifique|comparative)\\b",
+    "\\blecture\\scritique\\s(?:d'article|d'ouvrage|de\\sdocument)\\b"
+  ],
+  "Pratique": [
+    "\\bexercice\\spratique\\s(?:en\\s(?:laboratoire|atelier|classe))\\b",
+    "\\bTP\\s(?:de\\s(?:chimie|physique|biologie|informatique))\\b",
+    "\\btravaux\\spratiques\\s(?:dirigés|en\\sgroupe|individuels)\\b",
+    "\\brapport\\sde\\s(?:TP|travaux\\spratiques|expérience)\\b"
+  ]
+}

@@ -10,7 +10,8 @@ const defaultSkolengoPersonalization = async (instance: SkolengoAccount["instanc
   const skoTabs = await getServiceConfig(instance);
   return {
     color: colors[0],
-    magicEnabled: true,
+    MagicHomeworks: true,
+    MagicNews: true,
     profilePictureB64: void 0,
 
     tabs: defaultTabs.filter(current => skoTabs.includes(current.tab)).map((tab, index) => ({
