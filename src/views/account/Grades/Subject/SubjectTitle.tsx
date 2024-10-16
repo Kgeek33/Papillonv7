@@ -17,7 +17,7 @@ const SubjectTitle = ({ navigation, subject, subjectData, allGrades }) => {
         gap: 16,
         paddingHorizontal: 14,
         paddingVertical: 10,
-        backgroundColor: subjectData.color + "11",
+        backgroundColor: subjectData.color + "75",
       }}
       onPress={() => {
         navigation.navigate("GradeSubject", { subject, allGrades });
@@ -77,7 +77,11 @@ const SubjectTitle = ({ navigation, subject, subjectData, allGrades }) => {
         }}
       >
         <AnimatedNumber
-          value={typeof subject.average.average.value === "number" ? subject.average.average.value.toFixed(2) : "N. not"}
+          value={
+            typeof subject.average.average.value === "number"
+              ? subject.average.average.value.toFixed(2)
+              : "N. not"
+          }
           style={{
             fontSize: 18,
             lineHeight: 20,

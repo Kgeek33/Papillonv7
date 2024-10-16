@@ -1,17 +1,23 @@
-import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
+import {
+  NativeItem,
+  NativeList,
+  NativeListHeader,
+  NativeText,
+} from "@/components/Global/NativeComponents";
 import { getSubjectData } from "@/services/shared/Subject";
-import { icones } from "@/utils/data/icones";
 import { getCourseSpeciality } from "@/utils/format/format_cours_name";
 import { getAverageDiffGrade } from "@/utils/grades/getAverages";
 import { User, UserMinus, UserPlus, Users } from "lucide-react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
-const GradeSubjectScreen = ({ route, navigation }) => {
+const GradeSubjectScreen = ({ route }) => {
   const { subject, allGrades } = route.params;
 
   const [subjectData, setSubjectData] = useState({
-    color: "#888888", pretty: "Matière inconnue", emoji: "❓",
+    color: "#888888",
+    pretty: "Matière inconnue",
+    emoji: "❓",
   });
 
   const fetchSubjectData = async () => {
@@ -76,11 +82,19 @@ const GradeSubjectScreen = ({ route, navigation }) => {
               gap: 8,
             }}
           >
-            <View style={{ backgroundColor: subjectData.color + "22", borderRadius: 100, height: 40, width: 40, justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ textAlign: "center", fontSize: 20, lineHeight: 23, width: 40, fontFamily: "medium", textAlignVertical: "center" }}>
-                {subjectData.emoji}
-              </Text>
-            </View>
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 20,
+                width: 45,
+                textAlignVertical: "center",
+                backgroundColor: subjectData.color + "75",
+                borderRadius: 100,
+                height: 45,
+              }}
+            >
+              {subjectData.emoji}
+            </Text>
 
             <View
               style={{
@@ -88,9 +102,7 @@ const GradeSubjectScreen = ({ route, navigation }) => {
                 flex: 1,
               }}
             >
-              <NativeText variant="overtitle">
-                {subjectData.pretty}
-              </NativeText>
+              <NativeText variant="overtitle">{subjectData.pretty}</NativeText>
 
               {getCourseSpeciality(subject.average.subjectName) && (
                 <NativeText variant="subtitle">
@@ -143,9 +155,7 @@ const GradeSubjectScreen = ({ route, navigation }) => {
                 </View>
               }
             >
-              <NativeText variant="subtitle">
-                {average.label}
-              </NativeText>
+              <NativeText variant="subtitle">{average.label}</NativeText>
             </NativeItem>
           );
         })}
@@ -166,13 +176,12 @@ const GradeSubjectScreen = ({ route, navigation }) => {
                 marginRight: 6,
               }}
             >
-              {averageDiff.difference > 0 ? "- " : "+ "}{averageDiff.difference.toFixed(2).replace("-", "")} pts
+              {averageDiff.difference > 0 ? "- " : "+ "}
+              {averageDiff.difference.toFixed(2).replace("-", "")} pts
             </NativeText>
           }
         >
-          <NativeText variant="overtitle">
-            Impact sur la moyenne
-          </NativeText>
+          <NativeText variant="overtitle">Impact sur la moyenne</NativeText>
           <NativeText variant="subtitle">
             Indique le poids de {subjectData.pretty} sur votre moyenne générale
           </NativeText>

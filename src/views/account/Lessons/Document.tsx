@@ -1,19 +1,30 @@
-import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
+import {
+  NativeItem,
+  NativeList,
+  NativeListHeader,
+  NativeText,
+} from "@/components/Global/NativeComponents";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import {View, ScrollView, Text, TouchableOpacity, Alert} from "react-native";
-import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
+import { View, ScrollView, Text } from "react-native";
 import { getSubjectData } from "@/services/shared/Subject";
 import { Screen } from "@/router/helpers/types";
 
 import { formatDistance } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Clock, DoorOpen, FileText, Hourglass, Info, Link, Paperclip, PersonStanding } from "lucide-react-native";
+import {
+  Clock,
+  DoorOpen,
+  FileText,
+  Hourglass,
+  Info,
+  Link,
+  Paperclip,
+  PersonStanding,
+} from "lucide-react-native";
 
-import * as WebBrowser from "expo-web-browser";
 import { useTheme } from "@react-navigation/native";
-import RenderHTML from "react-native-render-html";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {PapillonModernHeader} from "@/components/Global/PapillonModernHeader";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
 import { TimetableClass } from "@/services/shared/Timetable";
 
 const lz = (num: number) => (num < 10 ? `0${num}` : num);
@@ -30,7 +41,9 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
   const lesson = route.params.lesson as unknown as TimetableClass;
 
   const [subjectData, setSubjectData] = useState({
-    color: "#888888", pretty: "Matière inconnue", emoji: "❓",
+    color: "#888888",
+    pretty: "Matière inconnue",
+    emoji: "❓",
   });
 
   const fetchSubjectData = () => {
@@ -56,23 +69,29 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
         {
           icon: <Clock />,
           text: "Début du cours",
-          value: formatDistance(
-            new Date(lesson.startTimestamp),
-            new Date(),
-            {
-              addSuffix: true,
-              locale: fr,
-            }
-          ) + " (à " + new Date(lesson.startTimestamp).toLocaleTimeString("fr-FR", {hour: "2-digit", minute: "2-digit", hour12: false}) + ")",
+          value:
+						formatDistance(new Date(lesson.startTimestamp), new Date(), {
+						  addSuffix: true,
+						  locale: fr,
+						}) +
+						" (à " +
+						new Date(lesson.startTimestamp).toLocaleTimeString("fr-FR", {
+						  hour: "2-digit",
+						  minute: "2-digit",
+						  hour12: false,
+						}) +
+						")",
           enabled: lesson.startTimestamp != null,
         },
         {
           icon: <Hourglass />,
           text: "Durée du cours",
-          value: getDuration(Math.round((lesson.endTimestamp - lesson.startTimestamp) / 60000)),
+          value: getDuration(
+            Math.round((lesson.endTimestamp - lesson.startTimestamp) / 60000)
+          ),
           enabled: lesson.endTimestamp != null,
-        }
-      ]
+        },
+      ],
     },
     {
       title: "Contexte",
@@ -89,7 +108,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           value: lesson.teacher,
           enabled: lesson.teacher != null,
         },
-      ]
+      ],
     },
     {
       title: "Statut",
@@ -100,22 +119,35 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           value: lesson.statusText,
           enabled: Boolean(lesson.statusText) || Boolean(lesson.status),
         },
-      ]
-    }
+      ],
+    },
   ];
 
   return (
     <>
       <PapillonModernHeader outsideNav={true} startLocation={0.6} height={110}>
-        <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
-          <View style={{backgroundColor: theme.colors.background, borderRadius: 100}}>
-            <View style={{ backgroundColor: subjectData.color + "22", borderRadius: 100, height: 40, width: 40, justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ textAlign: "center", fontSize: 20, lineHeight: 23, width: 40, fontFamily: "medium", textAlignVertical: "center" }}>
-                {subjectData.emoji}
-              </Text>
-            </View>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+          <View
+            style={{
+              backgroundColor: theme.colors.background,
+              borderRadius: 100,
+            }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 20,
+                width: 45,
+                textAlignVertical: "center",
+                backgroundColor: subjectData.color + "75",
+                borderRadius: 100,
+                height: 45,
+              }}
+            >
+              {subjectData.emoji}
+            </Text>
           </View>
-          <View style={{flex: 1, gap: 3}}>
+          <View style={{ flex: 1, gap: 3 }}>
             <NativeText variant="title" numberOfLines={1}>
               {subjectData.pretty}
             </NativeText>
@@ -134,10 +166,10 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           paddingTop: 70 + 16,
           paddingBottom: useSafeAreaInsets().bottom + 16,
         }}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
       >
         {informations.map((info, index) => {
-          if (info.informations.filter(item => item.enabled).length === 0) {
+          if (info.informations.filter((item) => item.enabled).length === 0) {
             return null;
           }
 
@@ -152,16 +184,9 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                   }
 
                   return (
-                    <NativeItem
-                      key={index}
-                      icon={item.icon}
-                    >
-                      <NativeText variant="subtitle">
-                        {item.text}
-                      </NativeText>
-                      <NativeText variant="default">
-                        {item.value}
-                      </NativeText>
+                    <NativeItem key={index} icon={item.icon}>
+                      <NativeText variant="subtitle">{item.text}</NativeText>
+                      <NativeText variant="default">{item.value}</NativeText>
                     </NativeItem>
                   );
                 })}

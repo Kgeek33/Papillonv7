@@ -7,15 +7,24 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import type { RouteParameters } from "@/router/helpers/types";
 
 interface GradeItemProps {
-  subject: { average: { subjectName: string }, grades: any[] };
+  subject: { average: { subjectName: string }; grades: any[] };
   grade: Grade;
-  navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>
+  navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>;
   index: number;
   totalItems: number;
 }
 
-const GradeItem: React.FC<GradeItemProps> = ({ subject, grade, navigation, index, totalItems }) => {
-  const subjectData = useMemo(() => getSubjectData(subject.average.subjectName), [subject.average.subjectName]);
+const GradeItem: React.FC<GradeItemProps> = ({
+  subject,
+  grade,
+  navigation,
+  index,
+  totalItems,
+}) => {
+  const subjectData = useMemo(
+    () => getSubjectData(subject.average.subjectName),
+    [subject.average.subjectName]
+  );
 
   const formattedDate = new Date(grade.timestamp).toLocaleDateString("fr-FR", {
     weekday: "long",
@@ -24,9 +33,10 @@ const GradeItem: React.FC<GradeItemProps> = ({ subject, grade, navigation, index
     year: "numeric",
   });
 
-  const gradeValue = typeof grade.student.value === "number"
-    ? grade.student.value.toFixed(2)
-    : "N. not";
+  const gradeValue =
+		typeof grade.student.value === "number"
+		  ? grade.student.value.toFixed(2)
+		  : "N. not";
 
   return (
     <NativeItem
@@ -35,11 +45,19 @@ const GradeItem: React.FC<GradeItemProps> = ({ subject, grade, navigation, index
       chevron={false}
       animated
       leading={
-        <View style={{ backgroundColor: subjectData.color + "22", borderRadius: 100, height: 40, width: 40, justifyContent: "center", alignItems: "center" }}>
-          <Text style={{textAlign: "center", fontSize: 20, lineHeight: 23, width: 40, fontFamily: "medium", textAlignVertical: "center"}}>
-            {subjectData.emoji}
-          </Text>
-        </View>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 20,
+            width: 45,
+            textAlignVertical: "center",
+            backgroundColor: subjectData.color + "75",
+            borderRadius: 100,
+            height: 45,
+          }}
+        >
+          {subjectData.emoji}
+        </Text>
       }
     >
       <View style={styles.container}>
@@ -52,9 +70,7 @@ const GradeItem: React.FC<GradeItemProps> = ({ subject, grade, navigation, index
           </NativeText>
         </View>
         <View style={styles.rightContent}>
-          <NativeText style={styles.gradeValue}>
-            {gradeValue}
-          </NativeText>
+          <NativeText style={styles.gradeValue}>{gradeValue}</NativeText>
           <NativeText style={styles.maxGrade}>
             /{grade.outOf.value?.toFixed(0) ?? "??"}
           </NativeText>
