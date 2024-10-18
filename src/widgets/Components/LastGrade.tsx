@@ -98,8 +98,8 @@ const LastGradeWidget = forwardRef(({
           flexDirection: "row",
           justifyContent: "space-between",
           width: "100%",
-          marginTop: "auto",
           gap: 10,
+          marginTop: "auto"
         }}
         layout={LinearTransition}
       >
@@ -129,7 +129,7 @@ const LastGradeWidget = forwardRef(({
           flexDirection: "row",
           alignItems: "flex-end",
           justifyContent: "flex-start",
-          marginTop: 10,
+          marginTop: "auto",
           gap: 4,
         }}
       >
