@@ -38,6 +38,8 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
 
+  const dims = Dimensions.get("screen");
+  const tabletWidth = dims.width;
   let loadedWeeks = useRef<Set<number>>(new Set());
   let currentlyLoadingWeeks = useRef<Set<number>>(new Set());
   let lastAccountID = useRef<string | null>(null);
@@ -132,7 +134,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const renderItem = useCallback(({ item: date }) => {
     const weekNumber = getWeekFromDate(date);
     return (
-      <View style={{ width: Dimensions.get('window').width }}>
+      <View style={{ width: tabletWidth }}>
         <Page
           paddingTop={outsideNav ? 80 : insets.top + 56}
           current={date.getTime() === pickerDate.getTime()}
@@ -154,9 +156,9 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     }
   }, [loadTimetableWeek]);
 
-  const getItemLayout = useCallback((_, index) => ({
-    length: Dimensions.get('window').width,
-    offset: Dimensions.get('window').width * index,
+  const getItemLayout = useCallback((_: any, index: number) => ({
+    length: tabletWidth,
+    offset: tabletWidth * index,
     index,
   }), []);
 

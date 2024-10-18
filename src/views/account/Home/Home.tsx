@@ -79,10 +79,6 @@ const Home: Screen<"HomeScreen"> = ({ route, navigation }) => {
   const tabletDiagl = (tabletWidth / tabletHeight) * 10;
   const tablet = tabletDiagl >= 6.9;
 
-  if (tablet) {
-    headerHeight = 230;
-  }
-
   const insets = useSafeAreaInsets();
 
   const [shouldOpenContextMenu, setShouldOpenContextMenu] = useState(false);
