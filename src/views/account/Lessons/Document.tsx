@@ -5,7 +5,13 @@ import {
   NativeText,
 } from "@/components/Global/NativeComponents";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { View, ScrollView, Text } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  Platform,
+} from "react-native";
+import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
 import { getSubjectData } from "@/services/shared/Subject";
 import { Screen } from "@/router/helpers/types";
 
@@ -14,15 +20,22 @@ import { fr } from "date-fns/locale";
 import {
   Clock,
   DoorOpen,
+  FileText,
   Hourglass,
   Info,
   PersonStanding,
 } from "lucide-react-native";
 
 import { useTheme } from "@react-navigation/native";
+import RenderHTML from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
 import { TimetableClass } from "@/services/shared/Timetable";
+import { ClassSubject } from "pawdirecte";
+import { useClassSubjectStore } from "@/stores/classSubject";
+import { useCurrentAccount } from "@/stores/account";
+import { AccountService } from "@/stores/account/types";
+import getAndOpenFile from "@/utils/files/getAndOpenFile";
 
 const lz = (num: number) => (num < 10 ? `0${num}` : num);
 
@@ -36,6 +49,36 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
   const theme = useTheme();
 
   const lesson = route.params.lesson as unknown as TimetableClass;
+  const subjects = useClassSubjectStore();
+  const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([]);
+  const account = useCurrentAccount((store) => store.account!);
+
+  const openUrl = (url: string) => {
+    if (
+      account.service === AccountService.EcoleDirecte &&
+			Platform.OS === "ios"
+    ) {
+      getAndOpenFile(account, url);
+    } else {
+      WebBrowser.openBrowserAsync(url, {
+        presentationStyle: WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
+        controlsColor: theme.colors.primary,
+      });
+    }
+  };
+
+  useEffect(() => {
+    setClassSubjects(
+      subjects.subjects.filter(
+        (b) =>
+          new Date(b.date).getDate() ===
+						new Date(lesson.startTimestamp).getDate() &&
+					new Date(b.date).getMonth() ===
+						new Date(lesson.startTimestamp).getMonth() &&
+					lesson.subject === b.subject,
+      ) ?? [],
+    );
+  }, []);
 
   const [subjectData, setSubjectData] = useState({
     color: "#888888",
@@ -84,7 +127,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           icon: <Hourglass />,
           text: "Durée du cours",
           value: getDuration(
-            Math.round((lesson.endTimestamp - lesson.startTimestamp) / 60000)
+            Math.round((lesson.endTimestamp - lesson.startTimestamp) / 60000),
           ),
           enabled: lesson.endTimestamp != null,
         },
@@ -129,7 +172,11 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
         height={110}
       >
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <View style={{ marginRight: 4 }}>
+          <View
+            style={{
+              marginRight: 4,
+            }}
+          >
             <Text
               style={{
                 textAlign: "center",
@@ -191,6 +238,48 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
             </View>
           );
         })}
+        {classSubjects.length > 0 && (
+          <View>
+            <NativeListHeader label="Contenu de séance" />
+            <NativeList>
+              {classSubjects.map((subject, index) => {
+                return (
+                  <>
+                    <NativeItem key={index}>
+                      <RenderHTML
+                        source={{ html: subject.content }}
+                        defaultTextProps={{
+                          style: {
+                            color: theme.colors.text,
+                            fontFamily: "medium",
+                            fontSize: 16,
+                            lineHeight: 22,
+                          },
+                        }}
+                        contentWidth={300}
+                      />
+                      {subject.attachments.map((attachment, index) => (
+                        <NativeItem
+                          key={index}
+                          onPress={() =>
+                            openUrl(
+                              `${attachment.name}\\${attachment.id}\\${attachment.kind}`,
+                            )
+                          }
+                          icon={<FileText />}
+                        >
+                          <NativeText variant="title" numberOfLines={2}>
+                            {attachment.name}
+                          </NativeText>
+                        </NativeItem>
+                      ))}
+                    </NativeItem>
+                  </>
+                );
+              })}
+            </NativeList>
+          </View>
+        )}
       </ScrollView>
     </>
   );

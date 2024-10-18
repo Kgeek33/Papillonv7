@@ -18,7 +18,7 @@ import { getSubjectData } from "@/services/shared/Subject";
 
 import { formatDistance } from "date-fns";
 import { fr } from "date-fns/locale";
-import { FileText, Link, Paperclip } from "lucide-react-native";
+import { FileText, Link, Paperclip, CircleAlert } from "lucide-react-native";
 
 import * as WebBrowser from "expo-web-browser";
 import { useTheme } from "@react-navigation/native";
@@ -35,7 +35,7 @@ const HomeworksDocument = ({ route }) => {
   const homework: Homework = route.params.homework || {};
   const account = useCurrentAccount((store) => store.account!);
 
-  const openUrl = (url) => {
+  const openUrl = (url: string) => {
     if (
       account.service === AccountService.EcoleDirecte &&
 			Platform.OS === "ios"
@@ -43,7 +43,7 @@ const HomeworksDocument = ({ route }) => {
       getAndOpenFile(account, url);
     } else {
       WebBrowser.openBrowserAsync(url, {
-        presentationStyle: "formSheet",
+        presentationStyle: WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
         controlsColor: theme.colors.primary,
       });
     }
@@ -68,7 +68,11 @@ const HomeworksDocument = ({ route }) => {
     <View style={{ flex: 1 }}>
       <PapillonModernHeader native outsideNav={true}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <View style={{ marginRight: 4 }}>
+          <View
+            style={{
+              marginRight: 4,
+            }}
+          >
             <Text
               style={{
                 textAlign: "center",
@@ -83,7 +87,7 @@ const HomeworksDocument = ({ route }) => {
               {subjectData.emoji}
             </Text>
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, gap: 3 }}>
             <NativeText variant="title" numberOfLines={1}>
               {subjectData.pretty}
             </NativeText>
@@ -118,7 +122,7 @@ const HomeworksDocument = ({ route }) => {
                         ? "Papillon ne permet pas de rendre des devoirs sur l'ENT. Vous devez le faire sur l'ENT de votre établissement"
                         : homework.returnType === "paper"
                           ? "Votre professeur vous indiquera comment rendre ce devoir"
-                          : "Votre professeur vous indiquera comment rendre ce devoir"
+                          : "Votre professeur vous indiquera comment rendre ce devoir",
                     );
                   }}
                 >
@@ -148,6 +152,14 @@ const HomeworksDocument = ({ route }) => {
         style={{ flex: 1 }}
       >
         <NativeList>
+          {homework.exam ? (
+            <NativeItem icon={<CircleAlert />}>
+              <NativeText variant="default">{"Évaluation"}</NativeText>
+            </NativeItem>
+          ) : (
+            <></>
+          )}
+
           <NativeItem>
             <RenderHTML
               source={{ html: homework.content }}
@@ -177,9 +189,6 @@ const HomeworksDocument = ({ route }) => {
                 >
                   <NativeText variant="title" numberOfLines={2}>
                     {attachment.name}
-                  </NativeText>
-                  <NativeText variant="subtitle" numberOfLines={1}>
-                    {attachment.url}
                   </NativeText>
                 </NativeItem>
               ))}
