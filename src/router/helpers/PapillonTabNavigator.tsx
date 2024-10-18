@@ -147,7 +147,7 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
 
           const autoColor = colorsList.filter(c => c.hex.primary === theme.colors.primary)[0];
           const tabColor = isFocused ?
-            (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? theme.colors.text : autoColor.hex.darker);
+            (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? "#656c72" : "#8C9398");
 
           return (
             <PressableScale
