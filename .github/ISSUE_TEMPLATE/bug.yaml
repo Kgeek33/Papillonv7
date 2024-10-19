@@ -35,24 +35,23 @@ body:
       required: true
   - type: input
     attributes:
-      label: Version du système d`exploitation
+      label: Version du système d'exploitation
       placeholder: iOS 18, Android 14...
     validations:
       required: true
   - type: input
     attributes:
       label: Version
-      placeholder: "7.0.1-beta"
-      value: "7.0.1-beta"
+      placeholder: "7.2.1"
+      value: "7.2.1"
     validations:
       required: true
   - type: dropdown
     attributes:
       label: Environnement
       options:
-        - Application native Android
-        - Application native iOS
-        - Prébuild de développement (iOS/Android)
+        - Application native
+        - Prébuild de développement
     validations:
       required: true
   - type: dropdown
@@ -60,7 +59,7 @@ body:
       label: Source de l'application
       options:
         - Stores (Play Store / App Store)
-        - Github
+        - GitHub
     validations:
       required: true
   - type: dropdown
