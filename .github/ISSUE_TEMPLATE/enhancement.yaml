@@ -1,6 +1,6 @@
 name: 💅 Amélioration
 description: Suggérez une amélioration.
-title: '[Enhancement]: '
+title: "[Enhancement]: "
 labels: [enhancement]
 body:
   - type: textarea

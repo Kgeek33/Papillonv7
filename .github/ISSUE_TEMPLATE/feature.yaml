@@ -1,6 +1,6 @@
 name: ✨ Fonctionnalité
 description: Suggérez une fonctionnalité.
-title: '[Feature]: '
+title: "[Feature]: "
 labels: [feature]
 body:
   - type: textarea

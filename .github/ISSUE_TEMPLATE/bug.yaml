@@ -1,6 +1,6 @@
 name: 🐛 Signaler un bug
 description: Signalez un bug pour nous aider à améliorer Papillon
-title: '[Bug]: '
+title: "[Bug]: "
 labels: [bug]
 body:
   - type: textarea
@@ -12,7 +12,7 @@ body:
   - type: textarea
     attributes:
       label: Étapes à reproduire
-      description: 'Étapes pour reproduire le bug :'
+      description: "Étapes pour reproduire le bug :"
       placeholder: |
         1. [ex: Etape 1]
         2. [ex: Etape 1]
@@ -42,8 +42,8 @@ body:
   - type: input
     attributes:
       label: Version
-      placeholder: '7.0.1-beta'
-      value: '7.0.1-beta'
+      placeholder: "7.0.1-beta"
+      value: "7.0.1-beta"
     validations:
       required: true
   - type: dropdown
@@ -70,7 +70,7 @@ body:
         - 🦋 Pronote
         - 🟦 EcoleDirecte
         - 🟡 Skolengo
-        - 🔴 Turboself 
+        - 🔴 Turboself
         - 🟣 ARD-GEC
         - ⭕ Autre
     validations:
