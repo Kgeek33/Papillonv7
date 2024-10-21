@@ -1,6 +1,14 @@
 import { CopyPlus } from "lucide-react-native";
 import React, { forwardRef, useEffect, useState } from "react";
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { useTheme } from "@react-navigation/native";
 
@@ -9,11 +17,13 @@ import Reanimated, {
   Easing,
   FadeInRight,
   ZoomIn,
-  ZoomOut
+  ZoomOut,
 } from "react-native-reanimated";
 
 import { get_home_widgets } from "@/addons/addons";
-import AddonsWebview, { type AddonHomePageInfo } from "@/components/Addons/AddonsWebview";
+import AddonsWebview, {
+  type AddonHomePageInfo,
+} from "@/components/Addons/AddonsWebview";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { defaultTabs } from "@/consts/DefaultTabs";
 import { Widgets } from "@/widgets";
@@ -27,13 +37,10 @@ import { animPapillon } from "@/utils/ui/animations";
 import PapillonSpinner from "../Global/PapillonSpinner";
 
 const Header: React.FC<{
-  scrolled: boolean
-  navigation: NativeStackNavigationProp<RouteParameters, "HomeScreen">
-}> = ({
-  scrolled,
-  navigation,
-}) => {
-  const account = useCurrentAccount(store => store.account!);
+  scrolled: boolean;
+  navigation: NativeStackNavigationProp<RouteParameters, "HomeScreen">;
+}> = ({ scrolled, navigation }) => {
+  const account = useCurrentAccount((store) => store.account!);
   const [tabs, setTabs] = useState<Tab[]>([
     { name: "Attendance", enabled: true },
     { name: "Messages", enabled: true },
@@ -61,7 +68,7 @@ const Header: React.FC<{
             name: addon.name,
             icon: addon.icon,
             // @ts-expect-error : à vérifier avec Rémy.
-            url: addon.base_path + "/" + placement.main
+            url: addon.base_path + "/" + placement.main,
           });
         });
       });
@@ -79,15 +86,11 @@ const Header: React.FC<{
   }, [account.personalization]);
 
   return (
-    <View
-      style={[styles.container]}
-    >
-      <Reanimated.View
-        style={[styles.part, styles.header]}
-      />
+    <View style={[styles.container]}>
+      <Reanimated.View style={[styles.part, styles.header]} />
 
-      {!tablet && (
-        tabs.filter(tab => !tab.enabled).length === 0 ?
+      {!tablet &&
+        (tabs.filter((tab) => !tab.enabled).length === 0 ? (
           <PressableScale
             style={{
               height: 38,
@@ -112,10 +115,7 @@ const Header: React.FC<{
                 opacity: 0.5,
               }}
             >
-              <CopyPlus
-                size={20}
-                color="#fff"
-              />
+              <CopyPlus size={20} color="#fff" />
 
               <Text
                 style={{
@@ -128,100 +128,104 @@ const Header: React.FC<{
               </Text>
             </View>
           </PressableScale>
-          : (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={[styles.part, styles.buttons]}
-              contentContainerStyle={{
-                gap: 10,
-                paddingHorizontal: 16,
-                overflow: "visible",
-              }}
-            >
-              {tabs.map((tab, index) => {
-                if (tab.name === "Home") return null;
-                const defaultTab = defaultTabs.find(curr => curr.tab === tab.name);
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={[styles.part, styles.buttons]}
+            contentContainerStyle={{
+              gap: 10,
+              paddingHorizontal: 16,
+              overflow: "visible",
+            }}
+          >
+            {tabs.map((tab, index) => {
+              if (tab.name === "Home") return null;
+              const defaultTab = defaultTabs.find(
+                (curr) => curr.tab === tab.name
+              );
 
-                if (tab.enabled) return null;
-                if (!defaultTab) return null;
+              if (tab.enabled) return null;
+              if (!defaultTab) return null;
 
-                return (
-                  <HeaderButton
-                    key={index}
-                    index={index}
-                    icon={<LottieView
+              return (
+                <HeaderButton
+                  key={index}
+                  index={index}
+                  icon={
+                    <LottieView
                       loop={false}
                       source={defaultTab.icon}
-                      colorFilters={[{
-                        keypath: "*",
-                        color: "#fff",
-                      }]}
+                      colorFilters={[
+                        {
+                          keypath: "*",
+                          color: "#fff",
+                        },
+                      ]}
                       style={{
                         width: 26,
                         height: 26,
                       }}
-                    />}
-                    text={defaultTab.label}
-                    scrolled={scrolled}
-                    onPress={() => {
-                      navigation.navigate(tab.name as RouteParameters[keyof RouteParameters]);
-                    }}
-                  />
-                );
-              })}
+                    />
+                  }
+                  text={defaultTab.label}
+                  scrolled={scrolled}
+                  onPress={() => {
+                    navigation.navigate(
+                      tab.name as RouteParameters[keyof RouteParameters]
+                    );
+                  }}
+                />
+              );
+            })}
 
-              <PressableScale
-                onPress={() => {
-                  setClick(true);
-                  setTimeout(() => {
-                    navigation.navigate("SettingsTabs");
-                    setClick(false);
-                  }, 10);
-                }}
+            <PressableScale
+              onPress={() => {
+                setClick(true);
+                setTimeout(() => {
+                  navigation.navigate("SettingsTabs");
+                  setClick(false);
+                }, 10);
+              }}
+              style={{
+                height: 38,
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
+                backgroundColor: "#ffffff00",
+                borderColor: "#ffffff50",
+                borderWidth: 1.5,
+                borderRadius: 10,
+                borderCurve: "continuous",
+                gap: 12,
+                paddingHorizontal: 12,
+                opacity: 0.5,
+              }}
+            >
+              {click ? (
+                <PapillonSpinner
+                  size={18}
+                  color="white"
+                  strokeWidth={2.8}
+                  entering={animPapillon(ZoomIn)}
+                  exiting={animPapillon(ZoomOut)}
+                />
+              ) : (
+                <CopyPlus size={24} color="#fff" />
+              )}
+
+              <Text
                 style={{
-                  height: 38,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  backgroundColor: "#ffffff00",
-                  borderColor: "#ffffff50",
-                  borderWidth: 1.5,
-                  borderRadius: 10,
-                  borderCurve: "continuous",
-                  gap: 12,
-                  paddingHorizontal: 12,
-                  opacity: 0.5,
+                  color: "#fff",
+                  fontFamily: "medium",
+                  fontSize: 16,
                 }}
               >
-                {click ? (
-                  <PapillonSpinner
-                    size={18}
-                    color="white"
-                    strokeWidth={2.8}
-                    entering={animPapillon(ZoomIn)}
-                    exiting={animPapillon(ZoomOut)}
-                  />
-                ) : (
-                  <CopyPlus
-                    size={24}
-                    color="#fff"
-                  />
-                )}
-
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontFamily: "medium",
-                    fontSize: 16,
-                  }}
-                >
-                  Gérer
-                </Text>
-              </PressableScale>
-            </ScrollView>
-          )
-      )}
+                Gérer
+              </Text>
+            </PressableScale>
+          </ScrollView>
+        ))}
 
       <ScrollView
         horizontal
@@ -236,54 +240,70 @@ const Header: React.FC<{
         {!scrolled && (
           <Reanimated.View
             // @ts-expect-error : average Reanimated issue.
-            entering={FadeInRight.easing(Easing.bezier(0, 0, 0, 1)).duration(500).delay(250).withInitialValues({
-              opacity: 0,
-              transform: [{translateX: 20}]
-            })}
+            entering={FadeInRight.easing(Easing.bezier(0, 0, 0, 1))
+              .duration(500)
+              .delay(250)
+              .withInitialValues({
+                opacity: 0,
+                transform: [{ translateX: 20 }],
+              })}
             style={{
               gap: 15,
               flexDirection: "row",
             }}
           >
             {Widgets.map((widget, index) => (
-              <Widget
-                key={index}
-                widget={widget}
-                navigation={navigation}
-              />
+              <Widget key={index} widget={widget} navigation={navigation} />
             ))}
 
             {addons.map((addon, index) => (
               <Widget
                 key={index}
                 widget={forwardRef(() => (
-                  <View style={{flex: 1}} onLayout={() => {
-                    let temp = addonsTitle;
-                    temp[index] = addon.name;
-                    setAddonsTitle(temp);
-                  }}>
-                    <View style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 5,
-                      marginBottom: 10
-                    }}>
+                  <View
+                    style={{ flex: 1 }}
+                    onLayout={() => {
+                      let temp = addonsTitle;
+                      temp[index] = addon.name;
+                      setAddonsTitle(temp);
+                    }}
+                  >
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 5,
+                        marginBottom: 10,
+                      }}
+                    >
                       <Image
-                        source={addon.icon == "" ? require("../../../assets/images/addon_default_logo.png") : {uri: addon.icon}}
+                        source={
+                          addon.icon == ""
+                            ? require("../../../assets/images/addon_default_logo.png")
+                            : { uri: addon.icon }
+                        }
                         style={{
                           width: 18,
                           height: 18,
                           borderRadius: 4,
                           borderWidth: 1,
-                          borderColor: "#00000015"
+                          borderColor: "#00000015",
                         }}
                       />
-                      <NativeText variant="subtitle" numberOfLines={1}
-                        style={{flex: 1}}>{addonsTitle[index]}</NativeText>
+                      <NativeText
+                        variant="subtitle"
+                        numberOfLines={1}
+                        style={{ flex: 1 }}
+                      >
+                        {addonsTitle[index]}
+                      </NativeText>
                     </View>
-                    <AddonsWebview addon={addon} url={addon.url}
-                      navigation={navigation} setTitle={(title) => {
+                    <AddonsWebview
+                      addon={addon}
+                      url={addon.url}
+                      navigation={navigation}
+                      setTitle={(title) => {
                         let temp = addonsTitle;
                         temp[index] = title;
                         setAddonsTitle(temp);
@@ -297,17 +317,16 @@ const Header: React.FC<{
         )}
       </ScrollView>
     </View>
-  )
-  ;
+  );
 };
 
 const HeaderButton: React.FC<{
-  icon: React.ReactElement
-  index: number
-  text: string
-  scrolled: boolean,
-  onPress: () => void
-}> = ({icon, index, text, scrolled, onPress}) => {
+  icon: React.ReactElement;
+  index: number;
+  text: string;
+  scrolled: boolean;
+  onPress: () => void;
+}> = ({ icon, index, text, scrolled, onPress }) => {
   const theme = useTheme();
   const { colors } = theme;
 
@@ -316,37 +335,44 @@ const HeaderButton: React.FC<{
     color: "#fff",
   });
 
-  return (!scrolled &&
-        <Reanimated.View
-          //@ts-expect-error
-          entering={FadeInRight.easing(Easing.bezier(0, 0, 0, 1)).duration(300).delay((50 * index)).withInitialValues({
+  return (
+    !scrolled && (
+      <Reanimated.View
+        //@ts-expect-error
+        entering={FadeInRight.easing(Easing.bezier(0, 0, 0, 1))
+          .duration(300)
+          .delay(50 * index)
+          .withInitialValues({
             opacity: 0,
-            transform: [{translateX: 20}]
+            transform: [{ translateX: 20 }],
           })}
+      >
+        <TouchableOpacity
+          onPress={onPress}
+          style={[
+            styles.headerButton,
+            {
+              backgroundColor: "#ffffff20",
+              borderColor: "#ffffff50",
+              borderWidth: 1,
+            },
+          ]}
         >
+          {newIcon}
 
-          <TouchableOpacity
-            onPress={onPress}
+          <Text
             style={[
-              styles.headerButton,
+              styles.headerButtonText,
               {
-                backgroundColor: "#ffffff20",
-                borderColor: "#ffffff50",
-                borderWidth: 1,
-              }
+                color: "#fff",
+              },
             ]}
           >
-            {newIcon}
-
-            <Text
-              style={[styles.headerButtonText, {
-                color: "#fff",
-              }]}
-            >
-              {text}
-            </Text>
-          </TouchableOpacity>
-        </Reanimated.View>
+            {text}
+          </Text>
+        </TouchableOpacity>
+      </Reanimated.View>
+    )
   );
 };
 
@@ -390,7 +416,6 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 0,
   },
-
 
   headerButton: {
     height: "100%",

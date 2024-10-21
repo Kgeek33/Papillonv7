@@ -26,13 +26,11 @@ const screenOptions: NativeStackNavigationOptions = {
 };
 
 function TabBarContainer () {
-  return (
-    <View />
-  );
+  return <View />;
 }
 
 const AccountStackScreen: Screen<"AccountStack"> = () => {
-  const account = useCurrentAccount(store => store.account);
+  const account = useCurrentAccount((store) => store.account);
 
   const navigatorRef = React.useRef();
 
@@ -66,12 +64,12 @@ const AccountStackScreen: Screen<"AccountStack"> = () => {
   if (account?.personalization.tabs) {
     let newTabs = account.personalization.tabs;
     if (!tablet) {
-      newTabs = newTabs.filter(tab => tab.enabled);
+      newTabs = newTabs.filter((tab) => tab.enabled);
     }
 
-    newAccountScreens = newTabs.map(tab => {
-      const tabData = screens.find(t => t.name === tab.name);
-      if(tabData) {
+    newAccountScreens = newTabs.map((tab) => {
+      const tabData = screens.find((t) => t.name === tab.name);
+      if (tabData) {
         tabData.options = {
           ...tabData.options,
           tabEnabled: tab.enabled,
@@ -82,7 +80,9 @@ const AccountStackScreen: Screen<"AccountStack"> = () => {
   }
 
   let mln = 5 - newAccountScreens.length;
-  if (mln < 0) { mln = 0; }
+  if (mln < 0) {
+    mln = 0;
+  }
 
   if (tablet) {
     mln = 0;
@@ -100,14 +100,17 @@ const AccountStackScreen: Screen<"AccountStack"> = () => {
   }, []);
 
   return (
-    <AccountStack.Navigator screenOptions={screenOptions} tabBar={TabBarContainer}>
+    <AccountStack.Navigator
+      screenOptions={screenOptions}
+      tabBar={TabBarContainer}
+    >
       {finalScreens.map((screen) => (
         // @ts-expect-error : type not compatible, but it works fine.
         <AccountStack.Screen
           key={screen.name}
           {...screen}
           initialParams={{
-            outsideNav: false
+            outsideNav: false,
           }}
         />
       ))}
@@ -124,9 +127,7 @@ const AccountStackScreen: Screen<"AccountStack"> = () => {
 };
 
 const UslView: React.FC = () => {
-  return (
-    <View />
-  );
+  return <View />;
 };
 
 export default AccountStackScreen;

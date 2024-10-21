@@ -32,16 +32,18 @@ type DescriptorOptions = {
   title?: string;
   tabBarIcon?: any;
   tabBarLottie?: any;
-  tabEnabled?: boolean
+  tabEnabled?: boolean;
   tabBarAccessibilityLabel?: string;
-  tabBarTestID?: string
+  tabBarTestID?: string;
 };
 
-const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "NavigationContent">> = ({ state, descriptors, navigation }) => {
+const BasePapillonBar: React.FC<
+  Omit<ReturnType<typeof useNavigationBuilder>, "NavigationContent">
+> = ({ state, descriptors, navigation }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  const account = useCurrentAccount(store => store.account);
+  const account = useCurrentAccount((store) => store.account);
   const [shouldShowLabel, setShouldShowLabel] = React.useState(true);
 
   const [transparentTabBar, setTransparentTabBar] = React.useState(false);
@@ -72,7 +74,7 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
         {
           backgroundColor: theme.colors.card,
           borderTopColor: theme.colors.text + "22",
-          borderTopWidth: 0.5
+          borderTopWidth: 0.5,
         },
         transparentTabBar && {
           position: "absolute",
@@ -103,7 +105,7 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
       >
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key] as {
-            options: DescriptorOptions
+            options: DescriptorOptions;
           };
 
           const label =
@@ -145,9 +147,16 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
             return null;
           }
 
-          const autoColor = colorsList.filter(c => c.hex.primary === theme.colors.primary)[0];
-          const tabColor = isFocused ?
-            (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? "#656c72" : "#8C9398");
+          const autoColor = colorsList.filter(
+            (c) => c.hex.primary === theme.colors.primary
+          )[0];
+          const tabColor = isFocused
+            ? theme.dark
+              ? autoColor.hex.lighter
+              : autoColor.hex.dark
+            : theme.dark
+              ? "#656c72"
+              : "#8C9398";
 
           return (
             <PressableScale
@@ -175,12 +184,15 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
                     justifyContent: "center",
                   },
                   showTabBackground && {
-                    backgroundColor: isFocused ? tabColor + "22" : "transparent",
+                    backgroundColor: isFocused
+                      ? tabColor + "22"
+                      : "transparent",
                     borderRadius: 12,
                     width: 42,
                     height: 42,
                   },
-                  showTabBackground && shouldShowLabel && {
+                  showTabBackground &&
+                    shouldShowLabel && {
                     height: 36,
                     width: 52,
                     borderRadius: 120,
@@ -188,19 +200,23 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
                   },
                 ]}
               >
-                {!options.tabBarLottie && icon && React.cloneElement(icon, {
-                  size: 24,
-                  color: tabColor,
-                })}
+                {!options.tabBarLottie &&
+                  icon &&
+                  React.cloneElement(icon, {
+                    size: 24,
+                    color: tabColor,
+                  })}
 
                 {options.tabBarLottie && (
                   <LottieView
                     loop={false}
                     source={options.tabBarLottie}
-                    colorFilters={[{
-                      keypath: "*",
-                      color: tabColor,
-                    }]}
+                    colorFilters={[
+                      {
+                        keypath: "*",
+                        color: tabColor,
+                      },
+                    ]}
                     style={[
                       {
                         width: 26,
@@ -218,10 +234,13 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
               </View>
 
               {shouldShowLabel && (
-                <Text style={{
-                  color: tabColor,
-                  fontFamily: "semibold", fontSize: 13,
-                }}>
+                <Text
+                  style={{
+                    color: tabColor,
+                    fontFamily: "semibold",
+                    fontSize: 13,
+                  }}
+                >
                   {label}
                 </Text>
               )}
@@ -233,11 +252,13 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
   );
 };
 
-export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "NavigationContent">> = ({ state, descriptors, navigation }) => {
+export const LargePapillonBar: React.FC<
+  Omit<ReturnType<typeof useNavigationBuilder>, "NavigationContent">
+> = ({ state, descriptors, navigation }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  const account = useCurrentAccount(store => store.account!);
+  const account = useCurrentAccount((store) => store.account!);
   const [shouldShowLabel, setShouldShowLabel] = React.useState(true);
 
   const [transparentTabBar, setTransparentTabBar] = React.useState(false);
@@ -284,7 +305,7 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
             justifyContent: "flex-start",
             borderColor: theme.colors.border,
             borderRightWidth: 0.5,
-          }
+          },
         ]}
       >
         <Text
@@ -311,7 +332,7 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
         >
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key] as {
-              options: DescriptorOptions
+              options: DescriptorOptions;
             };
 
             const label =
@@ -349,9 +370,16 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
               });
             };
 
-            const autoColor = colorsList.filter(c => c.hex.primary === theme.colors.primary)[0];
-            const tabColor = isFocused ?
-              (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? theme.colors.text : autoColor.hex.darker);
+            const autoColor = colorsList.filter(
+              (c) => c.hex.primary === theme.colors.primary
+            )[0];
+            const tabColor = isFocused
+              ? theme.dark
+                ? autoColor.hex.lighter
+                : autoColor.hex.dark
+              : theme.dark
+                ? theme.colors.text
+                : autoColor.hex.darker;
 
             return (
               <PressableScale
@@ -364,7 +392,9 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
                 onLongPress={onLongPress}
                 style={{
                   width: "100%",
-                  backgroundColor: isFocused ? theme.colors.primary + "22" : "transparent",
+                  backgroundColor: isFocused
+                    ? theme.colors.primary + "22"
+                    : "transparent",
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "flex-start",
@@ -390,30 +420,33 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
                     <LottieView
                       loop={false}
                       source={options.tabBarLottie}
-                      colorFilters={[{
-                        keypath: "*",
-                        color: tabColor,
-                      }]}
+                      colorFilters={[
+                        {
+                          keypath: "*",
+                          color: tabColor,
+                        },
+                      ]}
                       style={[
                         {
                           width: 24,
                           height: 24,
-                        }
+                        },
                       ]}
                       ref={lottie}
                     />
                   )}
                 </View>
 
-
-                <Text style={{
-                  color: tabColor,
-                  fontFamily: "medium", fontSize: 17,
-                  marginTop: 2,
-                }}>
+                <Text
+                  style={{
+                    color: tabColor,
+                    fontFamily: "medium",
+                    fontSize: 17,
+                    marginTop: 2,
+                  }}
+                >
                   {label}
                 </Text>
-
               </PressableScale>
             );
           })}
@@ -462,11 +495,19 @@ const BottomTabNavigator: React.ComponentType<any> = ({
           navigation={navigation}
           descriptors={descriptors}
         />
-        {!tablet ?
-          <BasePapillonBar state={state} descriptors={descriptors} navigation={navigation} />
-          :
-          <LargePapillonBar state={state} descriptors={descriptors} navigation={navigation} />
-        }
+        {!tablet ? (
+          <BasePapillonBar
+            state={state}
+            descriptors={descriptors}
+            navigation={navigation}
+          />
+        ) : (
+          <LargePapillonBar
+            state={state}
+            descriptors={descriptors}
+            navigation={navigation}
+          />
+        )}
       </View>
     </NavigationContent>
   );

@@ -6,11 +6,16 @@ import Reanimated, {
   Easing,
   LinearTransition,
   ZoomIn,
-  ZoomOut
+  ZoomOut,
 } from "react-native-reanimated";
 import { epochWMToCalendarWeekNumber } from "@/utils/epochWeekNumber";
 
-const HeaderCalendar: React.FC<{ epochWeekNumber: number, oldPageIndex: number, showPicker: () => void, changeIndex: (index: number) => void }> = ({ epochWeekNumber, oldPageIndex, showPicker, changeIndex }) => {
+const HeaderCalendar: React.FC<{
+  epochWeekNumber: number;
+  oldPageIndex: number;
+  showPicker: () => void;
+  changeIndex: (index: number) => void;
+}> = ({ epochWeekNumber, oldPageIndex, showPicker, changeIndex }) => {
   const { colors } = useTheme();
 
   const dims = Dimensions.get("screen");
@@ -77,12 +82,19 @@ const HeaderCalendar: React.FC<{ epochWeekNumber: number, oldPageIndex: number, 
   );
 };
 
-const HeaderWeekComponent: React.FC<{ epochWeekNumber: number, active: boolean, location?: string, onPress?: () => void }> = ({ epochWeekNumber, active, location, onPress }) => {
+const HeaderWeekComponent: React.FC<{
+  epochWeekNumber: number;
+  active: boolean;
+  location?: string;
+  onPress?: () => void;
+}> = ({ epochWeekNumber, active, location, onPress }) => {
   const { colors } = useTheme();
 
   return (
     <Reanimated.View
-      layout={LinearTransition.duration(300).easing(Easing.bezier(0.5, 0, 0, 1).factory())}
+      layout={LinearTransition.duration(300).easing(
+        Easing.bezier(0.5, 0, 0, 1).factory()
+      )}
     >
       <TouchableOpacity onPress={onPress}>
         <Reanimated.View
@@ -98,15 +110,20 @@ const HeaderWeekComponent: React.FC<{ epochWeekNumber: number, active: boolean, 
               paddingHorizontal: 10,
               overflow: "hidden",
             },
-            active ? {} : {
-              width: 120,
-              opacity: 0.4,
-            },
+            active
+              ? {}
+              : {
+                width: 120,
+                opacity: 0.4,
+              },
           ]}
         >
-          {active &&
+          {active && (
             <Reanimated.View
-              layout={LinearTransition.springify().mass(1).damping(20).stiffness(300)}
+              layout={LinearTransition.springify()
+                .mass(1)
+                .damping(20)
+                .stiffness(300)}
               style={{
                 position: "absolute",
                 top: 0,
@@ -118,20 +135,20 @@ const HeaderWeekComponent: React.FC<{ epochWeekNumber: number, active: boolean, 
               entering={ZoomIn.springify().mass(1).damping(20).stiffness(300)}
               exiting={ZoomOut.springify().mass(1).damping(20).stiffness(300)}
             />
-          }
+          )}
 
-          {active &&
+          {active && (
             <Reanimated.View
-              layout={LinearTransition.springify().mass(1).damping(20).stiffness(300)}
+              layout={LinearTransition.springify()
+                .mass(1)
+                .damping(20)
+                .stiffness(300)}
               entering={ZoomIn.duration(200)}
               exiting={ZoomOut.duration(200)}
             >
-              <Calendar
-                size={20}
-                color={colors.primary}
-              />
+              <Calendar size={20} color={colors.primary} />
             </Reanimated.View>
-          }
+          )}
 
           <Reanimated.Text
             numberOfLines={1}
