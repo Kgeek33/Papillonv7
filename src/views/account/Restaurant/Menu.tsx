@@ -160,7 +160,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
         const accountPromises = linkedAccounts.map(async (account) => {
           try {
             const [balance, history, cardnumber, booking] = await Promise.all([
-              balanceFromExternal(account).catch(err => {
+              balanceFromExternal(account, isRefreshing).catch(err => {
                 console.warn(`Error fetching balance for account ${account}:`, err);
                 return [];
               }),
@@ -172,7 +172,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 console.warn(`Error fetching QR code for account ${account}:`, err);
                 return "0";
               }),
-              getBookingsAvailableFromExternal(account, getWeekNumber(new Date())).catch(err => {
+              getBookingsAvailableFromExternal(account, getWeekNumber(new Date()), isRefreshing).catch(err => {
                 console.warn(`Error fetching bookings for account ${account}:`, err);
                 return [];
               })
@@ -290,7 +290,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
             />
           </HorizontalList>
 
-          {(currentMenu || (allBookings && allBookings.some((terminal) => terminal.days.some((day) => day.date.toDateString() === pickerDate.toDateString())))) &&
+          {(currentMenu || (allBookings && allBookings.some((terminal) => terminal.days.some((day) => day.date?.toDateString() === pickerDate.toDateString())))) &&
           <View style={styles.calendarContainer}>
             <PapillonHeaderSelector
               loading={isMenuLoading}
@@ -329,7 +329,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
           {allBookings &&
             allBookings.some((terminal) =>
               terminal.days.some(
-                (day) => day.date.toDateString() === pickerDate.toDateString()
+                (day) => day.date?.toDateString() === pickerDate.toDateString()
               )
             ) && (
             <>
@@ -338,7 +338,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 {allBookings.map((terminal, index) => (
                   <React.Fragment key={index}>
                     {terminal.days.map((bookingDay, dayIndex) =>
-                      bookingDay.date.toDateString() === pickerDate.toDateString() ? (
+                      bookingDay.date?.toDateString() === pickerDate.toDateString() ? (
                         <NativeItem
                           separator
                           disabled={!bookingDay.canBook}
