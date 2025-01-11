@@ -251,7 +251,7 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
         {attendances[selectedPeriod] && attendances[selectedPeriod].absences.length === 0 && attendances[selectedPeriod].delays.length === 0 && attendances[selectedPeriod].punishments.length === 0 && Object.keys(attendances_observations_details).length === 0 &&(
           <MissingItem
             title="Aucune absence"
-            description="Vous n'avez pas d'absences ni de retards pour cette période."
+            description="Tu n'as pas d'absences ni de retards pour cette période."
             emoji="🎉"
             style={{ marginTop: 16 }}
           />

@@ -192,7 +192,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
               </TouchableOpacity>
             </View>
             <NativeText variant="subtitle">
-              Cliquez ici pour voir tous les changements et les dernières nouveautés.
+              Clique ici pour voir tous les changements et les dernières nouveautés.
             </NativeText>
           </TouchableOpacity>
         </NativeList>

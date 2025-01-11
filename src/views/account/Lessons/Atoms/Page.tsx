@@ -108,7 +108,7 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
           <MissingItem
             emoji="🌴"
             title="C'est le week-end !"
-            description="Profitez de votre week-end, il n'y a pas de cours aujourd'hui."
+            description="Profite de ton week-end, il n'y a pas de cours aujourd'hui."
             entering={animPapillon(FadeInDown)}
             exiting={animPapillon(FadeOut)}
           />
@@ -126,7 +126,7 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
       {day.length === 1 && current && !loading && (day[0].type === "vacation" ? <MissingItem
         emoji={emoji}
         title="C'est les vacances !"
-        description="Profitez de vos vacances, à bientôt."
+        description="Profite de tes vacances, à bientôt."
         entering={animPapillon(FadeInDown)}
         exiting={animPapillon(FadeOut)}
       />: <></>
