@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import * as Clipboard from "expo-clipboard";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { th } from "date-fns/locale";
 
 const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const theme = useTheme();
@@ -150,9 +151,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               <Image
                 source={{ uri: profilePic }}
                 style={{
-                  width: 55,
-                  height: 55,
-                  borderRadius: 90,
+                  width: 70,
+                  height: 70,
+                  borderRadius: 16,
                   // @ts-expect-error : borderCurve is not in the Image style
                   borderCurve: "continuous",
                 }}
@@ -242,6 +243,8 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               <Switch
                 value={!hideNameOnHomeScreen}
                 onValueChange={() => setHideNameOnHomeScreen(!hideNameOnHomeScreen)}
+                trackColor={{false: theme.colors.border, true: theme.colors.primary}}
+                thumbColor={theme.colors.background}
               />
             }
           >
@@ -261,6 +264,8 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               <Switch
                 value={!hideProfilePicOnHomeScreen}
                 onValueChange={() => setHideProfilePicOnHomeScreen(!hideProfilePicOnHomeScreen)}
+                trackColor={{false: theme.colors.border, true: theme.colors.primary}}
+                thumbColor={theme.colors.background}
               />
             }
           >

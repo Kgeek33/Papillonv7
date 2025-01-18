@@ -3,7 +3,7 @@
     "name": "Papillon",
     "slug": "papillonvex",
     "scheme": "papillon", 
-    "version": "7.7.1",
+    "version": "7.7.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -41,7 +41,7 @@
       }
     },
     "android": {
-      "versionCode": 7710,
+      "versionCode": 7720,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=xyz.getpapillon.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/launch/adaptive-icon-foreground.png",
