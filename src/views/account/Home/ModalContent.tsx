@@ -1,5 +1,4 @@
 import {
-  NativeItem,
   NativeList,
   NativeText,
 } from "@/components/Global/NativeComponents";
