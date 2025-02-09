@@ -1,0 +1,61 @@
+name: Generate Expo Bundle and QR Code
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Export Expo Bundle
+        run: |
+          npx expo export --output-dir dist
+      
+      - name: Clone Papillon-Bundles repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git clone https://github.com/Kgeek33/Papillon-Bundles.git
+
+      - name: Upload Bundle to GitHub Pages
+        run: |
+          cd Papillon-Bundles
+          mkdir -p pr-${{ github.event.pull_request.number }}
+          cp -r ../dist/* pr-${{ github.event.pull_request.number }}
+          git add .
+          git commit -m "Deploy bundle for PR #${{ github.event.pull_request.number }}"
+          git push origin main
+
+      - name: Generate QR Code
+        run: |
+          sudo apt-get install -y qrencode
+          BUNDLE_URL="https://kgeek33.github.io/Papillon-Bundles/pr-${{ github.event.pull_request.number }}/index.json"
+          qrencode -o qr.png "$BUNDLE_URL"
+
+      - name: Upload QR Code
+        uses: actions/upload-artifact@v4
+        with:
+          name: qr-code
+          path: qr.png
+
+      - name: Update PR description with QR Code
+        run: |
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          IMG_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/qr-code"
+          gh pr edit $PR_NUMBER --body "### Scan this QR Code to test:\n![QR Code]($IMG_URL)\n\nOu ouvrez directement [ce lien]($BUNDLE_URL)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
