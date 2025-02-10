@@ -85,6 +85,7 @@
     "react-native-gesture-handler": "^2.22.1",
     "react-native-htmlview": "^0.17.0",
     "react-native-infinite-pager": "^0.3.16",
+    "react-native-modal": "^13.0.1",
     "react-native-pager-view": "6.3.0",
     "react-native-parsed-text": "^0.0.22",
     "react-native-pressable-scale": "^2.1.0",
