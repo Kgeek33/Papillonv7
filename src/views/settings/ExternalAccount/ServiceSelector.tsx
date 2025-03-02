@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import type { Screen } from "@/router/helpers/types";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, View, StyleSheet } from "react-native";
+import { Image, View, StyleSheet, Platform, Alert } from "react-native";
 import Reanimated, { LinearTransition, FlipInXDown } from "react-native-reanimated";
 import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBubble";
 import { AccountService } from "@/stores/account/types";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { useAlert } from "@/providers/AlertProvider";
+import { useTheme } from "@react-navigation/native";
 
 const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation }) => {
+  const theme = useTheme();
+  const { isOnline } = useOnlineStatus();
+  const { showAlert } = useAlert();
+
   type Service = AccountService | "Other";
 
   const [service, setService] = useState<Service | null>(null);
@@ -92,7 +99,34 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
           disabled={!service || service === "Other"}
           onPress={() => {
             if (service) {
-              navigation.navigate("ExternalAccountSelectMethod", { service });
+              if (isOnline) {
+                navigation.navigate("ExternalAccountSelectMethod", { service });
+              } else {
+                if (Platform.OS === "ios") {
+                  Alert.alert(
+                    "Information",
+                    "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
+                    [
+                      {
+                        text: "OK",
+                      },
+                    ]
+                  );
+                } else {
+                  showAlert({
+                    title: "Information",
+                    message:
+                                        "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
+                    actions: [
+                      {
+                        title: "OK",
+                        onPress: () => {},
+                        backgroundColor: theme.colors.card,
+                      },
+                    ],
+                  });
+                }
+              }
             }
           }}
         />
