@@ -31,6 +31,7 @@ import {
 import { useCurrentAccount } from "@/stores/account";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { anim2Papillon } from "@/utils/ui/animations";
+import { useAlert } from "@/providers/AlertProvider";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   navigation,
@@ -70,6 +71,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
     handleNotificationPermission();
   }, [enabled]);
+  const { showAlert } = useAlert();
 
   // Animation states
   const opacity = useSharedValue(0);

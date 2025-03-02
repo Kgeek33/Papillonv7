@@ -9,13 +9,13 @@ import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBub
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import MaskStars from "@/components/FirstInstallation/MaskStars";
-import { useAlert } from "@/providers/AlertProvider";
 import { useTheme } from "@react-navigation/native";
 import GetV6Data from "@/utils/login/GetV6Data";
 import { School } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { useAlert } from "@/providers/AlertProvider";
 
 const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
   const theme = useTheme();
@@ -88,13 +88,6 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       }
     },
   ];
-
-  const UnsupportedAlert = () => {
-    showAlert({
-      title: "Service non supporté",
-      message: "Désolé, ce service n'est pas encore supporté. Réessaye dans une prochaine version."
-    });
-  };
 
   return (
     <SafeAreaView style={styles.container}>

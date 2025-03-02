@@ -12,7 +12,7 @@ import MaskStars from "@/components/FirstInstallation/MaskStars";
 import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBubble";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Check, Link2, TriangleAlert, X } from "lucide-react-native";
+import { BadgeInfo, Link2, TriangleAlert, Undo2, X } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
@@ -79,6 +79,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
     showAlert({
       title: "Instance non prise en charge",
       message: "Désolé, les instances de démonstration ne sont pas prises en charge, elles peuvent être instables ou ne pas fonctionner correctement.",
+      icon: <BadgeInfo />,
       actions: [
         {
           title: "Continuer",
@@ -88,7 +89,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
         },
         {
           title: "Annuler",
-          icon: <Check />,
+          icon: <Undo2 />,
           primary: true,
           backgroundColor: "#29947A",
         }
