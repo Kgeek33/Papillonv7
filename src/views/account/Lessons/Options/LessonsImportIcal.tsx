@@ -272,6 +272,7 @@ const LessonsImportIcal: Screen<"LessonsImportIcal"> = ({ route, navigation }) =
                         });
                       },
                       danger: true,
+                      delayDisable: 3,
                     }
                   ]
                 });

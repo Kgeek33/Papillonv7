@@ -331,6 +331,7 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
                       navigation.popToTop();
                     },
                     danger: true,
+                    delayDisable: 10,
                   }
                 ]
               });

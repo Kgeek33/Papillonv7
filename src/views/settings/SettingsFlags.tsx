@@ -85,6 +85,7 @@ const SettingsFlags: Screen<"SettingsFlags"> = ({ navigation }) => {
           icon: <Trash2 />,
           onPress: () => remove(flag),
           danger: true,
+          delayDisable: 3,
         }
       ]
     });

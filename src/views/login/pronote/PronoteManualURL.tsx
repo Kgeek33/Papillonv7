@@ -13,7 +13,7 @@ import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBub
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BadgeInfo, Link2, TriangleAlert, Undo2, X } from "lucide-react-native";
-import { useAlert } from "@/providers/AlertProvider";
+import { Alert, useAlert } from "@/providers/AlertProvider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
 
@@ -73,7 +73,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
   const checkForDemoInstance = async <ScreenName extends keyof RouteParameters>(
     instanceURL: string,
     navigation: NativeStackNavigationProp<RouteParameters, ScreenName>,
-    showAlert: any
+    showAlert: (alert: Alert) => void,
   ): Promise<void> => {
     if (!instanceURL.includes("demo.index-education.net")) return determinateAuthenticationView(instanceURL.trim(), navigation, showAlert);
     showAlert({
@@ -83,15 +83,15 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
       actions: [
         {
           title: "Continuer",
-          primary: false,
           icon: <TriangleAlert />,
-          onPress: () => determinateAuthenticationView(instanceURL, navigation, showAlert)
+          onPress: () => determinateAuthenticationView(instanceURL, navigation, showAlert),
+          danger: true,
+          delayDisable: 5,
         },
         {
           title: "Annuler",
           icon: <Undo2 />,
           primary: true,
-          backgroundColor: "#29947A",
         }
       ]
     });

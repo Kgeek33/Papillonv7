@@ -421,6 +421,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                                       icon: <Trash2 />,
                                       onPress: () => removeAccount(account.localID),
                                       danger: true,
+                                      delayDisable: 5,
                                     }
                                   ]
                                 });

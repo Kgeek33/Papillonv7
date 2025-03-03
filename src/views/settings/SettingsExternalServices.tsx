@@ -90,6 +90,7 @@ const SettingsExternalServices: Screen<"SettingsExternalServices"> = ({
           icon: <Trash2 />,
           onPress: () => removeAccount(account.localID),
           danger: true,
+          delayDisable: 5,
         }
       ]
     });
