@@ -5,6 +5,10 @@ on:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
+      branch:
+        description: "Branche à builder"
+        required: true
+        default: "main_Kgeek33"
       pr_number:
         description: "Numéro de la pull request"
         required: true
@@ -16,6 +20,8 @@ jobs:
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: 💾 Cache Gradle dependencies
         uses: actions/cache@v3
