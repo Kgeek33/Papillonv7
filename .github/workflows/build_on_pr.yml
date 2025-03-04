@@ -69,14 +69,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: 🚀 Build APKs for specific ABIs
-        env:
-          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
-          # Decode keystore
-          echo $KEYSTORE_BASE64 | base64 --decode > android/app/release.keystore
-
           cd android
           ./gradlew assembleRelease
           ls app/build/outputs/apk/release/
