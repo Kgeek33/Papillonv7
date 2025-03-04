@@ -1,8 +1,6 @@
 name: 📁 Release APKs PR (Build + Deploy)
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
       branch:
