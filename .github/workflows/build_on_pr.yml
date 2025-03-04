@@ -3,6 +3,12 @@ name: 📁 Release APKs PR (Build + Deploy)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Numéro de la pull request"
+        required: true
+        default: ""
 
 jobs:
   clean:
@@ -99,8 +105,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: pr${{ github.event.pull_request.number }}
-          release_name: "PR #${{ github.event.pull_request.number }}"
+          tag_name: pr${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+          release_name: "PR #${{ github.event.pull_request.number || github.event.inputs.pr_number }}"
           body: |
             Teste cette PR en téléchargeant un des APK et fais une review ! 👍
           draft: false
@@ -114,5 +120,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_or_update_release.outputs.upload_url }}
           asset_path: android/app/build/outputs/apk/release/*.apk
-          asset_name: Papillon Dev-${{ github.event.pull_request.number }}-{arch}.apk
+          asset_name: Papillon Dev-${{ github.event.pull_request.number || github.event.inputs.pr_number }}-{arch}.apk
           asset_content_type: application/octet-stream
