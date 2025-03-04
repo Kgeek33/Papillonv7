@@ -49,7 +49,7 @@ jobs:
 
       - name: 🛠️ Modify app.config.ts
         run: node modifyConfig.js
-      
+
       - name: 🛠️ Modify build.gradle for Split APKs
         run: |
           sed -i '/android {/a \
@@ -70,13 +70,19 @@ jobs:
         run: |
           cd android
           ./gradlew assembleRelease
-          ls app/build/outputs/apk/release/
+
+      - name: 🛠️ Rename APK files
+        run: |
+          cd android/app/build/outputs/apk/release/
+          for file in *.apk; do
+            mv "$file" "Papillon Dev-${file%-release.apk}-PR_${{ github.event.pull_request.number || github.event.inputs.pr_number }}.apk"
+          done
 
       - name: 🛜 Upload split APKs
         uses: actions/upload-artifact@v4
         with:
           name: split-apks
-          path: android/app/build/outputs/apk/release/*.apk
+          path: ./*.apk
           if-no-files-found: error
 
   deploy_new_release:
@@ -97,5 +103,4 @@ jobs:
           body: "Teste cette PR en téléchargeant un des APK et fais une review ! 👍"
           draft: false
           prerelease: true
-          files: |
-            *.apk
+          files: ./*.apk
