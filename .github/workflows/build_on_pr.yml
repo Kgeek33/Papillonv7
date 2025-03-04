@@ -79,13 +79,13 @@ jobs:
           for file in *.apk; do
             mv "$file" "Papillon Dev-${file%-release.apk}-PR_${{ github.event.pull_request.number || github.event.inputs.pr_number }}.apk"
           done
+          cd ..
 
       - name: 🛜 Upload split APKs
         uses: actions/upload-artifact@v4
         with:
           name: split-apks
-          path: |
-            *.apk
+          path: release/*.apk
           if-no-files-found: error
 
   deploy_new_release:
