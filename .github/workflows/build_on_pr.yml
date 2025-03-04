@@ -1,0 +1,118 @@
+name: Release APKs PR (Build + Deploy)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: 💾 Cache Node.js dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 💾 Install dependencies
+        run: npm i
+
+      - name: 📤 Upload node_modules
+        uses: actions/upload-artifact@v3
+        with:
+          name: node_modules
+          path: node_modules
+
+      - name: 🛠️ Modify app.config.ts
+        run: node modifyConfig.js
+
+      - name: 🔄 Run Expo Prebuild
+        run: npm run prebuild
+
+  build_android:
+    needs: clean
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📥 Download node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: node_modules
+
+      - name: ⚙️ Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: 💾 Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: 🚀 Build APKs for specific ABIs
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          # Decode keystore
+          echo $KEYSTORE_BASE64 | base64 --decode > android/app/release.keystore
+
+          cd android
+          ./gradlew assembleRelease
+          ls app/build/outputs/apk/release/
+
+      - name: 🛜 Upload split APKs
+        uses: actions/upload-artifact@v3
+        with:
+          name: split-apks
+          path: android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+  deploy_new_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📡 Download Android APKs
+        uses: actions/download-artifact@v3
+        with:
+          name: split-apks
+          path: split-apks
+
+      - name: 🛜 Create or Update GitHub Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: pr${{ github.event.pull_request.number }}
+          release_name: "PR #${{ github.event.pull_request.number }}"
+          body: |
+            Teste cette PR en téléchargeant un des APK et fais une review ! 👍
+          draft: false
+          prerelease: true
+          update_existing: true
+
+      - name: 📥 Upload split APKs to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_or_update_release.outputs.upload_url }}
+          asset_path: android/app/build/outputs/apk/release/*.apk
+          asset_name: Papillon Dev-${{ github.event.pull_request.number }}-{arch}.apk
+          asset_content_type: application/octet-stream
