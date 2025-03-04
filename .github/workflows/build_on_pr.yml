@@ -51,7 +51,7 @@ jobs:
           cache: "gradle"
 
       - name: 💾 Install dependencies
-        run: npm ci
+        run: npm i
 
       - name: 🛠️ Modify app.config.ts
         run: node modifyConfig.js
