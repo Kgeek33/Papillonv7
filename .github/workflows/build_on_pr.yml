@@ -82,7 +82,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: split-apks
-          path: ./*.apk
+          path: |
+            *.apk
           if-no-files-found: error
 
   deploy_new_release:
@@ -103,4 +104,5 @@ jobs:
           body: "Teste cette PR en téléchargeant un des APK et fais une review ! 👍"
           draft: false
           prerelease: true
-          files: ./*.apk
+          files: |
+            *.apk
