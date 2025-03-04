@@ -49,6 +49,19 @@ jobs:
 
       - name: 🛠️ Modify app.config.ts
         run: node modifyConfig.js
+      
+      - name: 🛠️ Modify build.gradle for Split APKs
+        run: |
+          sed -i '/android {/a \
+          splits { \
+              abi { \
+                  enable true \
+                  reset() \
+                  include "armeabi-v7a", "arm64-v8a", "x86", "x86_64" \
+                  universalApk true \
+              } \
+          }' android/app/build.gradle
+          sed -i '/buildToolsVersion/d' android/app/build.gradle
 
       - name: 🔄 Run Expo Prebuild
         run: npm run prebuild
@@ -70,9 +83,6 @@ jobs:
     needs: build_android
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v3
-
       - name: 📡 Download Android APKs
         uses: actions/download-artifact@v4
         with:
@@ -98,6 +108,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_or_update_release.outputs.upload_url }}
-          asset_path: android/app/build/outputs/apk/release/*.apk
+          asset_path: split-apks/*.apk
           asset_name: Papillon Dev-${{ github.event.pull_request.number || github.event.inputs.pr_number }}-{arch}.apk
           asset_content_type: application/octet-stream
