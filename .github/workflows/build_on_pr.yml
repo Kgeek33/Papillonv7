@@ -59,7 +59,7 @@ jobs:
           script: |
             const fs = require("fs");
             const path = require("path");
-            const configPath = path.join(__dirname, "app.config.ts");
+            const configPath = path.join(process.cwd(), "app.config.ts");
             let configContent = fs.readFileSync(configPath, "utf8");
             configContent = configContent.replace(
               /name: "Papillon"/,
@@ -97,7 +97,7 @@ jobs:
         run: |
           cd android/app/build/outputs/apk/release/
           for file in *.apk; do
-            mv "$file" "Papillon Dev-${file%-release.apk}-PR_${{ github.event.pull_request.number || github.event.inputs.pr_number }}.apk"
+            mv "$file" "Papillon Dev-${file%-release.apk}-PR_${{ github.event.inputs.pr_number }}.apk"
           done
 
       - name: 🛜 Upload split APKs
@@ -120,8 +120,8 @@ jobs:
       - name: 🛜 Create or Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: pr${{ github.event.pull_request.number || github.event.inputs.pr_number }}
-          name: "PR #${{ github.event.pull_request.number || github.event.inputs.pr_number }}"
+          tag_name: pr${{ github.event.inputs.pr_number }}
+          name: "PR #${{ github.event.inputs.pr_number }}"
           body: "Teste cette PR en téléchargeant un des APK et fais une review ! 👍"
           draft: false
           prerelease: true
