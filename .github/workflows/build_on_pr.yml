@@ -87,20 +87,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: split-apks
-          path: split-apks
+          path: .
 
       - name: 🛜 Create or Update GitHub Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: pr${{ github.event.pull_request.number || github.event.inputs.pr_number }}
-          release_name: "PR #${{ github.event.pull_request.number || github.event.inputs.pr_number }}"
-          body: |
-            Teste cette PR en téléchargeant un des APK et fais une review ! 👍
+          name: "PR #${{ github.event.pull_request.number || github.event.inputs.pr_number }}"
+          body: "Teste cette PR en téléchargeant un des APK et fais une review ! 👍"
           draft: false
           prerelease: true
-          update_existing: true
+          files: |
+            *.apk
 
       - name: 📥 Upload split APKs to release
         uses: actions/upload-release-asset@v1
