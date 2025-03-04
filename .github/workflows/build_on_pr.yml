@@ -1,4 +1,4 @@
-name: Release APKs PR (Build + Deploy)
+name: 📁 Release APKs PR (Build + Deploy)
 
 on:
   pull_request:
