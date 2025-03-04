@@ -1,0 +1,36 @@
+name: 🔄️ Update Branches
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-branches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 🔧 Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git remote add upstream https://github.com/PapillonApp/Papillon.git
+          git fetch --all
+
+      - name: 🔄 Update all branches
+        run: |
+          branches=$(git branch -r | grep -v '\->' | sed 's/origin\///')
+          for branch in $branches; do
+            git checkout $branch
+            if git merge upstream/main --no-edit; then
+              git push origin $branch
+            else
+              echo "Conflit détecté lors de la fusion de main dans $branch"
+              git merge --abort
+            fi
+          done
