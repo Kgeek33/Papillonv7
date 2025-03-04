@@ -11,7 +11,7 @@ on:
         default: ""
 
 jobs:
-  clean:
+  build_android:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout code
@@ -22,6 +22,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: ⚙️ Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
       - name: 💾 Cache Node.js dependencies
         uses: actions/cache@v3
         with:
@@ -30,36 +36,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: 💾 Install dependencies
-        run: npm i
-
-      - name: 📤 Upload node_modules
-        uses: actions/upload-artifact@v4
-        with:
-          name: node_modules
-          path: node_modules
-
-      - name: 🛠️ Modify app.config.ts
-        run: node modifyConfig.js
-
-      - name: 🔄 Run Expo Prebuild
-        run: npm run prebuild
-
-  build_android:
-    needs: clean
-    runs-on: ubuntu-latest
-    steps:
-      - name: 📥 Download node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node_modules
-
-      - name: ⚙️ Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: "zulu"
-          java-version: "17"
-
       - name: 💾 Cache Gradle dependencies
         uses: actions/cache@v3
         with:
@@ -67,6 +43,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
+      - name: 💾 Install dependencies
+        run: npm ci
+
+      - name: 🛠️ Modify app.config.ts
+        run: node modifyConfig.js
+
+      - name: 🔄 Run Expo Prebuild
+        run: npm run prebuild
 
       - name: 🚀 Build APKs for specific ABIs
         run: |
