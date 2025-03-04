@@ -24,7 +24,7 @@ jobs:
 
       - name: 🔄 Update all branches
         run: |
-          branches=$(git branch -r | grep -v '\->' | sed 's/origin\///')
+          branches=$(git branch -r | grep -v '\->' | grep -v 'upstream/' | sed 's/origin\///')
           for branch in $branches; do
             git checkout $branch
             if git merge upstream/main --no-edit; then
