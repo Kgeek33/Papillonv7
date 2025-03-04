@@ -49,9 +49,6 @@ jobs:
     needs: clean
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v3
-
       - name: 📥 Download node_modules
         uses: actions/download-artifact@v4
         with:
