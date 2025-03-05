@@ -24,7 +24,7 @@ jobs:
       - name: 💾 Cache Gradle dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.gradle/caches
+          path: /home/runner/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
@@ -32,7 +32,7 @@ jobs:
       - name: 💾 Cache Node.js dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: /home/runner/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
