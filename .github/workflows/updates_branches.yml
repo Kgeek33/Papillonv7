@@ -17,8 +17,8 @@ jobs:
 
       - name: 🔧 Configure Git
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.email "kylian.jarry@scaramouch.com"
+          git config --global user.name "Kgeek33"
           git remote add upstream https://github.com/PapillonApp/Papillon.git
           git fetch --all
 
@@ -27,7 +27,7 @@ jobs:
           branches=$(git branch -r | grep -v '\->' | grep -v 'upstream/' | sed 's/origin\///')
           for branch in $branches; do
             git checkout $branch
-            if git merge upstream/main --no-edit; then
+            if git merge upstream/main --no-edit -m "[bot] Merge upstream/main => $branch"; then
               git push origin $branch
             else
               echo "Conflit détecté lors de la fusion de main dans $branch"
