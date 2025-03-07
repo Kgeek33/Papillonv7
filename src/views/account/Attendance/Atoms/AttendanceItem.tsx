@@ -151,11 +151,17 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
               {justification}
             </NativeText>
 
-            {not_justified && (
+            {not_justified ? (
               <NativeText variant="default" style={{
                 color: "#D10000",
               }}>
                 Non justifié
+              </NativeText>
+            ) : (
+              <NativeText variant="default" style={{
+                color: "#29947A",
+              }}>
+                Justifié
               </NativeText>
             )}
 
