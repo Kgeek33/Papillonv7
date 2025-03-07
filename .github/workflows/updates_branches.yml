@@ -27,7 +27,7 @@ jobs:
           branches=$(git branch -r | grep -v '\->' | grep -v 'upstream/' | sed 's/origin\///')
           for branch in $branches; do
             git checkout $branch
-            if git merge upstream/main --no-edit -m "[bot] Merge upstream/main => $branch"; then
+            if git merge upstream/main --no-edit -m "[bot] Merge upstream/main => Kgeek33/$branch"; then
               git push origin $branch
             else
               echo "Conflit détecté lors de la fusion de main dans $branch"
