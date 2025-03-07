@@ -293,7 +293,7 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
   }, [account?.personalization?.icalURLs]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginTop: insets.top }}>
       {!outsideNav && (
         <View
           style={{
@@ -379,7 +379,7 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
           overflow: "visible",
           position: "absolute",
           left: 12,
-          top: !outsideNav ? (insets.top + 3) : 6,
+          top: 3,
         }}
       >
         <PapillonPicker
