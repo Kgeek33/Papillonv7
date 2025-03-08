@@ -92,7 +92,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
         {
           title: "Annuler",
           icon: <Undo2 />,
-          primary: true,
+          primary: false,
         },
         {
           title: "Confirmer",

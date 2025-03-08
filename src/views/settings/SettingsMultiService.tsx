@@ -163,7 +163,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                       {
                         title: "Annuler",
                         icon: <Undo2 />,
-                        primary: true,
+                        primary: false,
                       },
                       {
                         title: "Confirmer",

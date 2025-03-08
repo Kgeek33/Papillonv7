@@ -85,7 +85,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
           title: "Continuer",
           icon: <TriangleAlert />,
           onPress: () => determinateAuthenticationView(instanceURL, navigation, showAlert),
-          danger: true,
+          danger: false,
           delayDisable: 5,
         },
         {

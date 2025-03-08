@@ -184,7 +184,7 @@ const ChatCreate: Screen<"ChatCreate"> = ({ navigation }) => {
                 {
                   title: "Annuler",
                   icon: <Undo2 />,
-                  primary: true,
+                  primary: false,
                   backgroundColor: theme.colors.primary,
                 },
                 {

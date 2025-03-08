@@ -78,7 +78,7 @@ const SettingsFlags: Screen<"SettingsFlags"> = ({ navigation }) => {
         {
           title: "Annuler",
           icon: <Undo2 />,
-          primary: true,
+          primary: false,
         },
         {
           title: "Supprimer",

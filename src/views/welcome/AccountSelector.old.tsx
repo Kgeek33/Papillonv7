@@ -414,7 +414,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                                     {
                                       title: "Annuler",
                                       icon: <Undo2 />,
-                                      primary: true,
+                                      primary: false,
                                     },
                                     {
                                       title: "Supprimer",

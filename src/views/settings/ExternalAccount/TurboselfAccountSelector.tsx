@@ -145,7 +145,7 @@ const TurboselfAccountSelector: Screen<"TurboselfAccountSelector"> = ({ navigati
                     {
                       title: "Continuer la connexion",
                       icon: <ArrowRightFromLine />,
-                      primary: true,
+                      primary: false,
                     },
                     {
                       title: "Confirmer",

@@ -62,7 +62,7 @@ const SettingsExternalServices: Screen<"SettingsExternalServices"> = ({
         {
           title: "OK",
           icon: <Check />,
-          primary: true,
+          primary: false,
         },
         {
           title: "Supprimer",
@@ -83,10 +83,10 @@ const SettingsExternalServices: Screen<"SettingsExternalServices"> = ({
         {
           title: "Annuler",
           icon: <Undo2 />,
-          primary: true,
+          primary: false,
         },
         {
-          title: "Supprimer",
+          title: "Confirmer",
           icon: <Trash2 />,
           onPress: () => removeAccount(account.localID),
           danger: true,

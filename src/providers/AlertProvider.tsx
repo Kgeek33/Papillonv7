@@ -205,7 +205,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                                 backgroundColor ?? colors.primary,
                           }
                           : danger
-                            ? { backgroundColor: "#FC1E0D" }
+                            ? { backgroundColor: "#BE0B00" }
                             : { borderColor: "#CCC", borderWidth: 1 },
                       ]}
                     >

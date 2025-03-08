@@ -137,7 +137,7 @@ const IzlyActivation: Screen<"IzlyActivation"> = ({ navigation, route }) => {
                     {
                       title: "Continuer l'activation",
                       icon: <ArrowRightFromLine />,
-                      primary: true,
+                      primary: false,
                     },
                     {
                       title: "Confirmer",
