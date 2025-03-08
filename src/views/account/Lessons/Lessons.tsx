@@ -421,7 +421,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
                 navigation.navigate("LessonsImportIcal", {});
               }
             },
-            {
+            account.service !== AccountService.Pronote ? {
               icon: shouldShowWeekFrequency ? <EyeOff /> : <Eye />,
               label: shouldShowWeekFrequency
                 ? "Masquer alternance semaine"
@@ -434,7 +434,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
                 setShouldShowWeekFrequency(!shouldShowWeekFrequency);
               },
               checked: shouldShowWeekFrequency,
-            },
+            } : null,
           ]}
         >
           <PapillonHeaderAction
