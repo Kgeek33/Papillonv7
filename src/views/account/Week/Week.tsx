@@ -294,14 +294,6 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
 
   return (
     <View style={{ flex: 1, marginTop: insets.top }}>
-      {!outsideNav && (
-        <View
-          style={{
-            height: insets.top,
-          }}
-        />
-      )}
-
       {!isOnline && (
         <View style={{ padding: 16 }}>
           <OfflineWarning cache={true} />
