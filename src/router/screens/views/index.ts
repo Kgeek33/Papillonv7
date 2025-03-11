@@ -43,13 +43,14 @@ export default [
   createScreen("RestaurantCardDetail", RestaurantCardDetail, {
     headerTitle: "Détail de la carte",
     presentation: "formSheet",
-    headerShown: false,
+    headerShown: true,
+    headerLargeTitle: true,
+    headerTransparent: true,
     sheetCornerRadius: 16,
     sheetGrabberVisible: true,
     sheetExpandsWhenScrolledToEdge: true,
     // @ts-expect-error
     sheetInitialDetent: 0,
-    sheetAllowedDetents: "all",
   }),
   createScreen("SettingsTabs", SettingsTabs, {
     headerTitle: "Onglets et navigation",

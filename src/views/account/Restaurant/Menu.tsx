@@ -205,6 +205,10 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
         const dailyMenu = account ? await getMenu(account, pickerDate).catch(() => null) : null;
         const accountPromises = linkedAccounts.map(async (account) => {
           try {
+            if (!account || !account.service) {
+              return;
+            }
+
             const [balance, history, cardnumber, booking] = await Promise.all([
               balanceFromExternal(account, isRefreshing).catch(err => {
                 console.warn(`Error fetching balance for account ${account}:`, err);

@@ -231,6 +231,7 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
+            progressViewOffset={70}
             onRefresh={() => {
               setIsRefreshing(true);
               if(account.identityProvider?.identifier) {

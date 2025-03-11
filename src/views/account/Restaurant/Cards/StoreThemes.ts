@@ -1,3 +1,4 @@
+
 export interface StoreTheme {
   id: string;
   name: string;
@@ -7,6 +8,14 @@ export interface StoreTheme {
     accent: string;
   };
   background: any;
+  links?: [
+    {
+      label: string;
+      subtitle?: string;
+      sfSymbol?: string;
+      url: string;
+    }
+  ];
 }
 
 export const STORE_THEMES = [
@@ -29,6 +38,14 @@ export const STORE_THEMES = [
       accent: "#DD1314",
     },
     background: require("../../../../../assets/images/cards/Carte_Cover_Izly.png"),
+    links: [
+      {
+        label: "Recharger ou gérer ma carte",
+        subtitle: "Mon Espace Izly",
+        sfSymbol: "arrow.up.forward.app",
+        url: "https://mon-espace.izly.fr/",
+      },
+    ],
   },
   {
     id: "Turboself",
@@ -60,5 +77,4 @@ export const STORE_THEMES = [
     },
     background: require("../../../../../assets/images/cards/Carte_Cover_Alise.png"),
   },
-
 ];

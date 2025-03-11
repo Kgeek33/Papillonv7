@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { NativeList, NativeText } from "@/components/Global/NativeComponents";
 import { leadingZero } from "@/utils/format/attendance_time";
 import { animPapillon } from "@/utils/ui/animations";
-import { FadeIn, FadeOut } from "react-native-reanimated";
+import Reanimated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useTheme } from "@react-navigation/native";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
 
@@ -37,11 +37,12 @@ const TotalMissed = ({ totalMissed }: TotalMissedProps) => {
         }}
       >
         <View>
-          <View
+          <Reanimated.View
             style={{
               flexDirection: "row",
               gap: 5,
               alignItems: "flex-end",
+              marginLeft: 2,
             }}
           >
             <AnimatedNumber
@@ -53,6 +54,7 @@ const TotalMissed = ({ totalMissed }: TotalMissedProps) => {
               }}
             />
             <NativeText
+              animated
               style={{
                 fontSize: 18,
                 lineHeight: 18,
@@ -62,7 +64,7 @@ const TotalMissed = ({ totalMissed }: TotalMissedProps) => {
             >
               h {leadingZero(totalMissed.total.minutes)}
             </NativeText>
-          </View>
+          </Reanimated.View>
           <NativeText
             style={{
               color: theme.colors.text + "88",

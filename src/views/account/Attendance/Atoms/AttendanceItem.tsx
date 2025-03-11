@@ -9,6 +9,7 @@ import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeCo
 import { leadingZero } from "@/utils/format/attendance_time";
 import { animPapillon } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
+import { timestampToString } from "@/utils/format/DateHelper";
 
 interface AttendanceItemProps {
   title: string
@@ -152,19 +153,22 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
             </NativeText>
 
             {not_justified ? (
-              <NativeText variant="default" style={{
+              <NativeText variant="overtitle" style={{
                 color: "#D10000",
               }}>
                 Non justifié
               </NativeText>
             ) : (
-              <NativeText variant="default" style={{
+              <NativeText variant="overtitle" style={{
                 color: "#29947A",
               }}>
                 Justifié
               </NativeText>
             )}
 
+            <NativeText variant="default">
+              {timestampToString(timestamp)}
+            </NativeText>
             <NativeText variant="subtitle">
               {dateString}
             </NativeText>

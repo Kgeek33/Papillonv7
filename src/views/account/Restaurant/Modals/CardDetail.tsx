@@ -1,8 +1,7 @@
-import { Image, ScrollView, Text, View } from "react-native";
+import { Alert, Image, Linking, Platform, ScrollView, Text, View } from "react-native";
 import MenuCard from "../Cards/Card";
 import Reanimated from "react-native-reanimated";
 import React, { useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
 import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeComponents";
 
 import { formatDistance } from "date-fns";
@@ -11,13 +10,16 @@ import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { useTheme } from "@react-navigation/native";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { PressableScale } from "react-native-pressable-scale";
-import { useCurrentAccount } from "@/stores/account";
+import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { AccountService, ExternalAccount } from "@/stores/account/types";
-import { QrCode } from "lucide-react-native";
+import { ExternalLink, MoreHorizontal, QrCode, Trash2 } from "lucide-react-native";
 import { balanceFromExternal } from "@/services/balance";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
 import { Screen } from "@/router/helpers/types";
 import { formatCardIdentifier } from "../Menu";
+import { LinearGradient } from "expo-linear-gradient";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import PapillonPicker from "@/components/Global/PapillonPicker";
 
 const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigation }) => {
   try {
@@ -27,6 +29,9 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
     const theme = useTheme();
 
     const account = useCurrentAccount((store) => store.account);
+    const removeAccount = useAccounts((state) => state.remove);
+
+    const cardName = `Carte ${AccountService[route.params.card.service as AccountService]} ${account?.identity?.firstName ? "de " + account.identity.firstName : ""}`;
 
     const updateCardData = async () => {
       const [balance, history] = await Promise.all([
@@ -57,21 +62,73 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
       return unsubscribe;
     }, []);
 
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: cardName ?? "Détail de la carte",
+        headerLargeTitleStyle: {
+          color: "transparent",
+        },
+        headerLargeStyle: {
+          backgroundColor: "transparent",
+        },
+        headerStyle: {
+          backgroundColor: theme.colors.card + "55",
+        },
+        headerBlurEffect: "regular",
+        headerRight: () => (
+          <PapillonPicker
+            data={[
+              ...card.theme.links?.map((link) => ({
+                label: link.label,
+                subtitle: link.subtitle,
+                sfSymbol: link.sfSymbol,
+                icon: <ExternalLink />,
+                onPress: () => Linking.openURL(link.url),
+              })) ?? [],
+              {
+                label: "Supprimer",
+                icon: <Trash2 />,
+                sfSymbol: "trash",
+                destructive: true,
+                onPress: () => {
+                  Alert.alert(
+                    "Supprimer la carte",
+                    "Es-tu sûr de vouloir supprimer la " + (cardName ?? "carte") + " ?",
+                    [
+                      { text: "Annuler", style: "cancel" },
+                      {
+                        text: "Supprimer",
+                        style: "destructive",
+                        onPress: () => {
+                          try {
+                            removeAccount(card.account?.localID);
+                            navigation.goBack();
+                          }
+                          catch (e) {
+                            console.log(e);
+                          }
+                        }
+                      }
+                    ]
+                  );
+                }
+              }
+            ]}
+          >
+            <TouchableOpacity
+              activeOpacity={0.5}
+            >
+              <MoreHorizontal opacity={0.7} size={24} color={theme.colors.text} />
+            </TouchableOpacity>
+          </PapillonPicker>
+        ),
+      });
+    }, [navigation, theme]);
+
     return (
       <>
-        <LinearGradient
-          colors={[route.params.card.theme.colors.background + "00", route.params.card.theme.colors.background, route.params.card.theme.colors.background + "00"]}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 600,
-            opacity: 0.1,
-          }}
-        />
-
         <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
           style={{
             flex: 1,
           }}
@@ -82,13 +139,18 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
           <PressableScale
             weight="light"
             activeScale={0.95}
+            style={[
+              Platform.OS === "ios" ? {
+                marginTop: -76,
+              } : null
+            ]}
           >
             <Reanimated.View
               style={{
                 transform: [
-                  { scale: 0.8 },
+                  { scale: 0.85 },
                 ],
-                marginVertical: 0,
+                marginVertical: 4,
               }}
               pointerEvents={"none"}
             >
@@ -117,7 +179,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                   color: theme.colors.text,
                 }}
               >
-                Carte {AccountService[route.params.card.service as AccountService]} {account?.identity?.firstName ? "de " + account.identity.firstName : ""}
+                {cardName}
               </Text>
             </View>
             <Text
@@ -270,6 +332,19 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
 
           <InsetsBottomView />
         </ScrollView>
+
+        <LinearGradient
+          pointerEvents="none"
+          colors={[route.params.card.theme.colors.background + "00", route.params.card.theme.colors.background, route.params.card.theme.colors.background + "00"]}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 600,
+            opacity: 0.1,
+          }}
+        />
       </>
     );
   }
