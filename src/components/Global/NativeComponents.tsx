@@ -142,7 +142,6 @@ export const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label,
 
       <View
         style={{
-          flex: 1,
           flexDirection: "row",
           justifyContent: "flex-end",
         }}
