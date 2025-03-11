@@ -3,20 +3,14 @@
     "label": "accompagnementperso",
     "pretty": "Accompagnement personnalisé",
     "formats": {
-      "default": [
-        "accompagnement personnalise",
-        "accompagnemt perso"
-      ]
+      "default": ["accompagnement personnalise", "accompagnemt perso"]
     }
   },
   {
     "label": "atprofessionnalis",
     "pretty": "Atelier de professionnalisation",
     "formats": {
-      "default": [
-        "atelier de professionnalisation",
-        "at professionnalis"
-      ]
+      "default": ["atelier de professionnalisation", "at professionnalis"]
     }
   },
   {
@@ -53,10 +47,7 @@
     "label": "bloc3tp",
     "pretty": "Bloc 3 : Travaux pratiques",
     "formats": {
-      "default": [
-        "bloc 3 travaux pratiques",
-        "bloc 3 tp"
-      ]
+      "default": ["bloc 3 travaux pratiques", "bloc 3 tp"]
     }
   },
   {
@@ -73,10 +64,7 @@
     "label": "culturegeneetexpr",
     "pretty": "Culture génerale et expression",
     "formats": {
-      "default": [
-        "culture generale et expression",
-        "culture gene et expr"
-      ]
+      "default": ["culture generale et expression", "culture gene et expr"]
     }
   },
   {
@@ -93,60 +81,42 @@
     "label": "dnlsesanglais",
     "pretty": "DNL : Sciences économiques et sociales en anglais",
     "formats": {
-      "default": [
-        "dnl ses anglais"
-      ]
+      "default": ["dnl ses anglais"]
     }
   },
   {
     "label": "educationcivique",
     "pretty": "Éducation civique",
     "formats": {
-      "default": [
-        "education civique"
-      ]
+      "default": ["education civique"]
     }
   },
   {
     "label": "enseignscientifique",
     "pretty": "Enseignement scientifique",
     "formats": {
-      "default": [
-        "enseignement scientifique",
-        "enseign scientifique"
-      ]
+      "default": ["enseignement scientifique", "enseign scientifique"]
     }
   },
   {
     "label": "edphysiquesport",
     "pretty": "Éducation physique & sportive",
     "formats": {
-      "default": [
-        "education physique et sportive",
-        "ed physique sport",
-        "eps"
-      ]
+      "default": ["education physique et sportive", "ed physique sport", "eps"]
     }
   },
   {
     "label": "educationmusicale",
     "pretty": "Éducation musicale",
     "formats": {
-      "default": [
-        "education musicale",
-        "educ musicale",
-        "musique"
-      ]
+      "default": ["education musicale", "educ musicale", "musique"]
     }
   },
   {
     "label": "francais",
     "pretty": "Français",
     "formats": {
-      "default": [
-        "français",
-        "francais"
-      ]
+      "default": ["français", "francais"]
     }
   },
   {
@@ -165,30 +135,21 @@
     "label": "humanlitterphilo",
     "pretty": "Humanites, Littérature & Philosophie",
     "formats": {
-      "default": [
-        "humanites litterature philosophie",
-        "human litter philo"
-      ]
+      "default": ["humanites litterature philosophie", "human litter philo"]
     }
   },
   {
     "label": "llcanglmondcont",
     "pretty": "LLCER Anglais Monde Contemporain",
     "formats": {
-      "default": [
-        "llcer anglais monde contemporain",
-        "llc angl mond cont"
-      ]
+      "default": ["llcer anglais monde contemporain", "llc angl mond cont"]
     }
   },
   {
     "label": "mathspourinformatq",
     "pretty": "Mathématiques pour l’Informatique",
     "formats": {
-      "default": [
-        "mathematiques pour l’informatique",
-        "maths pour informatq"
-      ]
+      "default": ["mathematiques pour l’informatique", "maths pour informatq"]
     }
   },
   {
@@ -208,10 +169,7 @@
     "label": "numeriquescinform",
     "pretty": "Numérique & Sciences Informatiques",
     "formats": {
-      "default": [
-        "numerique et sciences informatiques",
-        "numerique sc inform"
-      ]
+      "default": ["numerique et sciences informatiques", "numerique sc inform"]
     }
   },
   {
@@ -231,10 +189,7 @@
     "label": "sceconosociales",
     "pretty": "Sciences Économiques & Sociales",
     "formats": {
-      "default": [
-        "sciences economiques et sociales",
-        "sc econo sociales"
-      ]
+      "default": ["sciences economiques et sociales", "sc econo sociales"]
     }
   },
   {
@@ -252,151 +207,119 @@
     "label": "scnumeriqtechnol",
     "pretty": "Sciences Numériques & Technologie",
     "formats": {
-      "default": [
-        "sciences numeriques et technologie",
-        "sc numeriq technol"
-      ]
+      "default": ["sciences numeriques et technologie", "sc numeriq technol"]
     }
   },
   {
     "label": "viedeclasse",
     "pretty": "Vie de classe",
     "formats": {
-      "default": [
-        "vie de classe",
-        "vie de classe"
-      ]
+      "default": ["vie de classe", "vie de classe"]
     }
   },
   {
     "label": "integration",
     "pretty": "Intégration",
     "formats": {
-      "default": [
-        "integration"
-      ]
+      "default": ["integration"]
     }
   },
   {
     "label": "marketing",
     "pretty": "Marketing",
     "formats": {
-      "default": [
-        "sdc marketing"
-      ]
+      "default": ["sdc marketing"]
     }
   },
   {
     "label": "gestiondeprojet",
     "pretty": "Gestion de projet",
     "formats": {
-      "default": [
-        "gestion de projet"
-      ]
+      "default": ["gestion de projet"]
     }
   },
   {
     "label": "culturenum",
     "pretty": "Culture numérique",
     "formats": {
-      "default": [
-        "culture num"
-      ]
+      "default": ["culture num"]
     }
   },
   {
     "label": "developpementweb",
     "pretty": "Développement web",
     "formats": {
-      "default": [
-        "developpement web"
-      ]
+      "default": ["developpement web"]
     }
   },
   {
     "label": "traitementdelinformation",
     "pretty": "Traitement de l'information",
     "formats": {
-      "default": [
-        "traitement de l information",
-        "traitement de linformation"
-      ]
+      "default": ["traitement de l information", "traitement de linformation"]
     }
   },
   {
     "label": "prodgraphique",
     "pretty": "Production graphique",
     "formats": {
-      "default": [
-        "prod graphique"
-      ]
+      "default": ["prod graphique"]
     }
   },
   {
     "label": "expressioncom",
     "pretty": "Expression & communication",
     "formats": {
-      "default": [
-        "expression com"
-      ]
+      "default": ["expression com"]
     }
   },
   {
     "label": "prodaudiovisuelle",
     "pretty": "Production audiovisuelle",
     "formats": {
-      "default": [
-        "prod audiovisuelle",
-        "prod audio visuelle"
-      ]
+      "default": ["prod audiovisuelle", "prod audio visuelle"]
     }
   },
   {
     "label": "ecrituremedianum",
     "pretty": "Écriture média numérique",
     "formats": {
-      "default": [
-        "ecriture media num"
-      ]
+      "default": ["ecriture media num"]
     }
   },
   {
     "label": "methodologie",
     "pretty": "Méthodologie",
     "formats": {
-      "default": [
-        "methodologie"
-      ]
+      "default": ["methodologie"]
     }
   },
   {
     "label": "ecoetdroitdunumerique",
     "pretty": "Éco. & droit du numérique",
     "formats": {
-      "default": [
-        "eco et droit du numerique"
-      ]
+      "default": ["eco et droit du numerique"]
     }
   },
   {
     "label": "special",
     "pretty": "Cours exceptionnel obligatoire",
     "formats": {
-      "default": [
-        "action intervention sortie examen"
-      ]
+      "default": ["action intervention sortie examen"]
+    }
+  },
+  {
+    "label": "sysdinfo",
+    "pretty": "Systèmes d'information",
+    "formats": {
+      "default": ["sys d info", "sysdinfo", "sys dinfo", "systemes information", "systemes info"]
     }
   },
   {
     "label": "art",
     "pretty": "Arts Plastiques",
     "formats": {
-      "default": [
-        "arts plastiques",
-        "arts",
-        "arts plast",
-        "arts pla"
-      ]
+      "default": ["arts plastiques", "arts", "arts plast", "arts pla"]
     }
   }
 ]
