@@ -1,18 +1,19 @@
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { Dimensions, Modal, Platform, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Platform, Pressable, Text, TouchableOpacity, View } from "react-native";
 
 import { X } from "lucide-react-native";
 
 import Reanimated, {
-  FadeInDown,
-  FadeOutDown,
+  FadeIn,
+  FadeOut,
   LinearTransition,
 } from "react-native-reanimated";
 
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {animPapillon} from "@/utils/ui/animations";
+import {animPapillon, PapillonContextEnter, PapillonContextExit} from "@/utils/ui/animations";
+import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 interface HeaderCalendarProps {
   index: number,
@@ -44,6 +45,7 @@ interface LessonsDateModalProps {
   currentPageIndex?: number,
   defaultDate?: Date,
   currentDate: Date,
+  topOffset?: number,
   // NOTE: PagerRef is hard to type, may need help on this ?
   PagerRef?: React.RefObject<any>,
   getDateFromIndex?: (index: number) => Date
@@ -53,10 +55,24 @@ const LessonsDateModal: React.FC<LessonsDateModalProps> = ({
   showDatePicker,
   setShowDatePicker,
   onDateSelect,
-  currentDate
+  currentDate,
+  topOffset
 }) => {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
+
+  const [showModalPicker, setShowModalPicker] = React.useState(false);
+  const {isTablet} = useScreenDimensions();
+
+  React.useEffect(() => {
+    if (showDatePicker) {
+      setShowModalPicker(true);
+    } else {
+      setTimeout(() => {
+        setShowModalPicker(false);
+      }, 200);
+    }
+  }, [showDatePicker]);
 
   if (Platform.OS === "android") {
     return (
@@ -84,108 +100,120 @@ const LessonsDateModal: React.FC<LessonsDateModalProps> = ({
 
   return (
     <Modal
-      animationType="fade"
       transparent={true}
-      visible={showDatePicker}
+      visible={showModalPicker}
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          backgroundColor: "#00000099",
-          paddingBottom: insets.bottom + 10,
-        }}
-      >
-        <Pressable
+      {showDatePicker && (
+        <Reanimated.View
           style={{
-            width: "100%",
             flex: 1,
+            justifyContent: "flex-end",
+            alignItems: "center",
+            backgroundColor: "#00000099",
+            paddingBottom: insets.bottom + 10,
           }}
-          onPress={() => setShowDatePicker(false)}
-        />
-
-        {showDatePicker && (
-          <Reanimated.View
+          entering={FadeIn.duration(200)}
+          exiting={FadeOut.duration(200)}
+        >
+          <Pressable
             style={{
-              width: Dimensions.get("window").width - 20,
-              backgroundColor: colors.card,
-              overflow: "hidden",
-              borderRadius: 16,
-              borderCurve: "continuous",
+              width: "100%",
+              flex: 1,
             }}
-            entering={FadeInDown.mass(1).damping(20).stiffness(300)}
-            exiting={FadeOutDown.mass(1).damping(20).stiffness(300)}
-          >
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "flex-start",
-                paddingHorizontal: 18,
-                paddingVertical: 14,
-                backgroundColor: colors.primary,
-                gap: 2,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "medium",
-                  color: "#ffffff99",
-                }}
-              >
-                Sélection de la date
-              </Text>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontFamily: "semibold",
-                  color: "#fff",
-                }}
-              >
-                {new Date(currentDate).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
-              </Text>
+            onPress={() => setShowDatePicker(false)}
+          />
 
-              <TouchableOpacity
-                style={{
+          {showDatePicker && (
+            <Reanimated.View
+              style={[
+                {
+                  maxWidth: 400,
+                  backgroundColor: colors.card,
+                  overflow: "hidden",
+                  borderRadius: 16,
+                  borderCurve: "continuous",
+                  transformOrigin: "bottom center",
+                },
+                topOffset ? {
                   position: "absolute",
-                  right: 12,
-                  top: 12,
-                  backgroundColor: "#ffffff39",
-                  opacity: 0.7,
-                  padding: 6,
-                  borderRadius: 50,
+                  top: topOffset,
+                  left: 16 + (isTablet ? 320 : 0),
+                  transformOrigin: "top left",
+                } : null
+              ]}
+              entering={PapillonContextEnter}
+              exiting={PapillonContextExit}
+            >
+              <View
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  paddingHorizontal: 18,
+                  paddingVertical: 14,
+                  backgroundColor: colors.primary,
+                  gap: 2,
                 }}
-                onPress={() => setShowDatePicker(false)}
               >
-                <X
-                  size={20}
-                  strokeWidth={3}
-                  color="#fff"
-                />
-              </TouchableOpacity>
-            </View>
-            <RNDateTimePicker
-              style={{
-                marginHorizontal: 8,
-                marginTop: -5,
-                marginBottom: 10,
-              }}
-              value={new Date(currentDate)}
-              display="inline"
-              mode="date"
-              locale="fr-FR"
-              accentColor={colors.primary}
-              onChange={(_event, selectedDate) => {
-                const newSelectedDate = selectedDate || currentDate;
-                // set hours to 0
-                newSelectedDate.setHours(0, 0, 0, 0);
-                onDateSelect(newSelectedDate);
-              }}
-            />
-          </Reanimated.View>
-        )}
-      </View>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "medium",
+                    color: "#ffffff99",
+                  }}
+                >
+                  Sélection de la date
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontFamily: "semibold",
+                    color: "#fff",
+                  }}
+                >
+                  {new Date(currentDate).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                </Text>
+
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    right: 12,
+                    top: 12,
+                    backgroundColor: "#ffffff39",
+                    opacity: 0.7,
+                    padding: 6,
+                    borderRadius: 50,
+                  }}
+                  onPress={() => setShowDatePicker(false)}
+                >
+                  <X
+                    size={20}
+                    strokeWidth={3}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
+              </View>
+              <RNDateTimePicker
+                style={{
+                  marginHorizontal: 8,
+                  marginTop: -5,
+                  marginBottom: 10,
+                }}
+                value={new Date(currentDate)}
+                display="inline"
+                mode="date"
+                locale="fr-FR"
+                accentColor={colors.primary}
+                onChange={(_event, selectedDate) => {
+                  const newSelectedDate = selectedDate || currentDate;
+                  // set hours to 0
+                  newSelectedDate.setHours(0, 0, 0, 0);
+                  onDateSelect(newSelectedDate);
+                }}
+              />
+            </Reanimated.View>
+          )}
+        </Reanimated.View>
+      )}
     </Modal>
   );
 };

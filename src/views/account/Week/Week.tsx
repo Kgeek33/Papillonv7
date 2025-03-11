@@ -242,6 +242,8 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
   const [events, setEvents] = React.useState<CalendarKitEventItem[]>([]);
 
   useEffect(() => {
+    if(!timetables) return;
+
     const nevts = Object.values(timetables)
       .flat()
       .map(event => ({
