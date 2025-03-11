@@ -12,7 +12,7 @@ import { memo, useState } from "react";
 import { Image, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import Reanimated, { FadeIn, FadeInDown, FadeOut, FadeOutUp, LinearTransition } from "react-native-reanimated";
+import Reanimated, { FadeIn, FadeInDown, FadeInUp, FadeOut, FadeOutDown, FadeOutUp, LinearTransition } from "react-native-reanimated";
 
 const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: PrimaryAccount, navigation: any, selectedPeriod: string }) => {
   try {
@@ -209,8 +209,8 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
                       >
                         <Reanimated.View
                           key={"openUE-" + opened}
-                          entering={FadeIn.duration(100)}
-                          exiting={FadeOut.duration(100)}
+                          entering={(opened ? FadeInUp : FadeInDown).duration(200)}
+                          exiting={(opened ? FadeOutUp : FadeOutDown).duration(200)}
                         >
                           {opened ? <ChevronUp size={24} color={colors.text} /> : <ChevronDown size={24} color={colors.text} />}
                         </Reanimated.View>
