@@ -45,7 +45,7 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
     >
       {value.toString().split("").map((n: string, i: number) => (
         <Reanimated.View
-          key={`${value}_${i}`}
+          key={`${n}_${i}`}
           entering={shouldAnimate ? animPapillon(FadeInDown).delay(i * 20 + 20).mass(1).damping(30).stiffness(700) : undefined}
           exiting={shouldAnimate ? animPapillon(FadeOutUp).delay(i * 30) : undefined}
           layout={shouldAnimate ? animPapillon(LinearTransition) : undefined}
