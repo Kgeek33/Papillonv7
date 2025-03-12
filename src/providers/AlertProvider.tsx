@@ -20,7 +20,7 @@ import {
   PapillonContextExit,
 } from "@/utils/ui/animations";
 import { BlurView } from "expo-blur";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import NativeTouchable from "@/components/Global/NativeTouchable";
 
 type AlertAction = {
   title: string;
@@ -186,20 +186,32 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                         delayDisable,
                       }) => (
                         <Reanimated.View
+                          key={title}
                           layout={anim2Papillon(LinearTransition)}
                           style={[
                             (alert.actions?.length === 1 || (alert.actions ?? []).length > 2) && styles.singleButtonContainer,
+                            {
+                              borderRadius: 300,
+                              overflow: "hidden",
+                            }
                           ]}
                         >
-                          <TouchableOpacity
-                            key={title}
+                          <NativeTouchable
                             disabled={delays[title] > 0}
                             onPress={() => {
                               hideAlert();
                               onPress?.();
                             }}
+                            contentContainerStyle={{
+                              borderRadius: 300,
+                              overflow: "hidden",
+                            }}
                             style={[
                               (alert.actions?.length === 1 || (alert.actions ?? []).length > 2) && styles.singleButtonContainer,
+                              {
+                                borderRadius: 300,
+                                overflow: "hidden",
+                              }
                             ]}
                           >
                             <Reanimated.View
@@ -209,6 +221,10 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                                 {
                                   justifyContent: "center",
                                   alignItems: "center",
+                                },
+                                {
+                                  borderRadius: 300,
+                                  overflow: "hidden",
                                 },
                                 (alert.actions?.length === 1 || (alert.actions ?? []).length > 2) && styles.singleButton,
                                 primary && !danger
@@ -254,7 +270,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                             />
                               }
                             </Reanimated.View>
-                          </TouchableOpacity>
+                          </NativeTouchable>
                         </Reanimated.View>
                       )
                     )}
@@ -286,6 +302,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     paddingHorizontal: 10,
+    zIndex: 100000000,
   },
   pressable: {
     flex: 1,
