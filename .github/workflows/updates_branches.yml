@@ -2,7 +2,7 @@ name: 🔄️ Update Branches
 
 on:
   schedule:
-    - cron:  '30 7,21 * * *'
+    - cron:  '30 6,20 * * *'
   workflow_dispatch:
 
 jobs:
