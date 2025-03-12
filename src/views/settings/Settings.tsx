@@ -1,6 +1,6 @@
 import type { Screen } from "@/router/helpers/types";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { Alert, Image, Platform, Text, View } from "react-native";
+import { Image, Platform, Text, View } from "react-native";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PackageJSON from "../../../package.json";
@@ -35,7 +35,9 @@ import {
   X,
   Blocks,
   HelpCircle,
-  PersonStanding
+  PersonStanding,
+  Bug,
+  BadgeHelp
 } from "lucide-react-native";
 
 import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
@@ -232,6 +234,12 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           onPress: () => openUrl("https://support.papillon.bzh/"),
         },
         {
+          icon: <Bug />,
+          color: "#CF0029",
+          label: "Signaler un problème",
+          onPress: () => navigation.navigate("SettingsSupport"),
+        },
+        {
           icon: <Info />,
           color: "#888888",
           label: "À propos de Papillon",
@@ -246,15 +254,18 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#CF0029",
           label: "Se déconnecter",
           onPress: () => {
-            if (Platform.OS === "ios") {
-              Alert.alert("Se déconnecter", "Es-tu sûr de vouloir te déconnecter ?", [
+            showAlert({
+              title: "Se déconnecter",
+              message: "Es-tu sûr de vouloir te déconnecter ?",
+              icon: <BadgeHelp />,
+              actions: [
                 {
-                  text: "Annuler",
-                  style: "cancel",
+                  title: "Annuler",
+                  icon: <X />,
+                  primary: false,
                 },
                 {
-                  text: "Se déconnecter",
-                  style: "destructive",
+                  title: "Déconnexion",
                   onPress: () => {
                     removeAccount(account.localID);
                     navigation.reset({
@@ -262,36 +273,13 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                       routes: [{ name: "AccountSelector" }],
                     });
                   },
+                  danger: true,
+                  icon: <LogOut />,
+                  delayDisable: 5,
                 },
-              ]);
-            } else {
-              showAlert({
-                title: "Se déconnecter",
-                message: "Es-tu sûr de vouloir te déconnecter ?",
-                actions: [
-                  {
-                    title: "Annuler",
-                    onPress: () => {},
-                    backgroundColor: colors.card,
-                    icon: <X color={colors.text} />,
-                  },
-                  {
-                    title: "Se déconnecter",
-                    onPress: () => {
-                      removeAccount(account.localID);
-                      navigation.reset({
-                        index: 0,
-                        routes: [{ name: "AccountSelector" }],
-                      });
-                    },
-                    primary: true,
-                    backgroundColor: "#CF0029",
-                    icon: <LogOut color="#FFFFFF" />,
-                  },
-                ],
-              });
-            }
-          },
+              ],
+            });
+          }
         },
       ]
     }

@@ -79,6 +79,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
         }}
         menuConfig={{
           menuTitle: "",
+          // @ts-ignore
           menuItems: data.filter((item) => item !== null).map((item, index) => {
             return {
               actionKey: "action-"+index.toString(),

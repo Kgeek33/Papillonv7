@@ -23,6 +23,8 @@ import Reanimated, {
 } from "react-native-reanimated";
 import { anim2Papillon } from "@/utils/ui/animations";
 
+import { Text as SwiftUIText } from "swiftui-react-native";
+
 import * as Haptics from "expo-haptics";
 import { PressableScale } from "react-native-pressable-scale";
 import { ReanimatedGraphProps, ReanimatedGraphPublicMethods } from "@birdwingo/react-native-reanimated-graph/src/core/dto/graphDTO";
@@ -34,6 +36,7 @@ import { useAlert } from "@/providers/AlertProvider";
 // Using require to set custom types bc module types are broken
 const ReanimatedGraph: React.ForwardRefExoticComponent<ReanimatedGraphProps & React.RefAttributes<ReanimatedGraphPublicMethods>> = require("@birdwingo/react-native-reanimated-graph").default;
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
+import { isExpoGo } from "@/utils/native/expoGoAlert";
 
 interface GradesAverageGraphProps {
   grades: Grade[];
@@ -115,12 +118,17 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
   }, [grades, account.instance]);
 
   const updateTo = useCallback(
-    (index: number) => {
-      if (index < 0 || index > gradesHistoryRef.current.length - 1) return;
-      if (!gradesHistoryRef.current[index]?.value) return;
+    (index: number, x: number, y: number) => {
+      try {
+        if (index < 0 || index > gradesHistoryRef.current.length - 1) return;
+        if (!gradesHistoryRef.current[index]?.value) return;
 
-      setSelectedDate(gradesHistoryRef.current[index].date);
-      setCurrentAvg(gradesHistoryRef.current[index].value);
+        setSelectedDate(gradesHistoryRef.current[index].date);
+        setCurrentAvg(gradesHistoryRef.current[index].value);
+      }
+      catch (e) {
+        console.error(e);
+      }
     },
     [gradesHistoryRef]
   );
@@ -132,17 +140,17 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
 
   const theoryAvgDisclaimer = useCallback(() => {
     showAlert({
-      icon: <TrendingUp />,
       title: "Moyenne théorique",
-      message: "La moyenne théorique est calculée en prenant en compte toutes les moyennes de tes matières. Elle est donc purement indicative et ne reflète pas la réalité des différentes options ou variations."
+      message: "La moyenne théorique est calculée en prenant en compte toutes les moyennes de tes matières. Elle est donc purement indicative et ne reflète pas la réalité des différentes options ou variations.",
+      icon: <TrendingUp />,
     });
   }, []);
 
   const estimatedAvgDisclaimer = useCallback(() => {
     showAlert({
-      icon: <PieChart />,
       title: "Moyenne générale estimée",
       message: "L'estimation automatique des moyennes n'est pas une information exacte, mais une approximation qui essaye de s'en rapprocher un maximum.",
+      icon: <PieChart />,
       actions: [
         {
           title: "En savoir plus",
@@ -247,10 +255,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                   ref={graphRef}
                   animationDuration={400}
                   onGestureUpdate={(x, y, index) => {
-                    if (index < 0 || index > gradesHistory.length - 1) return;
-                    if (!gradesHistory[index]?.value) return;
-
-                    updateTo(index);
+                    updateTo(index, x, y);
                   }}
                   onGestureEnd={() => {
                     resetToOriginal();
@@ -323,11 +328,24 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                   style={[styles.gradeValue]}
                   layout={anim2Papillon(LinearTransition)}
                 >
-                  <AnimatedNumber
-                    value={currentAvg.toFixed(2)}
-                    style={styles.gradeNumber}
-                    contentContainerStyle={{ marginLeft: -2 }}
-                  />
+                  {Platform.OS === "ios" && !isExpoGo() ? (
+                    <SwiftUIText
+                      contentTransition="numericText"
+                      animation={{
+                        type: "spring",
+                        value: currentAvg.toFixed(2),
+                      }}
+                      fontSize={24}
+                      fontWeight="bold"
+                      style={{ marginVertical: -1 }}
+                    >
+                      {currentAvg.toFixed(2)}
+                    </SwiftUIText> ) : (
+                    <AnimatedNumber
+                      value={currentAvg.toFixed(2)}
+                      style={styles.gradeNumber}
+                      contentContainerStyle={{ marginLeft: -2 }}
+                    /> )}
 
                   <Reanimated.View layout={anim2Papillon(LinearTransition)}>
                     <NativeText style={[styles.gradeOutOf]}>/20</NativeText>
@@ -342,10 +360,24 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                 >
                   { !Number.isNaN(classAvg) ? (
                     <>
-                      <AnimatedNumber
-                        value={classAvg.toFixed(2)}
-                        style={styles.gradeNumberClass}
-                      />
+                      {Platform.OS === "ios" && !isExpoGo() ? (
+                        <SwiftUIText
+                          contentTransition="numericText"
+                          animation={{
+                            type: "spring",
+                            value: classAvg.toFixed(2),
+                          }}
+                          fontSize={24}
+                          fontWeight="regular"
+                          style={{ marginVertical: -1 }}
+                        >
+                          {classAvg.toFixed(2)}
+                        </SwiftUIText> ) : (
+                        <AnimatedNumber
+                          value={classAvg.toFixed(2)}
+                          style={styles.gradeNumber}
+                          contentContainerStyle={{ marginLeft: -2 }}
+                        /> )}
                       <Reanimated.View layout={anim2Papillon(LinearTransition)}>
                         <NativeText style={[styles.gradeOutOf]}>/20</NativeText>
                       </Reanimated.View>

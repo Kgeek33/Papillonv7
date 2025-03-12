@@ -130,6 +130,7 @@ export type RouteParameters = {
   SettingsProfile: undefined;
   SettingsTabs: undefined;
   SettingsAbout: undefined;
+  SettingsSupport: undefined;
   SettingsIcons: undefined;
   SettingsSubjects: undefined;
   SettingsExternalServices: undefined;

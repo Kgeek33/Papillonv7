@@ -101,7 +101,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                         style: "destructive",
                         onPress: () => {
                           try {
-                            removeAccount(card.account?.localID);
+                            removeAccount(card.account?.localID as string);
                             navigation.goBack();
                           }
                           catch (e) {

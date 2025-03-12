@@ -4,6 +4,7 @@ import SettingsNotifications from "@/views/settings/SettingsNotifications";
 import SettingsProfile from "@/views/settings/SettingsProfile";
 import SettingsTrophies  from "@/views/settings/SettingsTrophies";
 import SettingsAbout from "@/views/settings/SettingsAbout";
+import SettingsSupport from "@/views/settings/SettingsSupport";
 import SettingsIcons from "@/views/settings/SettingsIcons";
 import SettingsSubjects from "@/views/settings/SettingsSubjects";
 import SettingsExternalServices from "@/views/settings/SettingsExternalServices";
@@ -48,6 +49,9 @@ const settingsScreens = [
   }),
   createScreen("SettingsAbout", SettingsAbout, {
     headerTitle: "À propos",
+  }),
+  createScreen("SettingsSupport", SettingsSupport, {
+    headerTitle: "Contacter le support",
   }),
   createScreen("SettingsIcons", SettingsIcons, {
     headerTitle: "Icônes",
