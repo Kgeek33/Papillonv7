@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import type {Screen} from "@/router/helpers/types";
 import {useTheme} from "@react-navigation/native";
 import {SafeAreaView, useSafeAreaInsets} from "react-native-safe-area-context";
-import { Keyboard, KeyboardAvoidingView, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
+import { Alert, Keyboard, KeyboardAvoidingView, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
 import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBubble";
 import { NativeText,} from "@/components/Global/NativeComponents";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
@@ -13,7 +13,7 @@ import uuid from "@/utils/uuid-v4";
 
 import * as Linking from "expo-linking";
 import { useAlert } from "@/providers/AlertProvider";
-import { ArrowRightFromLine, BadgeHelp, BadgeX, Undo2 } from "lucide-react-native";
+import { BadgeX } from "lucide-react-native";
 
 const IzlyActivation: Screen<"IzlyActivation"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -40,6 +40,13 @@ const IzlyActivation: Screen<"IzlyActivation"> = ({ navigation, route }) => {
         console.log("[IzlyActivation] Ignoring link:", url);
       }
     };
+
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        handleDeepLink({ url });
+      }
+    });
+
     Linking.addEventListener("url", handleDeepLink);
   }, []);
 
@@ -129,24 +136,17 @@ const IzlyActivation: Screen<"IzlyActivation"> = ({ navigation, route }) => {
               value="Annuler"
               disabled={loading}
               onPress={() => {
-                showAlert({
-                  title: "Annuler",
-                  message: "Es-tu sûr de vouloir annuler l'activation ?",
-                  icon: <BadgeHelp />,
-                  actions: [
-                    {
-                      title: "Continuer l'activation",
-                      icon: <ArrowRightFromLine />,
-                      primary: false,
-                    },
-                    {
-                      title: "Confirmer",
-                      icon: <Undo2 />,
-                      onPress: () => navigation.pop(),
-                      danger: true,
-                    }
-                  ]
-                });
+                Alert.alert("Annuler", "Es-tu sûr de vouloir annuler l'activation ?", [
+                  {
+                    text: "Continuer",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Annuler l'activation",
+                    onPress: () => navigation.pop(),
+                    style: "destructive",
+                  },
+                ]);
               }}
             />
           </View>

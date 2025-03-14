@@ -11,6 +11,7 @@ import type { Attendance } from "@/services/shared/Attendance";
 import { FadeInDown, FadeOut } from "react-native-reanimated";
 import MissingItem from "@/components/Global/MissingItem";
 import { updateAttendanceInCache, updateAttendancePeriodsInCache } from "@/services/attendance";
+import PapillonLoading from "@/components/Global/PapillonLoading";
 
 
 interface AttendanceElementProps {
@@ -111,10 +112,8 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
             exiting={FadeOut.duration(300)}
           >
             <NativeItem animated style={{ paddingVertical: 10 }}>
-              <MissingItem
-                emoji="⏳"
-                title="Chargement de la Vie Scolaire"
-                description="Patiente, s'il te plaît..."
+              <PapillonLoading
+                title="Chargement de la vie scolaire"
               />
             </NativeItem>
           </NativeList>

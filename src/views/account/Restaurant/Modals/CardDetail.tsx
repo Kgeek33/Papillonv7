@@ -34,23 +34,28 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
     const cardName = `Carte ${AccountService[route.params.card.service as AccountService]} ${account?.identity?.firstName ? "de " + account.identity.firstName : ""}`;
 
     const updateCardData = async () => {
-      const [balance, history] = await Promise.all([
-        balanceFromExternal(route.params.card.account as ExternalAccount).catch(err => {
-          console.warn(`Error fetching balance for account ${account}:`, err);
-          return [];
-        }),
-        reservationHistoryFromExternal(route.params.card.account as ExternalAccount).catch(err => {
-          console.warn(`Error fetching history for account ${account}:`, err);
-          return [];
-        })
-      ]);
+      try {
+        const [balance, history] = await Promise.all([
+          balanceFromExternal(route.params.card.account as ExternalAccount).catch(err => {
+            console.warn(`Error fetching balance for account ${account}:`, err);
+            return [];
+          }),
+          reservationHistoryFromExternal(route.params.card.account as ExternalAccount).catch(err => {
+            console.warn(`Error fetching history for account ${account}:`, err);
+            return [];
+          })
+        ]);
 
-      setCardData({
-        ...card,
-        // @ts-expect-error
-        balance: balance,
-        history: history,
-      });
+        setCardData({
+          ...card,
+          // @ts-expect-error
+          balance: balance,
+          history: history,
+        });
+      }
+      catch (e) {
+        console.log(e);
+      }
     };
 
     React.useEffect(() => {

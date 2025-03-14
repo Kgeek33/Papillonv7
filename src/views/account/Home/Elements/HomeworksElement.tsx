@@ -13,6 +13,7 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RouteParameters} from "@/router/helpers/types";
 import { FadeInDown, FadeOut } from "react-native-reanimated";
 import MissingItem from "@/components/Global/MissingItem";
+import PapillonLoading from "@/components/Global/PapillonLoading";
 
 interface HomeworksElementProps {
   onImportance: (value: number) => unknown
@@ -94,10 +95,8 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
             exiting={FadeOut.duration(300)}
           >
             <NativeItem animated style={{ paddingVertical: 10 }}>
-              <MissingItem
-                emoji="⏳"
+              <PapillonLoading
                 title="Chargement des devoirs"
-                description="Patiente, s'il te plaît..."
               />
             </NativeItem>
           </NativeList>

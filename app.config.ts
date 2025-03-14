@@ -6,7 +6,7 @@ export default (): ExpoConfig => ({
   slug: PackageJSON.name,
   scheme: "papillon",
   version: PackageJSON.version,
-  orientation: "default",
+  orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
   primaryColor: "#32AB8E",

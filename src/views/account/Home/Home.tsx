@@ -39,6 +39,7 @@ import {useIsFocused, useTheme} from "@react-navigation/native";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {
   Dimensions,
+  Linking,
   Platform,
   RefreshControl,
   StatusBar,
@@ -62,6 +63,8 @@ import ModalContent from "@/views/account/Home/ModalContent";
 import {AnimatedScrollView} from "react-native-reanimated/lib/typescript/reanimated2/component/ScrollView";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
+import { useAlert } from "@/providers/AlertProvider";
+import { ArrowLeft, Menu, Plus } from "lucide-react-native";
 
 const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   const { colors } = useTheme();
@@ -71,6 +74,7 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   const { playHaptics } = useSoundHapticsWrapper();
 
   const {isTablet} = useScreenDimensions();
+  const { showAlert } = useAlert();
 
   let scrollRef = useAnimatedRef<AnimatedScrollView>();
   let scrollOffset = useScrollViewOffset(scrollRef);
@@ -90,8 +94,42 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
           routes: [{ name: "FirstInstallation" }],
         });
       }
+      else {
+        Linking.getInitialURL().then((url) => {
+          manageIzlyLogin(url || "");
+        });
+      }
     }();
+
+    Linking.addEventListener("url", (event) => {
+      manageIzlyLogin(event.url);
+    });
   }, [accounts]);
+
+  const manageIzlyLogin = (url: string) => {
+    if (url) {
+      const scheme = url.split(":")[0];
+      if (scheme === "izly") {
+        showAlert({
+          title: "Activation de compte Izly",
+          message: "Papillon gère la connexion au service Izly. Ouvrez les paramètres de services de cantine pour activer votre compte.",
+          icon: <Menu />,
+          actions: [
+            {
+              title: "Annuler",
+              icon: <ArrowLeft />,
+            },
+            {
+              title: "Ajouter mon compte",
+              icon: <Plus />,
+              onPress: () => navigation.navigate("SettingStack", { view: "IzlyActivation" }),
+              primary: true,
+            }
+          ],
+        });
+      }
+    }
+  };
 
   const [shouldOpenContextMenu, setShouldOpenContextMenu] = useState(false);
 

@@ -9,6 +9,7 @@ import type { Grade } from "@/services/shared/Grade";
 import RedirectButton from "@/components/Home/RedirectButton";
 import { FadeInDown, FadeOut } from "react-native-reanimated";
 import MissingItem from "@/components/Global/MissingItem";
+import PapillonLoading from "@/components/Global/PapillonLoading";
 
 interface GradesElementProps {
   onImportance: (value: number) => unknown
@@ -86,10 +87,8 @@ const GradesElement: React.FC<GradesElementProps> = ({ onImportance }) => {
           exiting={FadeOut.duration(300)}
         >
           <NativeItem animated style={{ paddingVertical: 10 }}>
-            <MissingItem
-              emoji="⏳"
+            <PapillonLoading
               title="Chargement des notes"
-              description="Patiente, s'il te plaît..."
             />
           </NativeItem>
         </NativeList>

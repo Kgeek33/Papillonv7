@@ -191,7 +191,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           <Page
             hasServiceSetup={hasServiceSetup}
             paddingTop={outsideNav ? 80 : insets.top + 56}
-            current={date.getTime() === pickerDate.getTime()}
+            current={true}
             date={date}
             day={getAllLessonsForDay(date)}
             weekExists={
@@ -460,7 +460,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
         onEndReached={() => {
           // Charger plus de dates si nécessaire
           const lastDate = data[data.length - 1];
-          const newDates = Array.from({ length: 30 }, (_, i) => {
+          const newDates = Array.from({ length: 34 }, (_, i) => {
             const date = new Date(lastDate);
             date.setDate(lastDate.getDate() + i + 1);
             return date;

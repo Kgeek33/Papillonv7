@@ -229,7 +229,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
           <NativeItem animated style={{ paddingVertical: 10 }}>
             <MissingItem
               emoji="💾"
-              title="Aucune log enregistrée"
+              title="Aucun log enregistré"
               description="Il n'y a pas de logs à te présenter."
             />
           </NativeItem>
