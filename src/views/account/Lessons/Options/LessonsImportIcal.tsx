@@ -3,9 +3,9 @@ import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/componen
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
 import { useTheme } from "@react-navigation/native";
-import { BadgeInfo, BadgeX, Calendar, CalendarOff, ClipboardCopy, Info, QrCode, Undo2, X } from "lucide-react-native";
+import { Calendar, Info, QrCode, X } from "lucide-react-native";
 import React, { useEffect } from "react";
-import { Modal, TouchableOpacity, View } from "react-native";
+import { Alert, Modal, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import * as Clipboard from "expo-clipboard";
@@ -86,11 +86,7 @@ const LessonsImportIcal: Screen<"LessonsImportIcal"> = ({ route, navigation }) =
         fetchIcalData(account);
       })
       .catch(() => {
-        showAlert({
-          title: "Erreur",
-          message: "Impossible de récupérer les données du calendrier. Vérifie l'URL et réessaye.",
-          icon: <BadgeX />,
-        });
+        Alert.alert("Erreur", "Impossible de récupérer les données du calendrier. Vérifie l'URL et réessaye.");
       })
       .finally(() => {
         setLoading(false);
@@ -236,46 +232,32 @@ const LessonsImportIcal: Screen<"LessonsImportIcal"> = ({ route, navigation }) =
               key={index}
               icon={<Calendar />}
               onPress={() => {
-                showAlert({
-                  title: url.name,
-                  message: url.url,
-                  icon: <BadgeInfo />,
-                  actions: [
-                    {
-                      title: "Annuler",
-                      icon: <Undo2 />,
+                Alert.alert(url.name, url.url, [
+                  {
+                    text: "Annuler",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Copier l'URL",
+                    onPress: () => {
+                      Clipboard.setString(url.url);
+                      Alert.alert("URL copiée", url.url);
                     },
-                    {
-                      title: "Copier l'URL",
-                      icon: <ClipboardCopy />,
-                      onPress: () => {
-                        Clipboard.setString(url.url);
-                        showAlert({
-                          title: "Copié",
-                          message: "L'URL a été copiée dans le presse-papiers.",
-                          icon: <ClipboardCopy />,
-                        });
-                      },
-                      primary: true,
-                      backgroundColor: theme.colors.primary,
+                  },
+                  {
+                    text: "Supprimer le calendrier",
+                    style: "destructive",
+                    onPress: () => {
+                      useTimetableStore.getState().removeClassesFromSource("ical://"+url.url);
+                      const urls = account.personalization.icalURLs || [];
+                      urls.splice(index, 1);
+                      mutateProperty("personalization", {
+                        ...account.personalization,
+                        icalURLs: urls,
+                      });
                     },
-                    {
-                      title: "Supprimer le calendrier",
-                      icon: <CalendarOff />,
-                      onPress: () => {
-                        useTimetableStore.getState().removeClassesFromSource("ical://"+url.url);
-                        const urls = account.personalization.icalURLs || [];
-                        urls.splice(index, 1);
-                        mutateProperty("personalization", {
-                          ...account.personalization,
-                          icalURLs: urls,
-                        });
-                      },
-                      danger: true,
-                      delayDisable: 3,
-                    }
-                  ]
-                });
+                  },
+                ]);
               }}
             >
               <NativeText variant="title">{url.name}</NativeText>

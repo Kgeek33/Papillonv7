@@ -33,8 +33,14 @@ export const fetchIcalData = async (
   }
 
   for (const ical of icalURLs) {
-    await fetch(ical.url)
-      .then((res) => res.text())
+    await fetch(ical.url.trim(), {
+      headers: {
+        "User-Agent": "Papillon",
+      },
+    })
+      .then((res) => {
+        return res.text();
+      })
       .then((text) => {
         const parsed = icalParser.parseString(text).events;
         for (const event of parsed) {

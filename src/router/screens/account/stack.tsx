@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from "react";
-import { View } from "react-native";
 import screens from ".";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { Screen } from "@/router/helpers/types";
@@ -16,15 +15,13 @@ const screenOptions: NativeStackNavigationOptions = {
   tabBarStyle: { position: "absolute" },
 };
 
-const TabBarContainer = () => <View />;
-
 const AccountStackScreen: Screen<"AccountStack"> = () => {
   useLayoutEffect(() => {
     SplashScreen.hideAsync();
   }, []);
 
   return (
-    <AccountStack.Navigator screenOptions={screenOptions} tabBar={TabBarContainer}>
+    <AccountStack.Navigator screenOptions={screenOptions} tabBar={() => null}>
       {screens.map(({ name, component, options }) => (
         <AccountStack.Screen key={name} name={name} component={component} options={options} />
       ))}

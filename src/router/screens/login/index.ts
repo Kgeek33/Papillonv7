@@ -12,7 +12,7 @@ export default [
     headerTitle: "",
     headerTransparent: true,
     headerBackVisible: true,
-    animation: Platform.OS === "android" ? "default" : undefined,
+    animation: Platform.OS === "android" ? "slide_from_bottom" : undefined,
     animationDuration: 250,
   }),
 

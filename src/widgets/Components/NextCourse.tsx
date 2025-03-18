@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState, useCallback, useMemo } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Calendar, Clock } from "lucide-react-native";
+import { Calendar, Clock, MapPin } from "lucide-react-native";
 
 import { WidgetProps } from "@/components/Home/Widget";
 import WidgetHeader from "@/components/Home/WidgetHeader";
@@ -157,7 +157,7 @@ const NextCourseLesson: React.FC<{
 
   return (
     <View style={{ width: "100%", marginTop: 10, flex: 1, flexDirection: "row", gap: 10 }}>
-      <ColorIndicator color={subjectData.color} style={{ flex: 0 }} />
+      <ColorIndicator width={8} borderRadius={10} color={subjectData.color} style={{ flex: 0 }} />
       <View style={{ flex: 1, width: "100%", justifyContent: "space-between" }}>
         <Text numberOfLines={1} style={{ color: colors.text, fontSize: 17, fontFamily: "semibold" }}>
           {subjectData.pretty}
@@ -170,20 +170,25 @@ const NextCourseLesson: React.FC<{
           borderCurve: "continuous",
           alignSelf: "flex-start",
         }}>
-          <Text
-            numberOfLines={1}
-            style={{
-              color: subjectData.color,
-              fontSize: 15,
-              fontFamily: "semibold",
-            }}
-          >
-            {nextCourse.room
-              ? nextCourse.room.includes(",")
-                ? "Plusieurs salles dispo."
-                : nextCourse.room
-              : "Salle inconnue"}
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <MapPin size={18} strokeWidth={2.5} color={subjectData.color} />
+            <Text
+              numberOfLines={1}
+              style={{
+                color: subjectData.color,
+                fontSize: 15,
+                fontFamily: "semibold",
+                marginLeft: 5,
+              }}
+            >
+              {nextCourse.room
+                ? nextCourse.room.includes(",")
+                  ? "Plusieurs salles dispo."
+                  : nextCourse.room
+                : "Salle inconnue"}
+            </Text>
+          </View>
+
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8, opacity: 0.5 }}>
           <Clock size={20} color={colors.text} />

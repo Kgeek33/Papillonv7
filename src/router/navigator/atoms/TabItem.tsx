@@ -14,14 +14,14 @@ const TabItem: React.FC<{
   navigation: any;
   isFocused: boolean;
   settings: any;
-}> = ({ route, descriptor, navigation, isFocused, settings }) => {
+}> = React.memo(({ route, descriptor, navigation, isFocused, settings }) => {
   const theme = useTheme();
   const { playHaptics } = useSoundHapticsWrapper();
 
   const { options } = descriptor;
   const label: string = options.tabBarLabel ?? options.title ?? route.name;
 
-  const onPress = () => {
+  const onPress = React.useCallback(() => {
     const event = navigation.emit({
       type: "tabPress",
       target: route.key,
@@ -39,26 +39,37 @@ const TabItem: React.FC<{
     playHaptics("impact", {
       impact: Haptics.ImpactFeedbackStyle.Light,
     });
-  };
+  }, [isFocused, navigation, playHaptics, route.key, route.name]);
 
-  const onLongPress = () => {
+  const onLongPress = React.useCallback(() => {
     navigation.emit({
       type: "tabLongPress",
       target: route.key
     });
-  };
+  }, [navigation, route.key]);
 
   const lottieRef = React.useRef<LottieView>(null);
 
-  const autoColor = colorsList.filter(c => c.hex.primary === theme.colors.primary)[0];
+  const autoColor = React.useMemo(() => {
+    return colorsList.find(c => c.hex.primary === theme.colors.primary) || colorsList[0];
+  }, [theme.colors.primary]);
 
-  const tabColor = isFocused ?
-    (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? "#656c72" : "#8C9398");
+  const tabColor = React.useMemo(() => {
+    return isFocused
+      ? autoColor?.hex?.lighter
+        ? theme.dark
+          ? autoColor?.hex?.lighter
+          : autoColor.hex.dark
+        : theme.colors.primary
+      : theme.dark
+        ? "#656c72"
+        : "#8C9398";
+  }, [isFocused, autoColor, theme.dark, theme.colors.primary]);
 
   return (
     <Reanimated.View
       key={"tab-tabButton-" + route.key}
-      style={[styles.tabItemContainer]}
+      style={styles.tabItemContainer}
       layout={anim2Papillon(LinearTransition)}
     >
       <Pressable
@@ -74,12 +85,9 @@ const TabItem: React.FC<{
           entering={anim2Papillon(ZoomIn)}
           exiting={anim2Papillon(FadeOut)}
           style={[
-            settings.showTabBackground &&{
-              padding: 6,
-            },
-            settings.showTabBackground && !settings.hideTabTitles && {
-              paddingVertical: 4,
-              paddingHorizontal: 16,
+            settings.showTabBackground && {
+              padding: settings.hideTabTitles ? 6 : 4,
+              paddingHorizontal: settings.hideTabTitles ? undefined : 16,
             },
           ]}
         >
@@ -95,11 +103,8 @@ const TabItem: React.FC<{
                   right: 0,
                   bottom: 0,
                   backgroundColor: tabColor + "22",
-                  borderRadius: 8,
+                  borderRadius: settings.hideTabTitles ? 8 : 80,
                   borderCurve: "continuous",
-                },
-                !settings.hideTabTitles && {
-                  borderRadius: 80,
                 },
               ]}
             />
@@ -113,18 +118,16 @@ const TabItem: React.FC<{
                 keypath: "*",
                 color: tabColor,
               }]}
-              style={[
-                {
-                  width: settings.hideTabTitles ? 28 : 26,
-                  height: settings.hideTabTitles ? 28 : 26,
-                }
-              ]}
+              style={{
+                width: settings.hideTabTitles ? 28 : 26,
+                height: settings.hideTabTitles ? 28 : 26,
+              }}
               ref={lottieRef}
             />
           )}
         </Reanimated.View>
 
-        {settings.hideTabTitles ? null : (
+        {!settings.hideTabTitles && (
           <Reanimated.Text
             style={[
               styles.tabText,
@@ -141,7 +144,7 @@ const TabItem: React.FC<{
       </Pressable>
     </Reanimated.View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   tabItemContainer: {

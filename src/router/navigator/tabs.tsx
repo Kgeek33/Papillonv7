@@ -4,7 +4,6 @@ import { useNavigationBuilder, useTheme } from "@react-navigation/native";
 import { StyleSheet, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabItem from "./atoms/TabItem";
-
 import Reanimated from "react-native-reanimated";
 
 const PapillonNavigatorTabs: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "NavigationContent">> = ({ state, descriptors, navigation }) => {
@@ -25,9 +24,12 @@ const PapillonNavigatorTabs: React.FC<Omit<ReturnType<typeof useNavigationBuilde
   }, [account?.personalization]);
 
   const allTabs = useMemo(() => state.routes, [state.routes]);
-  const tabs = account?.personalization.tabs?.filter((tab) => tab.enabled)
-    ?.map((tab) => allTabs.find((route) => route.name === tab.name))
-    .filter(Boolean) || allTabs.slice(0, 5);
+  const tabs = useMemo(() => {
+    const enabledTabs = account?.personalization.tabs?.filter((tab) => tab.enabled);
+    return enabledTabs
+      ?.map((tab) => allTabs.find((route) => route.name === tab.name))
+      .filter(Boolean) || allTabs.slice(0, 5);
+  }, [account?.personalization.tabs, allTabs]);
 
   return (
     <Reanimated.View
@@ -69,4 +71,4 @@ const styles = StyleSheet.create({
   tabBarIOS: {},
 });
 
-export default PapillonNavigatorTabs;
+export default React.memo(PapillonNavigatorTabs);

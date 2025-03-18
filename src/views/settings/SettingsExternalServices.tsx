@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
-import { GraduationCap, Utensils, BookOpen, School, BookmarkMinus, Compass, Check, Trash2, Undo2, BadgeInfo, BadgeHelp } from "lucide-react-native";
+import { GraduationCap, Utensils, BookOpen, School, BookmarkMinus, Compass, Check, Trash2, BadgeInfo } from "lucide-react-native";
 import ExternalServicesContainerCard from "@/components/Settings/ExternalServicesContainerCard";
 import {
   NativeList,
@@ -67,31 +67,10 @@ const SettingsExternalServices: Screen<"SettingsExternalServices"> = ({
         {
           title: "Supprimer",
           icon: <Trash2 />,
-          onPress: () => confirmDeleteAccount(account),
-          danger: true,
-        },
-      ]
-    });
-  };
-
-  const confirmDeleteAccount = (account: any) => {
-    showAlert({
-      title: "Supprimer le compte",
-      message: "Es-tu sûr de vouloir supprimer ce compte ?",
-      icon: <BadgeHelp />,
-      actions: [
-        {
-          title: "Annuler",
-          icon: <Undo2 />,
-          primary: false,
-        },
-        {
-          title: "Confirmer",
-          icon: <Trash2 />,
           onPress: () => removeAccount(account.localID),
           danger: true,
-          delayDisable: 5,
-        }
+          delayDisable: 3,
+        },
       ]
     });
   };

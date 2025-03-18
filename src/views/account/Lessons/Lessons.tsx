@@ -168,11 +168,11 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
       if (index >= 0) {
         flatListRef.current.scrollToIndex({
           index,
-          animated: false,
+          animated: true,
         });
       }
     }
-  }, [width, height, pickerDate]);
+  }, [width, height]);
 
   const [data, setData] = useState(() => {
     const today = new Date();

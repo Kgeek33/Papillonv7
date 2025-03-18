@@ -150,6 +150,7 @@ const Subject: React.FC<SubjectProps> = ({
       layout={anim2Papillon(LinearTransition)}
     >
       <FlatList
+        key={"allGrades[" + currentPeriod + "]:" + sorting}
         data={sortedData}
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}

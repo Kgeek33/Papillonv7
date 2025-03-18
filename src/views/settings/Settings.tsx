@@ -248,10 +248,12 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                   title: "Déconnexion",
                   onPress: () => {
                     removeAccount(account.localID);
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "AccountSelector" }],
-                    });
+                    setTimeout(() => {
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "AccountSelector" }],
+                      });
+                    }, 100);
                   },
                   danger: true,
                   icon: <LogOut />,

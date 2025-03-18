@@ -193,7 +193,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
         </NativeList>
       )}
 
-      {!isOnline && <OfflineWarning cache={true} />}
+      {!isOnline && <OfflineWarning paddingTop={16} cache={true} />}
 
       <Reanimated.View
         layout={animPapillon(LinearTransition)}

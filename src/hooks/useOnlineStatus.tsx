@@ -45,7 +45,7 @@ const useOnlineStatus = () => {
   return { isOnline, errorTitle };
 };
 
-const OfflineWarning = ({ cache = false }) => {
+const OfflineWarning = ({ cache = false, paddingTop = 0 }) => {
   const { errorTitle } = useOnlineStatus();
 
   return (
@@ -53,6 +53,9 @@ const OfflineWarning = ({ cache = false }) => {
       entering={FlipInXDown.springify().mass(1).damping(20).stiffness(300)}
       exiting={FadeOutUp.springify().mass(1).damping(20).stiffness(300)}
       layout={animPapillon(LinearTransition)}
+      style={{
+        paddingTop: paddingTop,
+      }}
     >
       <NativeList inline>
         <NativeItem icon={<WifiOff />}>

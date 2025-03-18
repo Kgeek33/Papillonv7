@@ -46,10 +46,10 @@ const MenuItem: React.FC<{
 
   const lottieRef = React.useRef<LottieView>(null);
 
-  const autoColor = colorsList.filter(c => c.hex.primary === theme.colors.primary)[0];
+  const autoColor = colorsList.filter(c => c.hex.primary === theme.colors.primary)[0] || colorsList[0];
 
   const tabColor = isFocused ?
-    (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? "#656c72" : "#8C9398");
+    (autoColor?.hex?.lighter ? (theme.dark ? autoColor?.hex?.lighter : autoColor.hex.dark) : theme.colors.primary) : (theme.dark ? "#656c72" : "#8C9398");
 
   return (
     <Reanimated.View

@@ -23,7 +23,8 @@
     "\\btest\\s(?:d'anglais|d'espagnol|d'allemand|de\\slangue)\\s(?:écrit|oral|de\\scompréhension|final|partiel|de\\sfin\\sde\\ssemestre|de\\srattrapage|de\\smi\\ssemestre|de\\smi\\strimestre|de\\sfin\\sd'année)\\b",
     "\\b(?:English|Spanish|German|French)\\s(?:writing|speaking|listening|reading)\\s(?:test|exam|assessment|final|partiel|de\\sfin\\sde\\ssemestre|de\\srattrapage|de\\smi\\ssemestre|de\\smi\\strimestre|de\\sfin\\sd'année)\\b",
     "\\bprueba\\sde\\sespañol\\s(?:escrita|oral|de\\scomprensión|de\\sgramática|final|partiel|de\\sfin\\sde\\ssemestre|de\\srattrapage|de\\smi\\ssemestre|de\\smi\\strimestre|de\\sfin\\sd'année)\\b",
-    "\\bDeutschtest\\s(?:schriftlich|mündlich|Hörverstehen|Leseverstehen|final|partiel|de\\sfin\\sde\\ssemestre|de\\srattrapage|de\\smi\\ssemestre|de\\smi\\strimestre|de\\sfin\\sd'année)\\b"
+    "\\bDeutschtest\\s(?:schriftlich|mündlich|Hörverstehen|Leseverstehen|final|partiel|de\\sfin\\sde\\ssemestre|de\\srattrapage|de\\smi\\ssemestre|de\\smi\\strimestre|de\\sfin\\sd'année)\\b",
+    "\\b(?:examen|prueba|evaluación|control)\\s(?:final|parcial|oral|escrito|diagnóstica|formativa|sumativa|de\\srecuperación|de\\smedio\\scurso|de\\sfin\\sde\\scurso)\\b"
   ],
   "Devoirs Maison": [
     "\\bDM\\b(?:\\s+\\w+){0,3}",

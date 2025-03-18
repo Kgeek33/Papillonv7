@@ -41,8 +41,8 @@ const HomeStackScreen = ({ accountScreens }: {
         tabData.options = {
           ...tabData.options,
           tabEnabled: tab.enabled,
-          presentation: "formSheet",
-          animation: Platform.OS === "android" ? "default" : "default",
+          presentation: "modal",
+          animation: Platform.OS === "android" ? "slide_from_bottom" : "default",
 
           sheetCornerRadius: 24,
         };
@@ -61,7 +61,7 @@ const HomeStackScreen = ({ accountScreens }: {
   newAccountScreens.unshift(
     createScreen("HomeScreen", Home, {
       headerShown: false,
-      animation: Platform.OS === "android" ? "default" : "default",
+      animation: Platform.OS === "android" ? "slide_from_right" : "default",
     }) as ReturnType<typeof createScreen>
   );
 
