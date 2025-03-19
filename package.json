@@ -56,6 +56,7 @@
     "expo-manifests": "^0.14.3",
     "expo-media-library": "~16.0.4",
     "expo-navigation-bar": "~3.0.7",
+    "expo-screen-orientation": "~7.0.5",
     "expo-sensors": "~13.0.9",
     "expo-sharing": "~12.0.1",
     "expo-splash-screen": "~0.27.6",
@@ -75,7 +76,7 @@
     "lucide-react-native": "^0.378.0",
     "notifee": "^0.0.1",
     "openid-client": "^5.7.0",
-    "pawdirecte": "^1.7.1",
+    "pawdirecte": "^1.8.1",
     "pawnilim": "^0.2.0",
     "pawnote": "^1.4.1",
     "pawrd": "^0.6.1",
@@ -107,8 +108,7 @@
     "swiftui-react-native": "^6.3.3",
     "text-encoding": "^0.7.0",
     "turboself-api": "^2.1.8",
-    "zustand": "^4.5.2",
-    "expo-screen-orientation": "~7.0.5"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

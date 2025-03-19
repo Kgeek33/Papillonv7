@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState, useCallback, useMemo } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Calendar, Clock, MapPin } from "lucide-react-native";
+import { Calendar, Clock } from "lucide-react-native";
 
 import { WidgetProps } from "@/components/Home/Widget";
 import WidgetHeader from "@/components/Home/WidgetHeader";
@@ -171,14 +171,12 @@ const NextCourseLesson: React.FC<{
           alignSelf: "flex-start",
         }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <MapPin size={18} strokeWidth={2.5} color={subjectData.color} />
             <Text
               numberOfLines={1}
               style={{
                 color: subjectData.color,
                 fontSize: 15,
                 fontFamily: "semibold",
-                marginLeft: 5,
               }}
             >
               {nextCourse.room

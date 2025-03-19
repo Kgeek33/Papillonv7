@@ -43,11 +43,16 @@ export default function App () {
 
   useEffect(() => {
     const configureOrientation = async () => {
-      const deviceType = await Device.getDeviceTypeAsync();
-      if (deviceType === Device.DeviceType.TABLET) {
-        await ScreenOrientation.unlockAsync();
-      } else {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+      try {
+        const deviceType = await Device.getDeviceTypeAsync();
+        if (deviceType === Device.DeviceType.TABLET) {
+          await ScreenOrientation.unlockAsync();
+        } else {
+          await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+        }
+      } catch (error) {
+        log(`Error during orientation lock: ${error}`, "Orientation/App");
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
       }
     };
 

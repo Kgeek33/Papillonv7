@@ -18,7 +18,6 @@ import NativeTouchable from "@/components/Global/NativeTouchable";
 import { getSubjectData } from "@/services/shared/Subject";
 import { animPapillon } from "@/utils/ui/animations";
 import { getDuration } from "@/utils/format/course_duration";
-import { MapPin } from "lucide-react-native";
 
 export const TimetableItem: React.FC<{
   item: TimetableClass
@@ -78,8 +77,6 @@ export const TimetableItem: React.FC<{
               )}
 
               <View style={[styles.roomTextContainer, { backgroundColor: subjectData.color + "33" }]}>
-                <MapPin size={18} strokeWidth={2.5} color={subjectData.color} />
-
                 <Text
                   numberOfLines={1}
                   style={[styles.roomText, { color: subjectData.color }]}
