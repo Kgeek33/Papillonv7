@@ -3,7 +3,7 @@ import { Screen } from "@/router/helpers/types";
 import { useCurrentAccount } from "@/stores/account";
 import { useTheme } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { BadgeX, Camera, ChevronDown, ChevronUp, ClipboardCopy, TextCursorInput, Undo2, User2, UserCircle2, WholeWord } from "lucide-react-native";
+import { BadgeX, Camera, CameraOff, ChevronDown, ChevronUp, ClipboardCopy, TextCursorInput, Trash, Undo2, User2, UserCircle2, WholeWord } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Image, KeyboardAvoidingView, ScrollView, Switch, TextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -70,6 +70,18 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
             primary: true,
             icon: <Undo2 />,
           },
+          {
+            title: "Supprimer la photo",
+            primary: false,
+            onPress: () => {
+              setProfilePic(undefined);
+              mutateProperty("personalization", {
+                ...account.personalization,
+                profilePictureB64: undefined,
+              });
+            },
+            icon: <Trash />,
+          }
         ],
       });
     } else {
@@ -217,7 +229,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
             <NativeItem
               chevron={false}
               onPress={resetProfilePic}
-              icon={<Camera />}
+              icon={<CameraOff />}
             >
               <NativeText variant="title">
                 Réinitialiser la photo de profil

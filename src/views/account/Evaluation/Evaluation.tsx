@@ -126,7 +126,21 @@ const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
       <PapillonModernHeader outsideNav={outsideNav}>
         <PapillonPicker
           delay={0}
-          data={periods.map((period) => period.name)}
+          data={periods.map((period) => {
+            return {
+              label: period.name,
+              subtitle:
+              new Date(period.startTimestamp as number).toLocaleDateString(
+                "fr-FR",
+                {
+                  month: "long",
+                  day: "numeric",
+                }
+              ),
+              onPress: () => setUserSelectedPeriod(period.name),
+              checked: period.name === selectedPeriod,
+            };
+          })}
           selected={userSelectedPeriod ?? selectedPeriod}
           onSelectionChange={setUserSelectedPeriod}
         >

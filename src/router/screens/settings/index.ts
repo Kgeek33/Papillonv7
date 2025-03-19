@@ -36,7 +36,7 @@ const settingsScreens = [
   createScreen("Settings", Settings, {
     presentation: "modal",
     headerTitle: "Paramètres",
-    headerShown: false,
+    headerShown: true,
   }),
   createScreen("SettingsNotifications", SettingsNotifications, {
     headerTitle: "Notifications",

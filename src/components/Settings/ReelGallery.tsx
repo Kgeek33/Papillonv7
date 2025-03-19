@@ -20,9 +20,9 @@ interface ReelModalProps {
 }
 
 // Components
-const GradeIndicator = ({ value, outOf, color }: { value: number; outOf: number; color: string }) => (
+const GradeIndicator = ({ value, outOf, color }: { value: string; outOf: number; color: string }) => (
   <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-    <Text style={[styles.scoreText, {color: color}]}>{value.toFixed(2)}</Text>
+    <Text style={[styles.scoreText, {color: color}]}>{value}</Text>
     <Text style={[styles.maxScoreText, {color: color+"50"}]}>/{outOf}</Text>
   </View>
 );
@@ -81,7 +81,7 @@ const ReelThumbnail = ({ reel, onPress, width }: { reel: Reel; onPress: () => vo
           color={reel.subjectdata.color}
         />
         <GradeIndicator
-          value={Number(Number(reel.grade.value).toFixed(2))}
+          value={reel.grade.value}
           outOf={Number(reel.grade.outOf)}
           color={colors.text}
         />
@@ -175,13 +175,15 @@ const styles = StyleSheet.create({
   infoContainer: {
     position: "absolute",
     bottom: 10,
-    left: 20,
-    right: 20,
-    padding: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 100,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    alignSelf: "center",
+    justifyContent: "center",
+    gap: 3,
+    maxWidth: "85%",
   },
   subjectBadge: {
     borderRadius: 100,

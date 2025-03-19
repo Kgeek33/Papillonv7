@@ -8,7 +8,7 @@ import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCurrentAccount } from "@/stores/account";
 import { LinearGradient } from "expo-linear-gradient";
-import Reanimated, { ZoomIn, ZoomOut, LinearTransition, FadeIn, FadeOut, FlipInXDown, FadeOutUp } from "react-native-reanimated";
+import Reanimated, { ZoomIn, LinearTransition, FadeIn, FadeOut, FadeOutUp, FadeInDown } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 import { getIconName, setIconName } from "@candlefinance/app-icon";
 
@@ -16,6 +16,7 @@ import colorsList from "@/utils/data/colors.json";
 import { removeColor } from "../settings/SettingsIcons";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
+import { animPapillon } from "@/utils/ui/animations";
 
 type Color = typeof colorsList[number];
 
@@ -29,6 +30,8 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
   const { playHaptics, playSound } = useSoundHapticsWrapper();
   const LEson003 = require("@/../assets/sound/click_003.wav");
   const LEson6 = require("@/../assets/sound/6.wav");
+
+  const hasProfilePic = account && account?.personalization && account?.personalization.profilePictureB64 !== undefined && account?.personalization.profilePictureB64.trim() !== "";
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -92,8 +95,8 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
               zIndex: -99,
             }
           ]}
-          entering={ZoomIn.springify().mass(1).stiffness(150)}
-          exiting={ZoomOut}
+          entering={animPapillon(ZoomIn)}
+          exiting={FadeOut.duration(150)}
         />
       )}
     </View>
@@ -142,19 +145,21 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
         </View>
 
         <Reanimated.View
-          layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(50)}
-          exiting={FadeOutUp.springify()}
-          key={account?.personalization?.color?.hex.primary || ""}
+          layout={animPapillon(LinearTransition)}
           style={[styles.message, {
             backgroundColor: account?.personalization?.color?.hex.primary + "33",
             overflow: "hidden",
             alignItems: "center",
             justifyContent: "center",
-            alignSelf: "center"}]}
+            alignSelf: "center"
+          }]}
         >
           <Reanimated.Text
-            layout={LinearTransition.springify().stiffness(150)}
+            layout={animPapillon(LinearTransition)}
+            entering={animPapillon(FadeInDown)}
+            exiting={animPapillon(FadeOutUp)}
+
+            key={account?.personalization?.color?.hex.primary || ""}
             style={{
               color: account?.personalization?.color?.hex.primary || "",
               fontFamily: "semibold",
@@ -179,12 +184,21 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
       >
         <ButtonCta
           primary
-          value="Finaliser"
+          value={settings ? "Sauvegarder" : !hasProfilePic ? "Continuer" : "Finaliser"}
           onPress={async () => {
             if (!settings) {
-              playSound(LEson6);
+              if(!hasProfilePic) {
+                navigation.navigate("ProfilePic");
+                return;
+              }
+              else {
+                playSound(LEson6);
+              }
             }
-            navigation.navigate("AccountStack", {onboard: true});
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "AccountStack" }],
+            });
           }}
           disabled={!account?.personalization?.color}
           style={{

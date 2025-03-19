@@ -128,7 +128,8 @@ const SettingsFlags: Screen<"SettingsFlags"> = ({ navigation }) => {
         {renderAccountSection("Informations générales", {
           name: account.name,
           schoolName: account.schoolName,
-          className: account.className
+          className: account.className,
+          localID: account.localID,
         })}
 
         {renderAccountSection("Détails de l'authentification", account.authentication)}

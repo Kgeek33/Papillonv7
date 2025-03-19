@@ -86,7 +86,7 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
 
     checkAccounts();
 
-    const handleUrl = (event) => {
+    const handleUrl = (event: any) => {
       manageIzlyLogin(event.url);
     };
 

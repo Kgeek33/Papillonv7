@@ -74,27 +74,25 @@ const LessonsDateModal: React.FC<LessonsDateModalProps> = ({
     }
   }, [showDatePicker]);
 
-  if (Platform.OS === "android") {
+  if (Platform.OS === "android" && showDatePicker) {
     return (
-      showDatePicker && (
-        <RNDateTimePicker
-          style={{
-            marginHorizontal: 8,
-            marginTop: -5,
-            marginBottom: 10,
-          }}
-          value={new Date(currentDate)}
-          display="calendar"
-          mode="date"
-          onChange={(_event, selectedDate) => {
-            onDateSelect(selectedDate);
-            setShowDatePicker(false);
-          }}
-          onError={() => {
-            setShowDatePicker(false);
-          }}
-        />
-      )
+      <RNDateTimePicker
+        style={{
+          marginHorizontal: 8,
+          marginTop: -5,
+          marginBottom: 10,
+        }}
+        value={new Date(currentDate)}
+        display="calendar"
+        mode="date"
+        onChange={(_event, selectedDate) => {
+          setShowDatePicker(false);
+          onDateSelect(selectedDate);
+        }}
+        onError={() => {
+          setShowDatePicker(false);
+        }}
+      />
     );
   }
 

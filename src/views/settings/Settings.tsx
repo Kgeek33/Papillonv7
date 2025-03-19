@@ -121,6 +121,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           icon: <Cable />,
           color: "#D79400",
           label: "Services externes",
+          description: "Connecte ta cantine à Papillon",
           onPress: () => navigation.navigate("SettingsExternalServices"),
         },
         {
@@ -165,13 +166,35 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
     },
     {
       icon: <Laptop />,
-      label: "Avancé",
+      label: "Accessibilité",
       tabs: [
         {
           icon: <PersonStanding />,
           color: "#bf547d",
           label: "Accessibilité",
           onPress: () => navigation.navigate("SettingsAccessibility"),
+        },
+      ],
+    },
+    {
+      icon: <WandSparkles />,
+      label: "Expérimental",
+      tabs: [
+        {
+          icon: <WandSparkles />,
+          color: "#58A3C3",
+          label: "Papillon Magic",
+          beta: true,
+          description: "Fonctionnalités intelligentes",
+          onPress: () => navigation.navigate("SettingsMagic"),
+        },
+        {
+          icon: <Blocks />,
+          color: "#1f76ce",
+          label: "Multiservice",
+          beta: true,
+          description: "Connecte plusieurs services en un seul espace de travail",
+          onPress: () => navigation.navigate("SettingsMultiService"),
         },
         {
           icon: <Puzzle />,
@@ -180,20 +203,6 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           description: "Disponible prochainement",
           onPress: () => navigation.navigate("SettingsAddons"),
           disabled: !defined("enable_addons"),
-        },
-        {
-          icon: <WandSparkles />,
-          color: "#58A3C3",
-          label: "Papillon Magic (Bêta)",
-          description: "Fonctionnalités intelligentes",
-          onPress: () => navigation.navigate("SettingsMagic"),
-        },
-        {
-          icon: <Blocks />,
-          color: "#1f76ce",
-          label: "Multiservice (Bêta)",
-          description: "Connecte plusieurs services en un seul espace de travail",
-          onPress: () => navigation.navigate("SettingsMultiService"),
         },
       ],
     },
@@ -274,12 +283,13 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
       label: "Soutenir Papillon",
       onPress: () => openUrl("https://papillon.bzh/donate"),
       android: true,
-      description: ""
+      description: "",
+      disabled: false,
     });
   }
 
   if (!isTablet) {
-    tabs[2].tabs.unshift({
+    tabs[1].tabs.push({
       icon: click ? (
         <PapillonSpinner
           size={18}
@@ -301,6 +311,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
         }, 10);
       },
       description: "",
+      disabled: false,
     });
   }
 
@@ -316,31 +327,44 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
 
   // show header on Android
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: Platform.OS === "android",
-    });
+    navigation.setOptions(
+      Platform.OS === "android" ? {
+        headerShown: true,
+      } : {
+        headerTransparent: true,
+        headerTitle: () => (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: -48,
+            }}
+          >
+            {!scrolled && Platform.OS === "ios" &&
+              <Reanimated.View
+                exiting={FadeOut.duration(100)}
+                entering={FadeIn.duration(100)}
+                style={{
+                  zIndex: 1000,
+                }}
+              >
+                <ModalHandle />
+              </Reanimated.View>
+            }
+          </View>
+        ),
+      });
   });
 
   return (
     <>
-      {!scrolled && Platform.OS === "ios" &&
-        <Reanimated.View
-          exiting={FadeOut.duration(100)}
-          entering={FadeIn.duration(100)}
-          style={{
-            zIndex: 1000,
-          }}
-        >
-          <ModalHandle />
-        </Reanimated.View>
-      }
-
       <Reanimated.ScrollView
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
-          paddingTop: Platform.OS === "ios" ? 48 : 16,
+          paddingTop: Platform.OS === "ios" ? 0 : 16,
           paddingHorizontal: 16,
           paddingBottom: Platform.OS === "ios" ? 16 : insets.bottom + 16,
         }}
@@ -402,6 +426,33 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                           marginLeft: -6,
                         }}
                       />
+                    }
+                    trailing={
+                      // @ts-expect-error : on ignore la condition
+                      subtab.beta && (
+                        <View
+                          style={{
+                            borderColor: colors.primary,
+                            borderWidth: 1,
+                            borderRadius: 7,
+                            borderCurve: "continuous",
+                            paddingHorizontal: 6,
+                            paddingVertical: 2,
+                          }}
+                        >
+                          <NativeText
+                            style={{
+                              color: colors.primary,
+                              textTransform: "uppercase",
+                              fontFamily: "semibold",
+                              fontSize: 12.5,
+                              letterSpacing: 1,
+                            }}
+                          >
+                            Bêta
+                          </NativeText>
+                        </View>
+                      )
                     }
                   >
                     <NativeText variant="title">

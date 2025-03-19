@@ -183,7 +183,7 @@ const NextCourseLesson: React.FC<{
             >
               {nextCourse.room
                 ? nextCourse.room.includes(",")
-                  ? "Plusieurs salles dispo."
+                  ? "Plusieurs salles"
                   : nextCourse.room
                 : "Salle inconnue"}
             </Text>

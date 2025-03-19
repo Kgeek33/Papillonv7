@@ -366,6 +366,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
               />
               <View
                 style={{
+                  flex: 1,
                   justifyContent: "flex-end",
                   alignItems: "flex-end",
                 }}

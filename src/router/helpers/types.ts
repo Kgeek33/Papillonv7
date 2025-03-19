@@ -26,6 +26,7 @@ export type RouteParameters = {
   DevMenu: undefined;
   AccountCreated: undefined;
   ChangelogScreen: undefined;
+  ProfilePic: undefined;
 
   // login.index
   ServiceSelector: undefined;

@@ -121,16 +121,6 @@ const IdentityProviderSelector: Screen<"IdentityProviderSelector"> = ({ navigati
           </NativeItem>
         ))}
       </NativeList>
-
-      <NativeList inline>
-        <NativeItem
-          icon={<Info />}
-        >
-          <NativeText variant="subtitle">
-            Les founisseurs d'identité ne fournissent pas de données (calendrier, notes, etc...) mais permettent de te connecter à l'application.
-          </NativeText>
-        </NativeItem>
-      </NativeList>
       <InsetsBottomView />
 
     </ScrollView>

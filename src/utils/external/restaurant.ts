@@ -12,7 +12,7 @@ export const formatCardIdentifier = (
     return "";
   }
 
-  const visiblePart = identifier.slice(-4);
+  const visiblePart = identifier.slice(-4).toLowerCase();
   const maskedPart = identifier.slice(-(4 + dots), -4).replace(/./g, "•");
   return (
     maskedPart + separator + (visiblePart.match(/.{1,4}/g) ?? []).join(" ")

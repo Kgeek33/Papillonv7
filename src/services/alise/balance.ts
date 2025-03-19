@@ -9,6 +9,7 @@ export const getBalance = async (account: AliseAccount, force = false): Promise<
     amount: balance,
     currency: "€",
     remaining: Math.floor(balance / (mealPrice ?? 0)),
+    price: mealPrice ?? 0,
     label: "Self"
   }];
 };

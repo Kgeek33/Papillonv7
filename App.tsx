@@ -3,7 +3,7 @@ import Router from "@/router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { LogBox, AppState } from "react-native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
@@ -14,6 +14,8 @@ import { registerBackgroundTasks } from "@/background/BackgroundTasks";
 import { SoundHapticsProvider } from "@/hooks/Theme_Sound_Haptics";
 import { PapillonNavigation } from "@/router/refs";
 import { findAccountByID } from "@/background/utils/accounts";
+import * as Device from "expo-device";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,12 +24,11 @@ const DEFAULT_BACKGROUND_TIME = 15 * 60 * 1000; // 15 minutes
 const BACKGROUND_LIMITS = {
   [AccountService.EcoleDirecte]: 15 * 60 * 1000,    // 15 minutes
   [AccountService.Pronote]: 5 * 60 * 1000,         // 5 minutes
-  [AccountService.Skolengo]: 12 * 60 * 60 * 1000,  // 12 hours
+  [AccountService.Skolengo]: 60 * 60 * 1000,  // 1 heure
 };
 
 export default function App () {
   const [appState, setAppState] = useState(AppState.currentState);
-  const backgroundStartTime = useRef(null);
   const currentAccount = useCurrentAccount((store) => store.account);
   const switchTo = useCurrentAccount((store) => store.switchTo);
   const accounts = useAccounts((store) => store.accounts).filter(account => !account.isExternal);
@@ -40,7 +41,20 @@ export default function App () {
     bold: require("./assets/fonts/FixelText-Bold.ttf"),
   });
 
-  const handleNotificationPress = async (notification) => {
+  useEffect(() => {
+    const configureOrientation = async () => {
+      const deviceType = await Device.getDeviceTypeAsync();
+      if (deviceType === Device.DeviceType.TABLET) {
+        await ScreenOrientation.unlockAsync();
+      } else {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+      }
+    };
+
+    configureOrientation();
+  }, []);
+
+  const handleNotificationPress = async (notification: any) => {
     if (notification?.data) {
       const accountID = notification.data.accountID;
       const account = findAccountByID(accountID);
@@ -65,30 +79,39 @@ export default function App () {
     }
   };
 
-  const getBackgroundTimeLimit = useCallback((service) => {
+  const getBackgroundTimeLimit = useCallback((service: keyof typeof BACKGROUND_LIMITS) => {
     return BACKGROUND_LIMITS[service] ?? DEFAULT_BACKGROUND_TIME;
   }, []);
 
   const handleBackgroundState = useCallback(async () => {
-    if (!backgroundStartTime.current) return;
+    const savedTimestamp = await AsyncStorage.getItem("@background_timestamp");
+    if (!savedTimestamp || !currentAccount) return;
 
-    const timeInBackground = Date.now() - backgroundStartTime.current;
-    await AsyncStorage.setItem("@background_timestamp", Date.now().toString());
+    const timeInBackground = Date.now() - parseInt(savedTimestamp, 10);
+    const timeLimit =
+      currentAccount.service in BACKGROUND_LIMITS
+        ? getBackgroundTimeLimit(currentAccount.service as keyof typeof BACKGROUND_LIMITS)
+        : DEFAULT_BACKGROUND_TIME;
 
-    for (const account of accounts) {
-      const timeLimit = getBackgroundTimeLimit(account.service);
-      const timeInBackgroundSeconds = Math.floor(timeInBackground / 1000);
-
-      if (timeInBackground >= timeLimit && currentAccount === account) {
-        setTimeout(() => {
-          switchTo(account).catch((error) => {
+    const timeInBackgroundSeconds = Math.floor(timeInBackground / 1000);
+    if (timeInBackground >= timeLimit) {
+      log(
+        `⚠️ Refreshing current account ${currentAccount.studentName.first} after ${timeInBackgroundSeconds}s in background`,
+        "RefreshToken"
+      );
+      for (const account of accounts) {
+        if (account.localID === currentAccount.localID) {
+          await switchTo(account).catch((error) => {
             log(`Error during switchTo: ${error}`, "RefreshToken");
           });
-        }, 0);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+          break;
+        }
       }
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
-  }, [accounts, switchTo, getBackgroundTimeLimit, currentAccount]);
+    await AsyncStorage.removeItem("@background_timestamp");
+  }, [currentAccount, switchTo, getBackgroundTimeLimit]);
+
 
   useEffect(() => {
     if (!isExpoGo()) checkInitialNotification();
@@ -105,9 +128,9 @@ export default function App () {
           await notifee.cancelAllNotifications();
         }
         await handleBackgroundState();
-        backgroundStartTime.current = null;
       } else if (nextAppState.match(/inactive|background/)) {
-        backgroundStartTime.current = Date.now();
+        const now = Date.now();
+        await AsyncStorage.setItem("@background_timestamp", now.toString());
       }
       setAppState(nextAppState);
     });
@@ -125,9 +148,7 @@ export default function App () {
       "[Reanimated] Property ",
     ]);
 
-    if (!isExpoGo()) {
-      registerBackgroundTasks();
-    }
+    if (!isExpoGo()) registerBackgroundTasks();
 
     const encoding = require("text-encoding");
     Object.assign(global, {
@@ -138,9 +159,7 @@ export default function App () {
     });
   }, []);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
   return (
     <SoundHapticsProvider>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import type { Screen } from "@/router/helpers/types";
@@ -21,7 +21,7 @@ const AccountCreated: Screen<"AccountCreated"> = ({ navigation }) => {
   const LEson5 = require("@/../assets/sound/5.wav");
   const LEson6 = require("@/../assets/sound/6.wav");
 
-  let name = !account.studentName?.first ? null
+  let name = (!account || !account.studentName?.first) ? null
     : account.studentName?.first;
 
   // Truncate name if over 10 characters.
@@ -68,11 +68,13 @@ const AccountCreated: Screen<"AccountCreated"> = ({ navigation }) => {
           ref={animationRef}
           source={require("@/../assets/lottie/confetti_1.json")}
           style={{
-            width: "100%",
-            height: "100%",
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
             position: "absolute",
             top: 0,
             left: 0,
+            right: 0,
+            bottom: 0,
             zIndex: -200,
           }}
           autoPlay

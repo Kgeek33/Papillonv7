@@ -82,6 +82,10 @@ const ContextMenu: React.FC<{
             impact: Haptics.ImpactFeedbackStyle.Soft,
           });
           setOpened(false);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "AccountStack" as never }],
+          });
           requestAnimationFrame(() => {
             switchTo(account);
           });
@@ -195,6 +199,7 @@ const ContextMenu: React.FC<{
             onPressIn={handlePress}
             onLongPress={handleLongPress}
             onPressOut={handlePressOut}
+            // @ts-ignore
             pointerEvents="auto"
             style={{
               elevation: opened ? 3 : 0,
@@ -249,6 +254,7 @@ const ContextMenu: React.FC<{
               <Pressable
                 onPress={() => {
                   setOpened(false);
+                  // @ts-ignore
                   navigation.navigate("ServiceSelector");
                 }}
                 style={({ pressed }) => [
@@ -293,6 +299,7 @@ const ContextMenu: React.FC<{
               <Pressable
                 onPress={() => {
                   setOpened(false);
+                  // @ts-ignore
                   navigation.navigate("SettingStack");
                 }}
                 style={({ pressed }) => [

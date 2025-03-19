@@ -296,21 +296,20 @@ const SettingsSubjects: Screen<"SettingsSubjects"> = ({ navigation }) => {
                         width: 42,
                       }}
                     >
-                      <ResponsiveTextInput
-                        ref={emojiInput}
-                        style={{
-                          fontFamily: "medium",
-                          fontSize: 26,
-                          color: colors.text,
-                          textAlign: "center",
-                          textAlignVertical: "center",
-                          padding: 0,
-                          height: 46,
-                          width: 42,
-                        }}
-                        value={currentEmoji}
-                        onChangeText={(newEmoji) => handleSubjectEmojiChange(selectedSubject[0], newEmoji)}
-                      />
+                      <View style={{ justifyContent: "center", alignItems: "center", height: 46, width: 42 }}>
+                        <ResponsiveTextInput
+                          ref={emojiInput}
+                          style={{
+                            fontFamily: "medium",
+                            fontSize: 26,
+                            color: colors.text,
+                            textAlign: "center",
+                            height: "100%",
+                          }}
+                          value={currentEmoji}
+                          onChangeText={(newEmoji) => handleSubjectEmojiChange(selectedSubject[0], newEmoji)}
+                        />
+                      </View>
                     </MemoizedNativeItem>
                   </MemoizedNativeList>
 

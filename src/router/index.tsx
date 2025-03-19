@@ -100,6 +100,7 @@ const Router: React.FC = () => {
               let view = state;
               while (view?.routes) {
                 str += "/" + view.routes[view.index].name;
+                // @ts-ignore
                 view = view.routes[view.index].state;
               }
               navigate(str);
@@ -108,6 +109,7 @@ const Router: React.FC = () => {
             <AlertProvider>
               <Stack.Navigator initialRouteName="AccountSelector" screenOptions={navigatorScreenOptions}>
                 {screens.map((screen) => (
+                  // @ts-ignore
                   <Stack.Screen key={screen.name} {...screen} />
                 ))}
               </Stack.Navigator>

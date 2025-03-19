@@ -1,6 +1,6 @@
 {
   "name": "papillonvex",
-  "version": "7.10.3",
+  "version": "7.10.4",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -107,7 +107,8 @@
     "swiftui-react-native": "^6.3.3",
     "text-encoding": "^0.7.0",
     "turboself-api": "^2.1.8",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "expo-screen-orientation": "~7.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
