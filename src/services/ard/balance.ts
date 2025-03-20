@@ -11,7 +11,7 @@ export const balance = async (account: ARDAccount): Promise<Balance[]> => {
     amount: wallet.walletAmount / 100,
     currency: "€",
     remaining: wallet.walletName.toLowerCase() !== "cafetaria" ? Math.floor((wallet.walletAmount / mealPrice!)) : null,
-    price: mealPrice!,
+    price: mealPrice! / 100,
     label: wallet.walletName[0].toUpperCase() + wallet.walletName.slice(1).toLowerCase()
   })).reverse();
 

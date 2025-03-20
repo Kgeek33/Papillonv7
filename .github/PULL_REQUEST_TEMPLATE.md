@@ -14,7 +14,6 @@ Tu t'assures avoir respecté les points suivants (_en rajoutant un `x` dans les 
 - [ ] ❌ Je n'ai pas fait **d'erreurs TypeScript et ESLint** dans le code
 - [ ] 📝 J'ai fait **une description des changement effectués** ci-dessous
 
-
 ## Résumé des changements effectués
 
 _Les modifications_
@@ -34,4 +33,3 @@ _Le(s) capture(s) d'écran_
 _S'il y en a plusieurs, continuer à les lister_
 
 - Closed #(_le numéro de l'issue_)
-

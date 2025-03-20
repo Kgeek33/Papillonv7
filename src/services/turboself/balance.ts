@@ -12,7 +12,7 @@ export const getBalance = async (account: TurboselfAccount): Promise<Balance[]> 
       amount: balance.estimatedAmount / 100,
       currency: currencySymbol ?? "€",
       remaining: Math.floor(balance.estimatedAmount / (lunchPrice ?? 0)),
-      price: lunchPrice ?? 0,
+      price: (lunchPrice ?? 0) / 100,
       label: balance.label
     });
   }

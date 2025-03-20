@@ -10,15 +10,15 @@ function formatDate (date: string): string {
   let formattedDate = formatDistanceToNow(messageDate, { addSuffix: true, locale: fr });
 
   if (isYesterday(messageDate)) {
-    return "hier";
+    return "Hier";
   }
 
   if (isToday(messageDate)) {
-    return "aujourd’hui";
+    return "Aujourd’hui";
   }
 
   if (isTomorrow(messageDate)) {
-    return "demain";
+    return "Demain";
   }
 
   return formattedDate;
