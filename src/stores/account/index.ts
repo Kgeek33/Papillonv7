@@ -191,6 +191,12 @@ export const useAccounts = create<AccountsStore>()(
       // We don't need to store the localID here, as we can get it from the account store.
       accounts: <Array<Account>>[],
 
+      // Update manually lastOpenedAccountID
+      setLastOpenedAccountID: (id: string | null) => {
+        set({ lastOpenedAccountID: id });
+        log(`lastOpenedAccountID updated: ${id}`, "accounts:setLastOpenedAccountID");
+      },
+
       // When creating, we don't want the "instance" to be stored.
       create: ({ instance, ...account }) => {
         log(`storing ${account.localID} (${"name" in account ? account.name : "no name"})`, "accounts:create");

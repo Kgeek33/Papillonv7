@@ -77,7 +77,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
           backgroundColor: "transparent",
         },
         headerStyle: {
-          backgroundColor: theme.colors.card + "55",
+          backgroundColor: Platform.OS === "android" ? theme.colors.card : theme.colors.card + "55",
         },
         headerBlurEffect: "regular",
         headerRight: () => (

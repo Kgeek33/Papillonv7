@@ -42,10 +42,10 @@ export default [
   }),
   createScreen("RestaurantCardDetail", RestaurantCardDetail, {
     headerTitle: "Détail de la carte",
-    presentation: "formSheet",
+    presentation: Platform.OS == "android" ? "modal" : "formSheet",
     headerShown: true,
     headerLargeTitle: true,
-    headerTransparent: true,
+    headerTransparent: Platform.OS !== "android",
     sheetCornerRadius: 16,
     sheetGrabberVisible: true,
     sheetExpandsWhenScrolledToEdge: true,

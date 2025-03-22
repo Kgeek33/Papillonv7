@@ -66,7 +66,11 @@ const fetchGrade = async (): Promise<Grade[]> => {
           }, Coefficient : ${differences[0].coefficient}`,
           data: {
             accountID: account.localID,
-            page: "Grades"
+            page: "GradeDocument",
+            parameters: {
+              grade: differences[0],
+              allGrades: grades[defaultPeriod] || [],
+            }
           }
         },
         "Grades"

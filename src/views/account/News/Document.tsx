@@ -64,11 +64,13 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
   }, [navigation, message.title]);
 
   useEffect(() => {
-    setNewsRead(account, message, true);
-    setMessage((prev) => ({
-      ...prev,
-      read: true,
-    }));
+    if (account.instance) {
+      setNewsRead(account, message, true);
+      setMessage((prev) => ({
+        ...prev,
+        read: true,
+      }));
+    }
   }, [account.instance]);
 
   const tagsStyles = {

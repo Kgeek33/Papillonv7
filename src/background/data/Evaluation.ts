@@ -66,7 +66,11 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
           }, Coefficient : ${differences[0].coefficient}`,
           data: {
             accountID: account.localID,
-            page: "Evaluation"
+            page: "EvaluationDocument",
+            parameters: {
+              evaluation: differences[0],
+              allEvaluations: evaluation[defaultPeriod] || [],
+            }
           }
         },
         "Evaluation"

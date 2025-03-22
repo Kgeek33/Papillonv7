@@ -270,7 +270,9 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                   total={groupedHomework[day].length}
                   homework={homework}
                   onDonePressHandler={async () => {
-                    await toggleHomeworkState(account, homework);
+                    if (account.service !== AccountService.Skolengo) {
+                      await toggleHomeworkState(account, homework);
+                    }
                     await updateHomeworks(true, false, false);
                     await countCheckForReview();
                   }}

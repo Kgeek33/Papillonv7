@@ -126,7 +126,7 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
         {children}
       </Reanimated.View>
 
-      {outsideNav &&
+      {outsideNav && Platform.OS ==  "ios" &&
         <View
           style={{
             position: "absolute",

@@ -90,7 +90,10 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
             body: parse_homeworks(differencesHwSemaineActuelle[0].content),
             data: {
               accountID: account.localID,
-              page: "Homeworks"
+              page: "HomeworksDocument",
+              parameters: {
+                homework: differencesHwSemaineActuelle[0],
+              }
             }
           },
           "Homeworks"
@@ -107,7 +110,10 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
             body: parse_homeworks(differencesHwSemaineProchaine[0].content),
             data: {
               accountID: account.localID,
-              page: "Homeworks"
+              page: "HomeworksDocument",
+              parameters: {
+                homework: differencesHwSemaineProchaine[0],
+              }
             }
           },
           "Homeworks"

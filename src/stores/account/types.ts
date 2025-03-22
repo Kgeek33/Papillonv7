@@ -302,6 +302,7 @@ export type Account = (
 export interface AccountsStore {
   lastOpenedAccountID: string | null
   accounts: Account[]
+  setLastOpenedAccountID: (id: string | null) => void
   create: (account: Account) => void
   remove: (localID: string) => void
   update: <A extends Account, T extends keyof A = keyof A>(

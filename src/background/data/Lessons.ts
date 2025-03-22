@@ -111,10 +111,13 @@ const fetchLessons = async (): Promise<Timetable> => {
               day: "numeric",
               month: "long",
             }),
-            body: `${differencesStatus[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : Horaire du cours modifié`,
+            body: `${differencesTimestamp[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : Horaire du cours modifié`,
             data: {
               accountID: account.localID,
-              page: "Lessons"
+              page: "LessonsDocument",
+              parameters: {
+                lesson: differencesTimestamp[0],
+              }
             }
           },
           "Lessons"
@@ -129,7 +132,7 @@ const fetchLessons = async (): Promise<Timetable> => {
 
         let statut: string = "";
 
-        switch (differencesTimestamp[0].status) {
+        switch (differencesStatus[0].status) {
           case TimetableClassStatus.TEST:
             statut = "Devoir surveillé";
             break;
@@ -168,7 +171,10 @@ const fetchLessons = async (): Promise<Timetable> => {
             body: `${differencesStatus[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : ${statut}`,
             data: {
               accountID: account.localID,
-              page: "Lessons"
+              page: "LessonsDocument",
+              parameters: {
+                lesson: differencesStatus[0],
+              }
             }
           },
           "Lessons"
