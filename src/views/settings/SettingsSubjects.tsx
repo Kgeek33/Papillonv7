@@ -137,7 +137,7 @@ const SettingsSubjects: Screen<"SettingsSubjects"> = ({ navigation }) => {
           onPress={() => {
             showAlert({
               title: "Réinitialiser les matières",
-              message: "Tu es sûr de vouloir réinitialiser toutes les matières ?",
+              message: "Veux-tu vraiment réinitialiser toutes les matières ?",
               icon: <BadgeHelp />,
               actions: [
                 {

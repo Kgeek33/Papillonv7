@@ -98,7 +98,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                 onPress: () => {
                   Alert.alert(
                     "Supprimer la carte",
-                    "Es-tu sûr de vouloir supprimer la " + (cardName ?? "carte") + " ?",
+                    "Veux-tu vraiment supprimer la " + (cardName ?? "carte") + " ?",
                     [
                       { text: "Annuler", style: "cancel" },
                       {

@@ -85,7 +85,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
 
   const deleteSpace = () => {
     showAlert({
-      title: "Es-tu sûr ?",
+      title: "Veux-tu vraiment continuer ?",
       message: "Cette action entrainera la suppression de ton espace multi-service.",
       icon: <BadgeHelp />,
       actions: [

@@ -93,7 +93,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
               onPress={() => {
                 showAlert({
                   title: "Supprimer les logs ?",
-                  message: "Es-tu sûr de vouloir supprimer toutes les logs ?",
+                  message: "Veux-tu vraiment supprimer toutes les logs ?",
                   icon: <BadgeHelp />,
                   actions: [
                     {

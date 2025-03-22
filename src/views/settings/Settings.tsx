@@ -245,7 +245,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           onPress: () => {
             showAlert({
               title: "Se déconnecter",
-              message: "Es-tu sûr de vouloir te déconnecter ?",
+              message: "Veux-tu vraiment te déconnecter ?",
               icon: <BadgeHelp />,
               actions: [
                 {

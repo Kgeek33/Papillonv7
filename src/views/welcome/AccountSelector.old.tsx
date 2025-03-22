@@ -392,7 +392,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                       // delete account
                       showAlert({
                         title: "Supprimer le compte",
-                        message: "Es-tu sûr de vouloir supprimer ce compte ?",
+                        message: "Veux-tu vraiment supprimer ce compte ?",
                         icon: <BadgeHelp />,
                         actions: [
                           {
@@ -407,7 +407,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                               // setTimeout pour laisser le temps à la précédente alerte de s'enlever
                               setTimeout(() => {
                                 showAlert({
-                                  title: "Es-tu sûr ?",
+                                  title: "Veux-tu vraiment continuer ?",
                                   message: `Veux-tu supprimer définitivement ${account.studentName.first} ${account.studentName.last} ?`,
                                   icon: <BadgeHelp />,
                                   actions: [
