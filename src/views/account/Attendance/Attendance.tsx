@@ -15,7 +15,6 @@ import AttendanceItem from "./Atoms/AttendanceItem";
 import {getAbsenceTime} from "@/utils/format/attendance_time";
 import TotalMissed from "./Atoms/TotalMissed";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
-import {protectScreenComponent} from "@/router/helpers/protected-screen";
 import {Observation} from "@/services/shared/Observation";
 import MissingItem from "@/components/Global/MissingItem";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
@@ -331,4 +330,4 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
   );
 };
 
-export default protectScreenComponent(Attendance);
+export default Attendance;
