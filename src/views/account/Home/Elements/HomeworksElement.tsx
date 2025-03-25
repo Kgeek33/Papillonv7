@@ -14,6 +14,7 @@ import {RouteParameters} from "@/router/helpers/types";
 import { FadeInDown, FadeOut } from "react-native-reanimated";
 import MissingItem from "@/components/Global/MissingItem";
 import PapillonLoading from "@/components/Global/PapillonLoading";
+import { AccountService } from "@/stores/account/types";
 
 interface HomeworksElementProps {
   onImportance: (value: number) => unknown
@@ -38,7 +39,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
       .filter(hw => !hw.done);
 
     const date = new Date();
-    if (date.getHours() >= 17 && date.getHours() < 22)
+    if (date.getUTCHours() >= 17 && date.getUTCHours() < 22)
       score += 4;
     if (hw.length > 0)
       score += 3;
@@ -63,14 +64,26 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
 
   const handleDonePress = useCallback(
     async (homework: Homework) => {
-      await toggleHomeworkState(account, homework);
+      if (homework.personalizate) {
+        useHomeworkStore
+          .getState()
+          .updateHomework(
+            dateToEpochWeekNumber(new Date(homework.due)),
+            homework.id,
+            {... homework, done: !homework.done }
+          );
+      } else {
+        if (account.service !== AccountService.Skolengo) {
+          await toggleHomeworkState(account, homework);
+        }
+      }
       await updateHomeworks();
     },
     [account, updateHomeworks]
   );
 
   const mtn = new Date();
-  mtn.setHours(0, 0, 0, 0);
+  mtn.setUTCHours(1, 0, 0, 0);
 
   const startTime = mtn.getTime() / 1000;
   const endTime = startTime + 7 * 24 * 60 * 60 * 1000;
@@ -154,6 +167,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
       <NativeList>
         {hw2Semaines
           .slice(0, 7)
+          .sort((a, b) => a.due - b.due)
           .map((hw, index) => (
             <HomeworkItem
               homework={hw}

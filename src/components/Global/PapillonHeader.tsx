@@ -12,7 +12,8 @@ import { PapillonModernHeader } from "./PapillonModernHeader";
 interface PapillonHeaderProps {
   children?: React.ReactNode
   route: RouteProp<RouteParameters, keyof RouteParameters>
-  navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>
+  navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>,
+  title?: string
 }
 
 interface PapillonHeaderInsetHeightProps {
@@ -22,7 +23,8 @@ interface PapillonHeaderInsetHeightProps {
 const PapillonHeader: React.FC<PapillonHeaderProps> = ({
   children,
   route,
-  navigation
+  navigation,
+  title
 }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
@@ -39,6 +41,7 @@ const PapillonHeader: React.FC<PapillonHeaderProps> = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center"
           }}
         >
           {route.params?.outsideNav && Platform.OS !== "ios" && (
@@ -56,6 +59,7 @@ const PapillonHeader: React.FC<PapillonHeaderProps> = ({
             route={route}
             navigation={navigation}
             style={{ paddingHorizontal: 0 }}
+            title={title}
           />
 
           <View
@@ -65,7 +69,6 @@ const PapillonHeader: React.FC<PapillonHeaderProps> = ({
               flexDirection: "row",
               justifyContent: "flex-end",
               alignItems: "center",
-              marginRight: Platform.OS !== "ios" ? -16 : 0,
             }}
           >
             {children}

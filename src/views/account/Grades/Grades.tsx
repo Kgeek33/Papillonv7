@@ -17,7 +17,7 @@ import { animPapillon } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
 import { ChevronDown } from "lucide-react-native";
 import React from "react";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import {
   Platform,
   RefreshControl,
@@ -66,7 +66,7 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
   const [gradesPerSubject, setGradesPerSubject] = useState<GradesPerSubject[]>(
     []
   );
-  const latestGradesRef = useRef<any[]>([]);
+  const [latestGradesData, setLatestGradesData] = useState<Grade[]>([]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -145,7 +145,7 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
       .sort((a, b) => b.timestamp - a.timestamp)
       .slice(0, 10);
 
-    latestGradesRef.current = latestGrades;
+    setLatestGradesData(latestGrades);
   }, [selectedPeriod, grades]);
 
   return (
@@ -279,9 +279,9 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
               </Reanimated.View>
             )}
 
-            {latestGradesRef.current.length > 2 && (
+            {latestGradesData.length > 2 && (
               <GradesLatestList
-                latestGrades={latestGradesRef.current}
+                latestGrades={latestGradesData}
                 navigation={navigation}
                 allGrades={grades[selectedPeriod] || []}
               />

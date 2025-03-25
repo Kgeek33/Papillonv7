@@ -29,7 +29,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const ImportanceHandler = (nextCourses: TimetableClass[]) => {
     if (nextCourses.length > 0) {
-      let difference = new Date(nextCourses[0].startTimestamp).getHours() - new Date().getHours();
+      let difference = new Date(nextCourses[0].startTimestamp).getUTCHours() - new Date().getUTCHours();
       if (difference < 0) {
         difference = 0;
       }
@@ -43,25 +43,25 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     const today = new Date();
     const date = new Date(timestamp);
     return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
+      date.getUTCDate() === today.getUTCDate() &&
+      date.getUTCMonth() === today.getUTCMonth() &&
       date.getFullYear() === today.getFullYear()
     );
   };
 
   const isTomorrow = (timestamp: number) => {
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
     const date = new Date(timestamp);
     return (
-      date.getDate() === tomorrow.getDate() &&
-      date.getMonth() === tomorrow.getMonth() &&
+      date.getUTCDate() === tomorrow.getUTCDate() &&
+      date.getUTCMonth() === tomorrow.getUTCMonth() &&
       date.getFullYear() === tomorrow.getFullYear()
     );
   };
 
   const isWeekend = (courses: TimetableClass[]) => {
-    const today = new Date().getDay();
+    const today = new Date().getUTCDay();
     return (today === 6 || today === 0) && courses.length === 0;
   };
 
@@ -200,7 +200,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
     const isTodayCourse = courseDate.toDateString() === today.toDateString();
     const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setUTCDate(today.getUTCDate() + 1);
 
     const isTomorrowCourse = courseDate.toDateString() === tomorrow.toDateString();
 

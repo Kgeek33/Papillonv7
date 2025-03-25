@@ -22,7 +22,42 @@ export const useHomeworkStore = create<HomeworkStore>()(
         });
 
         log(`updated homeworks for week ${epochWeekNumber}`, "homework:updateHomeworks");
-      }
+      },
+
+      addHomework: (epochWeekNumber, homework) => {
+        set((state) => ({
+          homeworks: {
+            ...state.homeworks,
+            [epochWeekNumber]: [
+              ...(state.homeworks[epochWeekNumber] || []),
+              homework,
+            ],
+          },
+        }));
+      },
+
+      updateHomework: (epochWeekNumber, homeworkID, updatedHomework) => {
+        set((state) => ({
+          homeworks: {
+            ...state.homeworks,
+            [epochWeekNumber]: state.homeworks[epochWeekNumber]?.map(
+              (homework) =>
+                homework.id === homeworkID ? updatedHomework : homework
+            ),
+          },
+        }));
+      },
+
+      removeHomework: (epochWeekNumber, homeworkID) => {
+        set((state) => ({
+          homeworks: {
+            ...state.homeworks,
+            [epochWeekNumber]: state.homeworks[epochWeekNumber]?.filter(
+              (homework) => homework.id !== homeworkID
+            ),
+          },
+        }));
+      },
     }),
     {
       name: "<default>-homework-storage", // <default> will be replace to user id when using "switchTo"

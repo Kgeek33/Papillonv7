@@ -131,7 +131,7 @@ const HeaderItem = memo<HeaderItemProps>(({ header }) => {
   const start = header.startUnix;
 
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(1, 0, 0, 0);
 
   const todayStamp = today.getTime();
 

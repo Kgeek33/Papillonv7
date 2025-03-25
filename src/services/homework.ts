@@ -58,9 +58,20 @@ export async function updateHomeworkForWeekInCache <T extends Account> (account:
         console.info(`[updateHomeworkForWeekInCache]: updating to empty since ${account.service} not implemented.`);
     }
 
-    useHomeworkStore.getState().updateHomeworks(dateToEpochWeekNumber(date), homeworks);
-  }
-  catch (err) {
+    const weekNumber = dateToEpochWeekNumber(date);
+    const existingHomeworks = (
+      useHomeworkStore.getState().homeworks[weekNumber] || []
+    ).filter((element) => element.personalizate);
+
+    const mergedHomeworks = [
+      ...homeworks,
+      ...existingHomeworks.filter(
+        (customHomework) => !homeworks.some((hw) => hw.id === customHomework.id)
+      ),
+    ];
+
+    useHomeworkStore.getState().updateHomeworks(weekNumber, mergedHomeworks);
+  } catch (err) {
     error(`homeworks not updated, see:${err}`, "updateHomeworkForWeekInCache");
   }
 }

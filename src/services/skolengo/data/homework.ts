@@ -17,7 +17,8 @@ const decodeHomework = (h: HomeworkAssignment): Homework => {
     content: (h.html && htmlToText(h.html || "") !== "") ? htmlToText(h.html) : h.title ?? "",
     due: h.dueDateTime ? new Date(h.dueDateTime).getTime() : -1,
     done: h.done,
-    returnType: h.deliverWorkOnline ? HomeworkReturnType.FileUpload : HomeworkReturnType.Paper
+    returnType: h.deliverWorkOnline ? HomeworkReturnType.FileUpload : HomeworkReturnType.Paper,
+    personalizate: false,
   };
 };
 

@@ -100,7 +100,7 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
       )}
 
       {hasServiceSetup && day && day.length === 0 && current && !loading && (
-        weekExists && (new Date(date).getDay() == 6 || new Date(date).getDay() == 0) ? (
+        weekExists && (new Date(date).getUTCDay() == 6 || new Date(date).getUTCDay() == 0) ? (
           <MissingItem
             emoji="🌴"
             title="C'est le week-end !"
@@ -144,7 +144,7 @@ const SeparatorCourse: React.FC<{
   end: number
 }> = ({ i, start, end }) => {
   const { colors } = useTheme();
-  const startHours = new Date(start).getHours();
+  const startHours = new Date(start).getUTCHours();
   return (
     <Reanimated.View
       style={{
