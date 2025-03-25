@@ -69,7 +69,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   }, [timetables]);
 
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(1, 0, 0, 0);
 
   const [pickerDate, setPickerDate] = useState(new Date(today));
 
@@ -139,11 +139,11 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     const timetable = timetables[week] || [];
 
     const newDate = new Date(date);
-    newDate.setHours(0, 0, 0, 0);
+    newDate.setUTCHours(1, 0, 0, 0);
 
     const day = timetable.filter((lesson) => {
       const lessonDate = new Date(lesson.startTimestamp);
-      lessonDate.setHours(0, 0, 0, 0);
+      lessonDate.setUTCHours(1, 0, 0, 0);
 
       return lessonDate.getTime() === newDate.getTime();
     });
@@ -157,7 +157,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     if (flatListRef.current) {
       const normalizeDate = (date: Date) => {
         const newDate = new Date(date);
-        newDate.setHours(0, 0, 0, 0);
+        newDate.setUTCHours(1, 0, 0, 0);
         return newDate;
       };
 
@@ -178,8 +178,8 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     const today = new Date();
     return Array.from({ length: 100 }, (_, i) => {
       const date = new Date(today);
-      date.setDate(today.getDate() - 50 + i);
-      date.setHours(0, 0, 0, 0);
+      date.setUTCDate(today.getUTCDate() - 50 + i);
+      date.setUTCHours(1, 0, 0, 0);
       return date;
     });
   });
@@ -274,7 +274,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
 
   const onDateSelect = (date: Date | undefined) => {
     const newDate = new Date(date || 0);
-    newDate.setHours(0, 0, 0, 0);
+    newDate.setUTCHours(1, 0, 0, 0);
     setPickerDate(newDate);
 
     const firstDate = data[0];
@@ -285,7 +285,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
 
     if (newDate < firstDate) {
       const dates = [];
-      for (let d = new Date(firstDate); d >= newDate; d.setDate(d.getDate() - 1)) {
+      for (let d = new Date(firstDate); d >= newDate; d.setUTCDate(d.getUTCDate() - 1)) {
         if (!uniqueDates.has(d.getTime())) {
           dates.unshift(new Date(d));
           uniqueDates.add(d.getTime());
@@ -294,7 +294,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
       updatedData = [...dates, ...data];
     } else if (newDate > lastDate) {
       const dates = [];
-      for (let d = new Date(lastDate); d <= newDate; d.setDate(d.getDate() + 1)) {
+      for (let d = new Date(lastDate); d <= newDate; d.setUTCDate(d.getUTCDate() + 1)) {
         if (!uniqueDates.has(d.getTime())) {
           dates.push(new Date(d));
           uniqueDates.add(d.getTime());
@@ -321,7 +321,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           onPress={() => setShowDatePicker(true)}
           onLongPress={() => {
             const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            today.setUTCHours(1, 0, 0, 0);
             onDateSelect(today);
           }}
         >
@@ -346,7 +346,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           </Reanimated.View>
 
           <AnimatedNumber
-            value={pickerDate.getDate().toString()}
+            value={pickerDate.getUTCDate().toString()}
             style={[
               styles.weekPickerText,
               styles.weekPickerTextNbr,
@@ -462,7 +462,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           const lastDate = data[data.length - 1];
           const newDates = Array.from({ length: 34 }, (_, i) => {
             const date = new Date(lastDate);
-            date.setDate(lastDate.getDate() + i + 1);
+            date.setUTCDate(lastDate.getUTCDate() + i + 1);
             return date;
           });
           setData((prevData) => [...prevData, ...newDates]);

@@ -13,9 +13,9 @@ import {
   TouchableOpacity,
   Platform,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
-import { getSubjectData } from "@/services/shared/Subject";
 import * as WebBrowser from "expo-web-browser";
 import { useTheme } from "@react-navigation/native";
 import HTMLView from "react-native-htmlview";
@@ -26,13 +26,20 @@ import { useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
 import getAndOpenFile from "@/utils/files/getAndOpenFile";
 import { AutoFileIcon } from "@/components/Global/FileIcon";
-import { Paperclip, CircleAlert, FileUp, School } from "lucide-react-native";
+import { Paperclip, CircleAlert, PencilLine, MoreHorizontal, Trash2 } from "lucide-react-native";
 import LinkFavicon, { getURLDomain } from "@/components/Global/LinkFavicon";
 import { timestampToString } from "@/utils/format/DateHelper";
 import parse_homeworks from "@/utils/format/format_pronote_homeworks";
-import { useAlert } from "@/providers/AlertProvider";
+import PapillonPicker from "@/components/Global/PapillonPicker";
+import { getSubjectData } from "@/services/shared/Subject";
+import { useHomeworkStore } from "@/stores/homework";
+import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
 
-const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
+const MemoizedNativeItem = React.memo(NativeItem);
+const MemoizedNativeList = React.memo(NativeList);
+const MemoizedNativeText = React.memo(NativeText);
+
+const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) => {
   const theme = useTheme();
   const stylesText = StyleSheet.create({
     body: {
@@ -47,9 +54,20 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
     },
   });
 
-  const homework: Homework = route.params.homework || {};
-
   const account = useCurrentAccount((store) => store.account!);
+  const localSubjects = account.personalization.subjects ?? {};
+  const [selectedPretty, setSelectedPretty] = useState(
+    Object.entries(localSubjects || {})[0]?.[1] ?? null
+  );
+
+  // Création de devoirs personnalisés
+  const [showCreateHomework, setShowCreateHomework] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [idHomework, setIdHomework] = useState(NaN);
+  const [contentHomework, setContentHomework] = useState<string | null>(null);
+  const [dateHomework, setDateHomework] = useState(Date.now());
+
+  const [homework, setHomework] = useState<Homework>(route.params.homework || {});
 
 
   const openUrl = (url: string) => {
@@ -80,8 +98,6 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
   useEffect(() => {
     fetchSubjectData();
   }, [homework.subject]);
-
-  const { showAlert } = useAlert();
 
   return (
     <View style={{ flex: 1 }}>
@@ -125,29 +141,16 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
               >
                 <TouchableOpacity
                   onPress={() => {
-                    switch (homework.returnType) {
-                      case "file_upload":
-                        showAlert({
-                          title: "Tu dois rendre ce devoir sur ton ENT",
-                          message: "Papillon ne permet pas de rendre des devoirs sur l'ENT. Tu dois le faire sur l'ENT de ton établissement",
-                          icon: <FileUp />,
-                        });
-                        break;
-                      case "paper":
-                        showAlert({
-                          title: "Tu dois rendre ce devoir en classe",
-                          message: "Ton professeur t'indiquera comment rendre ce devoir",
-                          icon: <School />,
-                        });
-                        break;
-                      default:
-                        showAlert({
-                          title: "Ce devoir est à rendre",
-                          message: "Ton professeur t'indiquera comment rendre ce devoir.",
-                          icon: <School />,
-                        });
-                        break;
-                    }
+                    Alert.alert(
+                      homework.returnType === "file_upload"
+                        ? "Tu dois rendre ce devoir sur ton ENT"
+                        : homework.returnType === "paper"
+                          ? "Tu dois rendre ce devoir en classe"
+                          : "Ce devoir est à rendre",
+                      homework.returnType === "file_upload"
+                        ? "Papillon ne permet pas de rendre des devoirs sur l'ENT. Tu dois le faire sur l'ENT de ton établissement."
+                        : "Ton professeur t'indiquera comment rendre ce devoir.",
+                    );
                   }}
                 >
                   <NativeText
@@ -164,6 +167,61 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
               </View>
             )}
           </View>
+          {homework.personalizate && (
+            <PapillonPicker
+              animated
+              direction="right"
+              delay={0}
+              data={[
+                {
+                  icon: <PencilLine />,
+                  label: "Modifier le devoir",
+                  sfSymbol: "pencil",
+                  onPress: () => {
+                    navigation.navigate("AddHomework", {
+                      hwid: homework.id,
+                      modal: true,
+                    });
+                  },
+                },
+                {
+                  icon: <Trash2 />,
+                  label: "Supprimer le devoir",
+                  sfSymbol: "trash",
+                  destructive: true,
+                  onPress: () => {
+                    Alert.alert(
+                      "Supprimer le devoir",
+                      "Veux-tu vraiment supprimer ce devoir ?",
+                      [
+                        {
+                          text: "Annuler",
+                          isPreferred: true,
+                        },
+                        {
+                          text: "Continuer",
+                          style: "destructive",
+                          onPress: () => {
+                            useHomeworkStore
+                              .getState()
+                              .removeHomework(
+                                dateToEpochWeekNumber(new Date(dateHomework)),
+                                homework.id
+                              );
+                            navigation.goBack();
+                          }
+                        }
+                      ]
+                    );
+                  },
+                },
+              ]}
+            >
+              <TouchableOpacity>
+                <MoreHorizontal size={24} color={theme.colors.text} />
+              </TouchableOpacity>
+            </PapillonPicker>
+          )}
         </View>
       </PapillonModernHeader>
 

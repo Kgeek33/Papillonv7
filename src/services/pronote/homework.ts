@@ -16,7 +16,8 @@ const decodeHomework = (h: pronote.Assignment): Homework => {
     done: h.done,
     returnType: (h.return && h.return.kind !== pronote.AssignmentReturnKind.None)
       ? h.return.kind === pronote.AssignmentReturnKind.Paper ? HomeworkReturnType.Paper : HomeworkReturnType.FileUpload
-      : void 0
+      : void 0,
+    personalizate: false,
   };
 };
 

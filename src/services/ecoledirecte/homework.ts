@@ -46,6 +46,7 @@ export const getHomeworkForWeek = async (
         id: homework.id.toString(),
         subject: homework.subject,
         exam: homework.exam,
+        personalizate: false,
       });
     }
   }

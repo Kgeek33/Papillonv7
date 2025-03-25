@@ -21,6 +21,7 @@ import ChatDetails from "@/views/account/Chat/Modals/ChatDetails";
 import ChatThemes from "@/views/account/Chat/Modals/ChatThemes";
 import RestaurantCardDetail from "@/views/account/Restaurant/Modals/CardDetail";
 import RestaurantPaymentSuccess from "@/views/account/Restaurant/Modals/PaymentSuccess";
+import AddHomeworkScreen from "@/views/account/Homeworks/AddHomework";
 
 export default [
   createScreen("GradeReaction", GradeReaction, {
@@ -41,11 +42,9 @@ export default [
     presentation: "modal",
   }),
   createScreen("RestaurantCardDetail", RestaurantCardDetail, {
-    headerTitle: "Détail de la carte",
+    headerShown: Platform.OS == "android" ? false : true,
+    headerTransparent: true,
     presentation: Platform.OS == "android" ? "modal" : "formSheet",
-    headerShown: true,
-    headerLargeTitle: true,
-    headerTransparent: Platform.OS !== "android",
     sheetCornerRadius: 16,
     sheetGrabberVisible: true,
     sheetExpandsWhenScrolledToEdge: true,
@@ -85,6 +84,15 @@ export default [
     headerShown: false,
     sheetCornerRadius: 16,
   }),
+  createScreen("AddHomework", AddHomeworkScreen, {
+    headerTitle: "Ajouter un devoir",
+    presentation: "formSheet",
+    headerShown: true,
+    sheetCornerRadius: 16,
+    sheetAllowedDetents: [0.5, 1],
+    sheetGrabberVisible: true,
+    sheetInitialDetentIndex: 0,
+  }),
   createScreen("GradeSubject", GradeSubjectScreen, {
     headerTitle: "Détail de la matière",
     presentation: "modal",
@@ -118,7 +126,10 @@ export default [
   }),
   createScreen("BackgroundIUTLannion", BackgroundIUTLannion, {
     headerTitle: "IUT de Lannion",
-    presentation: "modal",
+    presentation: "transparentModal",
+    headerShown: false,
+    animation: "fade",
+    animationDuration: 100,
   }),
   createScreen("EvaluationDocument", EvaluationDocument, {
     headerTitle: "Compétence",

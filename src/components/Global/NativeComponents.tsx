@@ -261,9 +261,10 @@ export const NativeItem: React.FC<NativeItemProps> = ({
 
           {icon && (
             React.cloneElement(icon as React.ReactElement<any>, {
-              size: 24,
-              color: colors.text,
-              style: {
+              size: icon.props.size || 24,
+              color: icon.props.color || colors.text,
+              style: icon.props.style || {
+                ...icon.props.style,
                 marginRight: 16,
                 opacity: 0.8,
                 marginLeft: 0,

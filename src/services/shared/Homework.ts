@@ -17,4 +17,5 @@ export interface Homework {
   done: boolean
   returnType?: HomeworkReturnType
   exam?: boolean
+  personalizate: boolean
 }

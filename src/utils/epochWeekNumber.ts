@@ -22,7 +22,7 @@ const EPOCH_WN_CONFIG = {
   setMiddleDay: 3, // We set the middle day of the week to Wednesday to ensure <... same than above ...>
   setEndDay: 7, // We set the last day of the week to Sunday to ensure <...>
   numberOfMsInAWeek: 1000 /* ms */ * 60 /* s */ * 60 /* min */ * 24 /* h */ * 7, /* days */
-  adjustEpochInitialDate: 259200000, // =(((new Date(0)).getDay()-1) * EPOCH_WN_CONFIG.numberOfMsInAWeek/7) // We need to substract this for having a good range cause 01/01/1970 was not a Monday and the "-1" is to have Monday as the first day of the week
+  adjustEpochInitialDate: 259200000, // =(((new Date(0)).getUTCDay()-1) * EPOCH_WN_CONFIG.numberOfMsInAWeek/7) // We need to substract this for having a good range cause 01/01/1970 was not a Monday and the "-1" is to have Monday as the first day of the week
 };
 
 /**
@@ -31,8 +31,8 @@ const EPOCH_WN_CONFIG = {
  */
 const dayToWeekCommonDay = (date: Date): Date => {
   const _date = new Date(date);
-  _date.setHours(EPOCH_WN_CONFIG.setHour, 0, 0, 0);
-  _date.setDate(_date.getDate() - ( (7 + _date.getDay() - 1) %7 ) + EPOCH_WN_CONFIG.setMiddleDay - 1);
+  _date.setUTCHours(EPOCH_WN_CONFIG.setHour, 0, 0, 0);
+  _date.setUTCDate(_date.getUTCDate() - ( (7 + _date.getUTCDay() - 1) %7 ) + EPOCH_WN_CONFIG.setMiddleDay - 1);
   // the (7+ ... -1 ) %7 is to have Monday as the first day (0) of the week and Sunday as last day (7) cause JS start the week on Sunday ¯\_(ツ)_/¯
   // In details : the 7+ is to avoid negative value, the -1 is to have Monday as the first day of the week and the %7 is to have the right day number (0 to 6)
   // In details : setMiddleDay - 1 is to have the middle day of the week, aka Wednesday

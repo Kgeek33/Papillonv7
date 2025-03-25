@@ -4,7 +4,7 @@ import { AccountService, Identity, LocalAccount } from "@/stores/account/types";
 import uuid from "@/utils/uuid-v4";
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { WebView } from "react-native-webview";
 import type { Screen } from "@/router/helpers/types";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
@@ -13,6 +13,7 @@ import { animPapillon } from "@/utils/ui/animations";
 import { FadeInDown, FadeOutUp } from "react-native-reanimated";
 import { useAlert } from "@/providers/AlertProvider";
 import { BadgeX, Undo2 } from "lucide-react-native";
+import { BlurView } from "expo-blur";
 
 const providers = ["scodoc", "moodle", "ical"];
 
@@ -209,7 +210,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
       personalization: await defaultPersonalization({
         tabs: [
           { name: "Home", enabled: true },
-          { name: "Week", enabled: true },
+          { name: "Lessons", enabled: true },
           { name: "Grades", enabled: true },
           { name: "Attendance", enabled: true },
           { name: "Menu", enabled: true }
@@ -275,9 +276,11 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
   return (
     <>
+      <BlurView tint="dark" intensity={100} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} />
+
       <View
         style={{
-          backgroundColor: theme.colors.background,
+          backgroundColor: "#00000020",
           padding: 10,
           position: "absolute",
           top: 0,
@@ -291,25 +294,48 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
           gap: 6,
         }}
       >
+        <View style={{ height: 40 }} />
         <PapillonSpinner size={56} strokeWidth={5} color={theme.colors.primary} />
         <View style={{ height: 10 }} />
         <NativeText variant="title" key={step}
           animated
           entering={animPapillon(FadeInDown)}
           exiting={animPapillon(FadeOutUp)}
+          style={{ color: "#fff" }}
         >
           {step}
         </NativeText>
-        <NativeText variant="subtitle">
+        <NativeText variant="subtitle" style={{ color: "#fff" }}>
           Cela peut prendre quelques secondes...
         </NativeText>
-        <View style={{ height: 50 }} />
+        <View style={{ height: 40 }} />
+        <Pressable
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={({ pressed }) => ({
+            backgroundColor: "#ffffff33",
+            paddingHorizontal: 24,
+            paddingVertical: 12,
+            borderRadius: 60,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            opacity: pressed ? 0.5 : 1,
+          })}
+        >
+          <NativeText variant="body" style={{ color: "#fff" }}>
+            Annuler
+          </NativeText>
+        </Pressable>
       </View>
 
       <WebView
         source={{ uri: url }}
         incognito={true}
         ref={wbref}
+        style={{ opacity: 0 }}
 
         onLoad={(data) => {
           const url = data.nativeEvent.url;

@@ -99,6 +99,11 @@ export type RouteParameters = {
 
   Homeworks?: { outsideNav?: boolean };
   HomeworksDocument: { homework: Homework };
+  AddHomework: {
+    hwid?: string;
+    modal?: boolean;
+    defaults?: { subject: string; content: string; date: number };
+  };
 
   News?: { outsideNav?: boolean; isED: boolean };
   NewsItem: { message: string; important: boolean; isED: boolean };
@@ -156,6 +161,7 @@ export type RouteParameters = {
   };
   RestaurantCardDetail: {
     card: ServiceCard;
+    outsideNav?: boolean;
   };
   RestaurantPaymentSuccess: {
     card: ServiceCard;

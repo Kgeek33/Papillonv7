@@ -10,16 +10,18 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 interface TabAnimatedTitleProps {
   route: RouteProp<RouteParameters, keyof RouteParameters>;
   navigation?: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>;
-  style?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>,
+  title?: string
 }
 
-const TabAnimatedTitle = ({ route, navigation }: TabAnimatedTitleProps) => {
+const TabAnimatedTitle = ({ route, navigation, title }: TabAnimatedTitleProps) => {
   return {
     headerTitle: () => <View />,
     headerLeft: () => (
       <TabAnimatedTitleLeft
         route={route}
         navigation={navigation}
+        title={title}
       />
     ),
     headerRight: () => (
@@ -32,21 +34,24 @@ const TabAnimatedTitle = ({ route, navigation }: TabAnimatedTitleProps) => {
   };
 };
 
-const TabAnimatedTitleLeft = ({ route, style }: TabAnimatedTitleProps) => {
+const TabAnimatedTitleLeft = ({ route, style, title }: TabAnimatedTitleProps) => {
   const theme = useTheme();
+  const icon = defaultTabs.find((curr) => curr.tab === route.name)?.icon;
 
   return (
     <View style={[styles.headerLeft, !route.params?.outsideNav && { paddingHorizontal: 16 }, style]}>
-      <LottieView
-        source={defaultTabs.find((curr) => curr.tab === route.name)?.icon}
-        autoPlay
-        loop={false}
-        style={styles.lottieView}
-        colorFilters={[{ keypath: "*", color: theme.colors.text }]}
-      />
+      {icon &&
+        <LottieView
+          source={icon}
+          autoPlay
+          loop={false}
+          style={styles.lottieView}
+          colorFilters={[{ keypath: "*", color: theme.colors.text }]}
+        />
+      }
 
       <Text style={[styles.headerTitle, { color: theme.colors.text }]} numberOfLines={1}>
-        {defaultTabs.find((curr) => curr.tab === route.name)?.label}
+        {defaultTabs.find((curr) => curr.tab === route.name)?.label ?? title}
       </Text>
     </View>
   );

@@ -11,13 +11,13 @@ import { formatHoursMinutes } from "../utils/format";
 
 const getAllLessonsForDay = (lessons: Record<number, Timetable>) => {
   const date = new Date();
-  date.setHours(0, 0, 0, 0);
+  date.setUTCHours(1, 0, 0, 0);
   const week = dateToEpochWeekNumber(date);
   const timetable = lessons[week] || [];
 
   const lessonsOfDay = timetable.filter((lesson) => {
     const lessonDate = new Date(lesson.startTimestamp);
-    lessonDate.setHours(0, 0, 0, 0);
+    lessonDate.setUTCHours(1, 0, 0, 0);
 
     return lessonDate.getTime() === date.getTime();
   });
