@@ -83,7 +83,9 @@ const backgroundFetch = async () => {
     const accounts = getAccounts();
     const switchTo = getSwitchToFunction();
 
-    for (const account of accounts) {
+    const primaryAccounts = accounts.filter((account) => !account.isExternal);
+
+    for (const account of primaryAccounts) {
       await switchTo(account);
       const notificationsTypesPermissions =
         account.personalization.notifications;
