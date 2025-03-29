@@ -72,19 +72,6 @@ jobs:
             fs.writeFileSync(configPath, configContent, "utf8");
             console.log("app.config.ts modifié avec succès");
 
-      - name: 🛠️ Modify build.gradle for Split APKs
-        run: |
-          sed -i '/android {/a \
-          splits { \
-              abi { \
-                  enable true \
-                  reset() \
-                  include "armeabi-v7a", "arm64-v8a", "x86", "x86_64" \
-                  universalApk true \
-              } \
-          }' android/app/build.gradle
-          sed -i '/buildToolsVersion/d' android/app/build.gradle
-
       - name: 🔄 Run Expo Prebuild
         run: npm run prebuild
 
